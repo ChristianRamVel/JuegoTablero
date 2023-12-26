@@ -1,4 +1,4 @@
 package com.example.juegotablero.adapter
 
-class Categoria {
+class PreguntasAdapter {
 }
