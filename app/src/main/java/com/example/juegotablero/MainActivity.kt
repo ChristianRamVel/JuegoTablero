@@ -2,6 +2,7 @@ package com.example.juegotablero
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.juegotablero.R
 import com.example.juegotablero.view.TableroFragment
 
 class MainActivity : AppCompatActivity() {
