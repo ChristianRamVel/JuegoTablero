@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="prueba" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="prueba" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="prueba" />
+    </group>
+
+<item android:title="titulo">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_launcher_foreground"
+                android:title="prueba" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_launcher_foreground"
+                android:title="prueba" />
+        </menu>
+    </item>
+
+</menu>
