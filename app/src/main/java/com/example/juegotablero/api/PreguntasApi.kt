@@ -1,6 +1,7 @@
 import android.util.Log
 import com.example.juegotablero.model.Pregunta
 import com.google.firebase.database.*
+import com.google.firebase.database.ValueEventListener
 
 class PreguntasApi {
     private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
