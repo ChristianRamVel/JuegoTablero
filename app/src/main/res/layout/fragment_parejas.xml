@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.ParejasFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvEnunciado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Une las parejas que esten relacionadas entre si"
+            android:textSize="17sp"
+            android:background="@drawable/borde_redondo"
+            android:padding="16dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="36dp"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tvParejas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_below="@id/tvEnunciado"
+            android:layout_marginTop="66dp"
+
+            >
+
+            <!-- Opciones izquierda -->
+            <Button
+                android:id="@+id/opcion1Izquierda"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="leon"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesParejas"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/opcion2Izquierda"
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                />
+            <Button
+                android:id="@+id/opcion2Izquierda"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="rana"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesParejas"
+                app:layout_constraintTop_toBottomOf="@id/opcion1Izquierda"
+                app:layout_constraintBottom_toTopOf="@id/opcion3Izquierda"
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                />
+            <Button
+                android:id="@+id/opcion3Izquierda"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="loro"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesParejas"
+                app:layout_constraintTop_toBottomOf="@id/opcion2Izquierda"
+                app:layout_constraintBottom_toTopOf="@id/opcion4izquierda"
+                app:layout_constraintStart_toStartOf="parent"
+
+                />
+
+            <Button
+                android:id="@+id/opcion4izquierda"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="escarabajo"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesParejas"
+                app:layout_constraintTop_toBottomOf="@id/opcion3Izquierda"
+                app:layout_constraintBottom_toTopOf="@+id/opcion5izquierda"
+                app:layout_constraintStart_toStartOf="parent"
+
+                />
+
+            <Button
+                android:id="@+id/opcion5izquierda"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="tiburón"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesParejas"
+                app:layout_constraintTop_toBottomOf="@id/opcion4izquierda"
+                app:layout_constraintBottom_toTopOf="@+id/btnComprobar"
+                app:layout_constraintStart_toStartOf="parent"
+                ></Button>
+
+
+
+
+        <!-- Columna derecha -->
+
+
+            <!-- Opciones derecha -->
+            <Button
+                android:id="@+id/opcion1Derecha"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Mamífero"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesParejas"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/opcion2Derecha"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                />
+            <Button
+                android:id="@+id/opcion2Derecha"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Anfibio"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesParejas"
+                app:layout_constraintTop_toBottomOf="@id/opcion1Derecha"
+                app:layout_constraintBottom_toTopOf="@id/opcion3Derecha"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                />
+            <Button
+                android:id="@+id/opcion3Derecha"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Ave"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesParejas"
+                app:layout_constraintTop_toBottomOf="@id/opcion2Derecha"
+                app:layout_constraintBottom_toTopOf="@id/opcion4Derecha"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <Button
+                android:id="@+id/opcion4Derecha"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Insecto"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesParejas"
+                app:layout_constraintTop_toBottomOf="@id/opcion3Derecha"
+                app:layout_constraintBottom_toTopOf="@id/opcion5Derecha"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <Button
+                android:id="@+id/opcion5Derecha"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/botonesParejas"
+                android:text="Pez"
+                android:textSize="17sp"
+                app:layout_constraintTop_toBottomOf="@id/opcion4Derecha"
+                app:layout_constraintBottom_toTopOf="@id/btnComprobar"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <Button
+                android:id="@+id/btnComprobar"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="@string/comprobar"
+                android:textSize="17sp"
+                android:backgroundTint="@color/botonesComprobar"
+                app:layout_constraintTop_toBottomOf="@id/opcion5Derecha"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

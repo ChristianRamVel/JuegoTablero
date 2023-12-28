@@ -2,4 +2,11 @@
     <string name="app_name">JuegoTablero</string>
     <string name="action_nueva_partida">Nueva partida</string>
     <string name="action_about">About us ...</string>
+    <string name="TurnodelJugador1">Turno del Jugador 1</string>
+    <string name="infoJugador1">Puntos J1:</string>
+    <string name="infoJugador2">Puntos J2:</string>
+    <string name="pregunta">enunciado pregunta</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="comprobar">Comprobar</string>
 </resources>

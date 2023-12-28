@@ -7,22 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.juegotablero.R
-import com.example.juegotablero.viewModel.PreguntaViewModel
+import com.example.juegotablero.viewModel.ParejasViewModel
 
-class PreguntaFragment : Fragment() {
+class ParejasFragment : Fragment() {
 
     companion object {
-        fun newInstance() = PreguntaFragment()
+        fun newInstance() = ParejasFragment()
     }
 
-    private lateinit var viewModel: PreguntaViewModel
+    private lateinit var viewModel: ParejasViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_pregunta, container, false)
+        return inflater.inflate(R.layout.fragment_parejas, container, false)
     }
-
 
 }

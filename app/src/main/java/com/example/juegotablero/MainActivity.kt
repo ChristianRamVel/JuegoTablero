@@ -3,10 +3,10 @@ package com.example.juegotablero
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import com.example.juegotablero.R
+import com.example.juegotablero.view.ParejasFragment
+import com.example.juegotablero.view.RepasoFragment
+import com.example.juegotablero.view.TestFragment
 import com.example.juegotablero.view.TableroFragment
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         // Inicializa y muestra el fragmento del tablero al iniciar la actividad.
         val tableroFragment = TableroFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, tableroFragment)
+            .replace(R.id.fragment_container, ParejasFragment())
             .commit()
     }
 

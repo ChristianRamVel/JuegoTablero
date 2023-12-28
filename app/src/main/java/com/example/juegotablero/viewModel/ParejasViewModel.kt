@@ -2,6 +2,6 @@ package com.example.juegotablero.viewModel
 
 import androidx.lifecycle.ViewModel
 
-class PreguntaViewModel : ViewModel() {
+class ParejasViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }
