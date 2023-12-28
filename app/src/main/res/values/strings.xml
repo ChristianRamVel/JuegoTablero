@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">JuegoTablero</string>
+    <string name="action_nueva_partida">Nueva partida</string>
+    <string name="action_about">About us ...</string>
 </resources>

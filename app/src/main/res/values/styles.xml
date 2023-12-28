@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CasillaRepaso">
+        <item name="android:background">#FF5733</item> <!-- Fondo naranja -->
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="CasillaAdivinaPalabra">
+        <item name="android:background">#3498db</item> <!-- Fondo azul -->
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="CasillaTest">
+        <item name="android:background">#27ae60</item> <!-- Fondo verde -->
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="CasillaVacia">
+        <item name="android:background">#FFFFFF</item> <!-- Fondo gris -->
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+    <style name="CasillaJuegoParejas">
+        <item name="android:background">#f1c40f</item> <!-- Fondo amarillo -->
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="CasillaPruebaFinal">
+        <item name="android:background">#5E35B1</item> <!-- Fondo rojo -->
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+
+</resources>

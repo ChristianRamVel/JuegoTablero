@@ -1,2 +1,2 @@
 package com.example.juegotablero.model
-data class Casilla(val preguntasAdapter: Pregunta)
+data class Casilla(val pregunta: Pregunta)
