@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "759912236158",
+    "firebase_url": "https://juegotablero-71fc6-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "juegotablero-71fc6",
+    "storage_bucket": "juegotablero-71fc6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759912236158:android:7efb79bd5761961f6b842f",
+        "android_client_info": {
+          "package_name": "com.example.juegotablero"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARARKSovXVk0eWMSsTX32MaABu22Eu0N4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
