@@ -1,7 +1,9 @@
 package com.example.juegotablero.viewModel
 
+import android.widget.Button
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import com.example.juegotablero.R
 import com.example.juegotablero.model.Casilla
 import com.example.juegotablero.model.Jugador
 import com.example.juegotablero.model.Pregunta.Pareja
@@ -11,10 +13,12 @@ class TableroViewModel : ViewModel() {
 
     //el tablero es un array de 20 casillas
     val tablero = arrayOfNulls<Casilla>(20)
+    var turno = 0
 
     //inicializa el tablero
     init {
         inicializarTablero()
+
     }
 
     //inicializa el tablero con las casillas, para saber de que tipo es cada casilla
@@ -68,7 +72,6 @@ class TableroViewModel : ViewModel() {
     }
 
     //Comprobar que el jugador ha completado las 4 preguntas basicas para pasar a la pregunta final
-
     fun paseAPreguntaFinal(jugador : Jugador): Boolean {
         val puntuacionJugador = jugador.puntuacion
         return puntuacionJugador == 4
@@ -88,9 +91,16 @@ class TableroViewModel : ViewModel() {
     }
 
     //funcion para comprobar si la respuesta del jugador es correcta
-
     fun comprobarRespuestaDeStrings(respuestaJugador: String, respuestaCorrecta: String): Boolean {
         return respuestaJugador == respuestaCorrecta
+    }
+
+    fun cambiarTurno(){
+        if (turno == 0){
+            turno = 1
+        }else{
+            turno = 0
+        }
     }
 
 
