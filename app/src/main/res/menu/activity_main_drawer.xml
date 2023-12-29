@@ -3,30 +3,27 @@
 
     <group>
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="prueba" />
+            android:id="@+id/new_game"
+            android:icon="@drawable/nueva_partida"
+            android:title="Nueva Partida" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="prueba" />
+            android:id="@+id/new_questions"
+            android:icon="@drawable/circle_question_solid"
+            android:title="Añadir preguntas" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_launcher_foreground"
-            android:title="prueba" />
+            android:id="@+id/settings"
+            android:icon="@drawable/gear_solid"
+            android:title="Ajustes" />
+
+        <item
+            android:id="@+id/exit"
+            android:icon="@drawable/exit"
+            android:title="Salir" />
+
     </group>
 
-<item android:title="titulo">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_launcher_foreground"
-                android:title="prueba" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_launcher_foreground"
-                android:title="prueba" />
-        </menu>
-    </item>
+
+
+
 
 </menu>
