@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">JuegoTablero</string>
-    <string name="action_nueva_partida">Nueva partida</string>
-    <string name="action_about">About us ...</string>
     <string name="TurnodelJugador1">Turno del Jugador 1</string>
     <string name="infoJugador1">Puntos J1:</string>
     <string name="infoJugador2">Puntos J2:</string>
@@ -9,7 +7,22 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="comprobar">Comprobar</string>
+    <string name="navigation_drawer_open">Abrir</string>
+    <string name="navigation_drawer_close">Cerrar</string>
+    <string name="logo">Logo</string>
 
-    <string name="navigation_drawer_open">Open</string>
-    <string name="navigation_drawer_close">Close</string>
+
+    <!-- Menu lateral -->
+    <string name="nueva_partida">Nueva partida</string>
+    <string name="sobre_nosotros">Sobre nosotros</string>
+    <string name="añadir_preguntas">Añadir preguntas</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="salir">Salir</string>
+    <string name="estadisticas">Estadisticas</string>
+
+    <!-- Menu inicio -->
+    <string name="continuar_partida">Continuar partida</string>
+
+
+
 </resources>

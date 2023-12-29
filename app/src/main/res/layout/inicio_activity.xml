@@ -15,14 +15,15 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:mipmap/sym_def_app_icon" />
+        app:srcCompat="@android:mipmap/sym_def_app_icon"
+        android:contentDescription="@string/logo" />
 
     <Button
         android:id="@+id/nueva_partida"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="144dp"
-        android:text="Nueva Partida"
+        android:text="@string/nueva_partida"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginBottom="172dp"
-        android:text="Continuar Partida"
+        android:text="@string/continuar_partida"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
