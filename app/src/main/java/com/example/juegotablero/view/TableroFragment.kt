@@ -2,7 +2,6 @@ package com.example.juegotablero.view
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -52,6 +51,7 @@ class TableroFragment : Fragment() {
         jugador1 = Jugador("Jugador 1", 0 , 0)
         jugador2 = Jugador("Jugador 2", 0, 0)
         viewModel = ViewModelProvider(this)[TableroViewModel::class.java]
+        actualizarPuntuacion()
     }
 
     fun actualizarTurno() {
@@ -62,6 +62,13 @@ class TableroFragment : Fragment() {
         }else{
             tvTurno?.text = getString(R.string.turno_jugador2)
         }
+    }
+
+    fun actualizarPuntuacion() {
+        val tvPuntuacionJugador1 = view?.findViewById<TextView>(R.id.tvInfoJugador1)
+        val tvPuntuacionJugador2 = view?.findViewById<TextView>(R.id.tvInfoJugador2)
+        tvPuntuacionJugador1?.text = getString(R.string.infoJugador1, jugador1.puntuacion.toString())
+        tvPuntuacionJugador2?.text = getString(R.string.infoJugador2, jugador2.puntuacion.toString())
     }
 
 

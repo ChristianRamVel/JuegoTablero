@@ -2,8 +2,8 @@
     <string name="app_name">JuegoTablero</string>
     <string name="turno_jugador1">Turno del Jugador 1</string>
     <string name="turno_jugador2">Turno del Jugador 2</string>
-    <string name="infoJugador1">Puntos J1:</string>
-    <string name="infoJugador2">Puntos J2:</string>
+    <string name="infoJugador1">Puntos J1: %1$s</string>
+    <string name="infoJugador2">Puntos J2: %1$s</string>
     <string name="pregunta">enunciado pregunta</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -3,21 +3,20 @@ package com.example.juegotablero
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.juegotablero.view.ParejasFragment
-import com.example.juegotablero.view.RepasoFragment
-import com.example.juegotablero.view.TestFragment
 import com.example.juegotablero.view.TableroFragment
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var drawer: DrawerLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
 
-        val drawer: DrawerLayout = findViewById(R.id.drawer_layout)
+        drawer = findViewById(R.id.drawer_layout)
 
         toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
@@ -48,11 +47,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-
-
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        TODO("Not yet implemented")
+        when(item.itemId){
+            R.id.new_game -> {
+                val tableroFragment = TableroFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, tableroFragment)
+                    .commit()
+            }
+            R.id.new_questions -> {
+
+            }
+            R.id.stats -> {
+
+            }
+            R.id.about_us -> {
+
+            }
+            R.id.settings -> {
+
+            }
+            R.id.exit -> {
+                finish()
+            }
+        }
+        drawer.closeDrawer(GravityCompat.START)
+        return true
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
