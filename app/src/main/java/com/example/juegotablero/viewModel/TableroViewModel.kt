@@ -1,8 +1,10 @@
 package com.example.juegotablero.viewModel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import com.example.juegotablero.model.Casilla
-import com.example.juegotablero.model.Pareja
+import com.example.juegotablero.model.Jugador
+import com.example.juegotablero.model.Pregunta.Pareja
 import com.example.juegotablero.model.Pregunta
 
 class TableroViewModel : ViewModel() {
@@ -15,229 +17,83 @@ class TableroViewModel : ViewModel() {
         inicializarTablero()
     }
 
-    //inicializa el tablero con las casillas
+    //inicializa el tablero con las casillas, para saber de que tipo es cada casilla
 
     private fun inicializarTablero() {
         tablero[0] = Casilla(
-            Pregunta.AdivinaPalabra(
-                "animal de compañia que no es un perro",
-                "gato"
-            )
-        )
-        tablero[1] = Casilla(
-            Pregunta.Repaso(
-                "¿El mejor SO es _____?",
-                listOf(
-                    "Linux",
-                    "Windows",
-                ),
-                "Linux"
-            )
-        )
-        tablero[2] = Casilla(
-            Pregunta.Test(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas",
-                    "Es un programa que ordeña vacas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-        tablero[3] = Casilla(
-            Pregunta.JuegoParejas(
-                listOf(
-                    //parejas de opciones que hay que unir en el juego de parejas
-                    Pareja("Linux", "Pinguino"),
-                    Pareja("Android", "Robot"),
-                    Pareja("MacOS", "Manzana"),
-                    Pareja("Windows", "Ventana"),
-
-                ),
-            )
-        )
+            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
+        tablero[1] = Casilla(Pregunta.Test("Test","", emptyList(),""))
+        tablero[2] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
+        tablero[3] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
 
         tablero[4] = Casilla(
-            Pregunta.Repaso(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas",
-                    "Es un programa que ordeña vacas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-        tablero[5] = Casilla(
-            Pregunta.Test(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas",
-                    "Es un programa que ordeña vacas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
+            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
+        tablero[5] = Casilla(Pregunta.Test("Test","", emptyList(),""))
+        tablero[6] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
+        tablero[7] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
 
-        tablero[6] = Casilla(
-            Pregunta.Repaso(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas",
-                    "Es un programa que ordeña vacas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-        tablero[7] = Casilla(
-            Pregunta.Test(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas",
-                    "Es un programa que ordeña vacas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
         tablero[8] = Casilla(
-            Pregunta.Repaso(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas",
-                    "Es un programa que ordeña vacas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-        tablero[9] = Casilla(
-            Pregunta.Test(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas",
-                    "Es un programa que ordeña vacas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-        tablero[10] = Casilla(
-            Pregunta.Repaso(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas",
-                    "Es un programa que ordeña vacas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-        tablero[11] = Casilla(
-            Pregunta.Test(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas",
-                    "Es un programa que ordeña vacas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
+            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
+        tablero[9] = Casilla(Pregunta.Test("Test","", emptyList(),""))
+        tablero[10] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
+        tablero[11] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
+
         tablero[12] = Casilla(
-            Pregunta.Repaso(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-
-        tablero[13] = Casilla(
-            Pregunta.Test(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador",
-                    "Es un programa que hace cosas"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-        tablero[14] = Casilla(
-            Pregunta.Repaso(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-
-        tablero[15] = Casilla(
-            Pregunta.Test(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
+            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
+        tablero[13] = Casilla(Pregunta.Test("Test","", emptyList(),""))
+        tablero[14] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
+        tablero[15] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
 
         tablero[16] = Casilla(
-            Pregunta.Repaso(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-
-        tablero[17] = Casilla(
-            Pregunta.Test(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-
-        tablero[18] = Casilla(
-            Pregunta.Repaso(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-
-        tablero[19] = Casilla(
-            Pregunta.Test(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
-        tablero[20] = Casilla(
-            Pregunta.PruebaFinal(
-                "¿Qué es un sistema operativo?",
-                listOf(
-                    "Es un programa que gestiona los recursos de un ordenador"
-                ),
-                "Es un programa que gestiona los recursos de un ordenador"
-            )
-        )
+            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
+        tablero[17] = Casilla(Pregunta.Test("Test","", emptyList(),""))
+        tablero[18] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
+        tablero[19] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
 
 
     }
+
+    //funcion para tirar el dado de 6 caras
+    fun tirarDado(): Int {
+        return (1..6).random()
+    }
+
+    //funcion para avanzar en el tablero
+    fun avanzar(posicion: Int, dado: Int): Int {
+        var posicionFinal = posicion + dado
+        if (posicionFinal > 19) {
+            posicionFinal = posicionFinal - 20
+        }
+        return posicionFinal
+    }
+
+    //Comprobar que el jugador ha completado las 4 preguntas basicas para pasar a la pregunta final
+
+    fun paseAPreguntaFinal(jugador : Jugador): Boolean {
+        val puntuacionJugador = jugador.puntuacion
+        return puntuacionJugador == 4
+    }
+
+    //funcion para comprobar si el jugador ha ganado
+
+    fun haGanado(jugador : Jugador): Boolean {
+        val puntuacionJugador = jugador.puntuacion
+        return puntuacionJugador == 5
+    }
+
+    //funcion para actualizar la puntuacion del jugador
+
+    fun sumarPunto(jugador : Jugador) {
+        jugador.puntuacion ++
+    }
+
+    //funcion para comprobar si la respuesta del jugador es correcta
+
+    fun comprobarRespuestaDeStrings(respuestaJugador: String, respuestaCorrecta: String): Boolean {
+        return respuestaJugador == respuestaCorrecta
+    }
+
+
 }
 
 

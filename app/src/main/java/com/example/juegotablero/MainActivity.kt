@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Inicializa y muestra el fragmento del tablero al iniciar la actividad.
         val tableroFragment = TableroFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, ParejasFragment())
+            .replace(R.id.fragment_container, tableroFragment)
             .commit()
     }
 

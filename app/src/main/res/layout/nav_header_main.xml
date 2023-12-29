@@ -10,13 +10,14 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.AppCompat">
     >
     
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="64dp"
         android:layout_height="64dp"
+
         android:src="@drawable/ic_launcher_background" />
 
 

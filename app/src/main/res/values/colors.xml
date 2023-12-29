@@ -2,6 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="botonesParejas">#ABF4511E</color>
-    <color name="botonesComprobar">#00894E</color>
+    <color name="b">#1a2c11</color>
+    <color name="botonesComprobar">#617656</color>
+    <color name="botonesParejas">#899e7d</color>
+    <color name="colorFondo">#b3c9a6</color>
+    <color name="ColorActionbar">#3c4f32</color>
+
 </resources>

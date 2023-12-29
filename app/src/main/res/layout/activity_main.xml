@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:id="@+id/drawer_layout"
-    android:background="#75FB8C00">
+    android:background="@color/colorFondo">
 
     <include layout="@layout/app_bar_main"
         android:layout_width="match_parent"
