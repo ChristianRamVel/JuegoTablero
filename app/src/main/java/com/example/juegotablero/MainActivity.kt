@@ -17,7 +17,6 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
 
-        drawer = findViewById(R.id.drawer_layout)
+        val drawer: DrawerLayout = findViewById(R.id.drawer_layout)
 
         toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
@@ -47,6 +46,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .replace(R.id.fragment_container, tableroFragment)
             .commit()
     }
+
+
+
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
