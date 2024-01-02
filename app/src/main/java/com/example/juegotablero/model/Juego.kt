@@ -1,2 +1,2 @@
 package com.example.juegotablero.model
-data class Juego(val jugador: Jugador, val tablero: Tablero)
+data class Juego(val jugadores: Array<Jugador>, val tablero: Tablero)

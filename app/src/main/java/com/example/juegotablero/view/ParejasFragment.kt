@@ -11,10 +11,6 @@ import com.example.juegotablero.viewModel.ParejasViewModel
 
 class ParejasFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ParejasFragment()
-    }
-
     private lateinit var viewModel: ParejasViewModel
 
     override fun onCreateView(

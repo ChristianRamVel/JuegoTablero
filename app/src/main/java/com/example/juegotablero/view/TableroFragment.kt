@@ -13,11 +13,6 @@ import com.example.juegotablero.viewModel.TableroViewModel
 
 class TableroFragment : Fragment() {
 
-
-    companion object {
-        fun newInstance() = TableroFragment()
-    }
-
     lateinit var jugador1: Jugador
     lateinit var jugador2: Jugador
     lateinit var viewModel: TableroViewModel

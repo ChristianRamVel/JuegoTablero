@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.juegotablero.R
+import com.example.juegotablero.model.Pregunta
 import com.example.juegotablero.viewModel.TestViewModel
 
 class TestFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = TestFragment()
-    }
-
     private lateinit var viewModel: TestViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

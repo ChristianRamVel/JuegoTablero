@@ -11,10 +11,6 @@ import com.example.juegotablero.viewModel.AdivinarPalabraViewModel
 
 class AdivinarPalabraFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = AdivinarPalabraFragment()
-    }
-
     private lateinit var viewModel: AdivinarPalabraViewModel
 
     override fun onCreateView(

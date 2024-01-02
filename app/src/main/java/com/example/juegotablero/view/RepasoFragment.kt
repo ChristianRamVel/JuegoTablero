@@ -11,10 +11,6 @@ import com.example.juegotablero.viewModel.RepasoViewModel
 
 class RepasoFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = RepasoFragment()
-    }
-
     private lateinit var viewModel: RepasoViewModel
 
     override fun onCreateView(
