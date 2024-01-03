@@ -12,7 +12,7 @@ import com.example.juegotablero.model.Pregunta
 class TableroViewModel : ViewModel() {
 
     //el tablero es un array de 20 casillas
-    val tablero = arrayOfNulls<Casilla>(20)
+    val tablero = arrayOfNulls<Casilla>(32)
     var turno = 0
 
     //inicializa el tablero
@@ -54,6 +54,13 @@ class TableroViewModel : ViewModel() {
         tablero[18] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
         tablero[19] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
 
+        tablero[20] = Casilla(
+            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
+        tablero[21] = Casilla(Pregunta.Test("Test","", emptyList(),""))
+        tablero[22] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
+        tablero[23] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
+
+
 
     }
 
@@ -63,14 +70,14 @@ class TableroViewModel : ViewModel() {
     }
 
     //funcion para avanzar en el tablero
-    fun avanzar(posicion: Int, dado: Int): Int {
+    /*fun avanzar(posicion: Int, dado: Int): Int {
         var posicionFinal = posicion + dado
         if (posicionFinal > 19) {
             posicionFinal = posicionFinal - 20
         }
         return posicionFinal
     }
-
+*/
     //Comprobar que el jugador ha completado las 4 preguntas basicas para pasar a la pregunta final
     fun paseAPreguntaFinal(jugador : Jugador): Boolean {
         val puntuacionJugador = jugador.puntuacion

@@ -7,5 +7,10 @@
     <color name="botonesParejas">#899e7d</color>
     <color name="colorFondo">#b3c9a6</color>
     <color name="ColorActionbar">#3c4f32</color>
+    <color name="casillaRepaso">#FF5733</color>
+    <color name="casillaAdivinaPalabra">#3498db</color>
+    <color name="casillaTest">#27ae60</color>
+    <color name="casillaJuegoparejas">#f1c40f</color>
+
 
 </resources>
