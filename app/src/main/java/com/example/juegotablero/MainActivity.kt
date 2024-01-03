@@ -9,7 +9,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
+import com.example.juegotablero.view.AdivinarPalabraFragment
+import com.example.juegotablero.view.ParejasFragment
+import com.example.juegotablero.view.RepasoFragment
 import com.example.juegotablero.view.TableroFragment
+import com.example.juegotablero.view.TestFragment
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -91,6 +96,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         return super.onOptionsItemSelected(item)
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val currentFragment = fragmentManager.findFragmentById(R.id.fragment_container)
+        // Si el fragmento actual es una pregunta no permite volver atrás
+        if (currentFragment is RepasoFragment || currentFragment is ParejasFragment || currentFragment is AdivinarPalabraFragment || currentFragment is TestFragment) {
+            // No hace nada
+        }else{
+            super.onBackPressed()
+        }
+    }
+
 }
 
 

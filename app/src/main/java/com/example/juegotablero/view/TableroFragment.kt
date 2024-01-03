@@ -1,5 +1,6 @@
 package com.example.juegotablero.view
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.juegotablero.R
+import com.example.juegotablero.api.PreguntasCallback
 import com.example.juegotablero.model.Jugador
+import com.example.juegotablero.model.Pregunta
 import com.example.juegotablero.viewModel.TableroViewModel
+import com.google.firebase.database.DatabaseError
 
 class TableroFragment : Fragment() {
 
@@ -22,7 +26,6 @@ class TableroFragment : Fragment() {
     private lateinit var viewModel: TableroViewModel
     private lateinit var gridLayout: GridLayout
     private lateinit var tvInfoPartida: TextView
-    private lateinit var btnTirarDado: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,24 +37,53 @@ class TableroFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Se inicializan los jugadores
         jugador1 = Jugador("Jugador 1", 0, 0)
         jugador2 = Jugador("Jugador 2", 0, 0)
 
+        // Se inicializa el ViewModel
         viewModel = ViewModelProvider(this)[TableroViewModel::class.java]
 
+        // Se inicializan los componentes de la vista
         gridLayout = view.findViewById(R.id.gridLayoutTablero)
         tvInfoPartida = view.findViewById(R.id.tvInfoPartida)
-        btnTirarDado = view.findViewById(R.id.btnTirarDado)
+        val btnTirarDado = view.findViewById<Button>(R.id.btnTirarDado)
 
+        // Se crea el tablero
         setupTablero()
 
+        // Se actualiza la puntación de los jugadores
+        actualizarPuntuacion()
+
         btnTirarDado.setOnClickListener {
-            if (viewModel.turno == 0) {
-                avanzar(jugador1.posicion, viewModel.tirarDado(), jugador1)
-            } else {
-                avanzar(jugador2.posicion, viewModel.tirarDado(), jugador2)
+            // Se obtiene el jugador de el turno actual
+            val jugador = if (viewModel.turno == 0) jugador1 else jugador2
+
+            // Se obtiene una pregunta aleatoria de la base de datos dependendiendo del tipo de casilla
+            val preguntaCallback = object : PreguntasCallback {
+                override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
+                    if (preguntas.isNotEmpty()) {
+                        val pregunta = preguntas.randomOrNull()
+                        actualizarTurno()
+                        if (pregunta != null) {
+                            showAlert("Has caído en una casilla de ${viewModel.obtenerTipoCasilla(jugador)}", pregunta)
+                        }
+                    } else {
+                        showToast("No se obtuvieron preguntas")
+                    }
+                }
+
+                override fun onError(error: DatabaseError) {
+                    // Manejar el error obtenido desde la base de datos
+                    showToast("Error al obtener las preguntas, inténtelo mas tarde")
+                }
             }
-            actualizarTurno()
+
+            // Se tira el dado y se avanza de casilla
+            avanzar(jugador.posicion, viewModel.tirarDado(), jugador)
+
+            // Se obtiene una pregunta aleatoria de la base de datos
+            viewModel.obtenerPreguntaAleatoria(jugador, preguntaCallback)
         }
     }
 
@@ -85,8 +117,6 @@ class TableroFragment : Fragment() {
                 gridLayout.addView(button)
             }
         }
-
-        // Otras configuraciones y actualizaciones según tus necesidades
     }
 
     private fun actualizarTurno() {
@@ -146,6 +176,72 @@ class TableroFragment : Fragment() {
     private fun showToast(message: String) {
         val toast = Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT)
         toast.show()
+    }
+
+    private fun showAlert(message: String, pregunta: Pregunta) {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        builder.setTitle("Alerta")
+        builder.setMessage(message)
+        builder.setPositiveButton("Aceptar") { _, _ ->
+            // Al pulsar en aceptar se abre el fragment correspondiente a la pregunta
+            mostrarPregunta(pregunta)
+        }
+        val dialog: androidx.appcompat.app.AlertDialog = builder.create()
+
+        // Evita que se cierre el dialogo al pulsar fuera de el
+        dialog.setCanceledOnTouchOutside(false)
+
+        val buttonColor = if (isDarkModeEnabled()) {
+            // Color para modo oscuro
+            ContextCompat.getColor(requireContext(), R.color.white)
+        } else {
+            // Color para modo claro
+            ContextCompat.getColor(requireContext(), R.color.black)
+        }
+
+        dialog.setOnShowListener {
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(buttonColor)
+        }
+
+        dialog.show()
+    }
+
+    private fun mostrarPregunta(pregunta : Pregunta){
+        when(pregunta){
+            is Pregunta.AdivinaPalabra -> {
+
+            }
+            is Pregunta.JuegoParejas -> {
+
+
+            }
+            is Pregunta.Repaso -> {
+                val repasoFragment = RepasoFragment()
+                val bundle = Bundle()
+                bundle.putString("definicion", pregunta.enunciado)
+                bundle.putStringArray("opciones", pregunta.opciones.toTypedArray())
+                bundle.putString("respuesta", pregunta.respuesta_correcta)
+                repasoFragment.arguments = bundle
+
+                val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, repasoFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+            is Pregunta.Test -> {
+
+            }
+
+            else -> {
+                Toast.makeText(requireContext(), "Error al mostrar la pregunta", Toast.LENGTH_SHORT).show()}
+        }
+
+    }
+
+    private fun isDarkModeEnabled(): Boolean {
+        val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
     }
 
 

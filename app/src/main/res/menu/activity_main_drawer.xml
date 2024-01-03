@@ -5,7 +5,9 @@
         <item
             android:id="@+id/new_game"
             android:icon="@drawable/nueva_partida"
-            android:title="@string/nueva_partida" />
+            android:title="@string/nueva_partida"
+            />
+
 
         <item
             android:id="@+id/new_questions"
@@ -33,9 +35,4 @@
             android:title="@string/salir" />
 
     </group>
-
-
-
-
-
 </menu>

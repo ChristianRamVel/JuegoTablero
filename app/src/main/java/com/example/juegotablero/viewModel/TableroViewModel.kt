@@ -1,19 +1,23 @@
 package com.example.juegotablero.viewModel
 
+import PreguntasApi
 import android.widget.Button
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import com.example.juegotablero.R
+import com.example.juegotablero.api.PreguntasCallback
 import com.example.juegotablero.model.Casilla
 import com.example.juegotablero.model.Jugador
 import com.example.juegotablero.model.Pregunta.Pareja
 import com.example.juegotablero.model.Pregunta
+import com.google.firebase.database.DatabaseError
 
 class TableroViewModel : ViewModel() {
 
     //el tablero es un array de 20 casillas
-    val tablero = arrayOfNulls<Casilla>(32)
+    private val tablero = arrayOfNulls<Casilla>(32)
     var turno = 0
+    private val preguntasApi = PreguntasApi()
 
     //inicializa el tablero
     init {
@@ -24,46 +28,17 @@ class TableroViewModel : ViewModel() {
     //inicializa el tablero con las casillas, para saber de que tipo es cada casilla
 
     private fun inicializarTablero() {
-        tablero[0] = Casilla(
-            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
-        tablero[1] = Casilla(Pregunta.Test("Test","", emptyList(),""))
-        tablero[2] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
-        tablero[3] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
-
-        tablero[4] = Casilla(
-            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
-        tablero[5] = Casilla(Pregunta.Test("Test","", emptyList(),""))
-        tablero[6] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
-        tablero[7] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
-
-        tablero[8] = Casilla(
-            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
-        tablero[9] = Casilla(Pregunta.Test("Test","", emptyList(),""))
-        tablero[10] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
-        tablero[11] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
-
-        tablero[12] = Casilla(
-            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
-        tablero[13] = Casilla(Pregunta.Test("Test","", emptyList(),""))
-        tablero[14] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
-        tablero[15] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
-
-        tablero[16] = Casilla(
-            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
-        tablero[17] = Casilla(Pregunta.Test("Test","", emptyList(),""))
-        tablero[18] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
-        tablero[19] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
-
-        tablero[20] = Casilla(
-            Pregunta.JuegoParejas("JuegoParejas",emptyList()))
-        tablero[21] = Casilla(Pregunta.Test("Test","", emptyList(),""))
-        tablero[22] = Casilla(Pregunta.AdivinaPalabra("AdivinaPalabra","",""))
-        tablero[23] = Casilla(Pregunta.Repaso("Repaso", emptyList(),""))
-
-
-
+        // Llena el tablero con las casillas y preguntas correspondientes
+        for (i in tablero.indices) {
+            tablero[i] = when (i % 4) {
+                0 -> Casilla("Parejas")
+                1 -> Casilla("Test")
+                2 -> Casilla("AdivinaPalabra")
+                3 -> Casilla("Repaso")
+                else -> null // Esto no debería ocurrir, pero es por si acaso
+            }
+        }
     }
-
     //funcion para tirar el dado de 6 caras
     fun tirarDado(): Int {
         return (1..6).random()
@@ -110,7 +85,72 @@ class TableroViewModel : ViewModel() {
         }
     }
 
+    fun obtenerPreguntaAleatoria(jugador: Jugador,  callback: PreguntasCallback) {
+        val posicion = jugador.posicion-1
+        val casilla = tablero[posicion % tablero.size]
 
+        when (casilla?.tipo) {
+            "Parejas" -> obtenerPreguntaAleatoriaJuegoParejas(callback)
+            "Test" -> obtenerPreguntaAleatoriaTest(callback)
+            "AdivinaPalabra" -> obtenerPreguntaAleatoriaAdivinaPalabra(callback)
+            "Repaso" -> obtenerPreguntaAleatoriaRepaso(callback)
+        }
+    }
+    fun obtenerPreguntaAleatoriaJuegoParejas(callback: PreguntasCallback) {
+        preguntasApi.obtenerPreguntasJuegoParejas(object : PreguntasCallback {
+            override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
+                val pregunta = preguntas.randomOrNull()
+                callback.onPreguntasObtenidas(listOfNotNull(pregunta))
+            }
+
+            override fun onError(error: DatabaseError) {
+                callback.onError(error)
+            }
+        })
+    }
+
+    fun obtenerPreguntaAleatoriaTest(callback: PreguntasCallback) {
+        preguntasApi.obtenerPreguntasTest(object : PreguntasCallback {
+            override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
+                val pregunta = preguntas.randomOrNull()
+                callback.onPreguntasObtenidas(listOfNotNull(pregunta))
+            }
+
+            override fun onError(error: DatabaseError) {
+                callback.onError(error)
+            }
+        })
+    }
+
+    fun obtenerPreguntaAleatoriaAdivinaPalabra(callback: PreguntasCallback) {
+        preguntasApi.obtenerPreguntasAdivinaPalabra(object : PreguntasCallback {
+            override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
+                val pregunta = preguntas.randomOrNull()
+                callback.onPreguntasObtenidas(listOfNotNull(pregunta))
+            }
+
+            override fun onError(error: DatabaseError) {
+                callback.onError(error)
+            }
+        })
+    }
+
+    fun obtenerPreguntaAleatoriaRepaso(callback: PreguntasCallback) {
+        preguntasApi.obtenerPreguntasRepaso(object : PreguntasCallback {
+            override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
+                val pregunta = preguntas.randomOrNull()
+                callback.onPreguntasObtenidas(listOfNotNull(pregunta))
+            }
+
+            override fun onError(error: DatabaseError) {
+                callback.onError(error)
+            }
+        })
+    }
+
+    fun obtenerTipoCasilla(jugador: Jugador): String? {
+        val casilla = tablero[(jugador.posicion-1) % tablero.size]
+        return casilla?.tipo
+    }
 }
-
 

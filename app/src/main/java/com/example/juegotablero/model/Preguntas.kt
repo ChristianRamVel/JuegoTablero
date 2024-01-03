@@ -5,32 +5,34 @@ data class PreguntasContainer(
 )
 
 sealed class Pregunta {
+
     data class Repaso(
+        @Transient val tipo: String = "Repaso",
         val enunciado: String = "",
         val opciones: List<String> = emptyList(),
         val respuesta_correcta: String = ""
     ) : Pregunta()
 
     data class AdivinaPalabra(
-        val tipo: String = "",
+        @Transient val tipo: String = "AdivinaPalabra",
         val definicion: String = "",
         val palabra: String = ""
     ) : Pregunta()
 
     data class Test(
-        val tipo: String = "",
+        @Transient val tipo: String = "Test",
         val enunciado: String = "",
         val opciones: List<String> = emptyList(),
         val respuestaCorrecta: String = ""
     ) : Pregunta()
 
     data class JuegoParejas(
-        val tipo: String = "",
+        @Transient val tipo: String = "JuegoParejas",
         val parejas: List<Pareja> = emptyList()
     ) : Pregunta()
 
     data class PruebaFinal(
-        val tipo: String = "",
+        @Transient val tipo: String = "Final",
         val enunciado: String = "",
         val opciones: List<String>? = emptyList(),
         val respuestaCorrecta: String? = "",
