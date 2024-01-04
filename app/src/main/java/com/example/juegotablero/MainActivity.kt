@@ -45,19 +45,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
 
-
-
-
-
-
         if (intent.hasExtra("continuar") && intent.getBooleanExtra("continuar", false)) {
             val bundle = Bundle()
-            bundle.putBoolean(
-                "cargarPartida",
-                true
-            )
+            bundle.putBoolean("cargarPartida", true)
+
             val tableroFragment = TableroFragment()
             tableroFragment.arguments = bundle
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, tableroFragment)
                 .commit()
@@ -66,12 +60,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(R.id.fragment_container, TableroFragment())
                 .commit()
         }
-
-
-        if (intent.hasExtra("continuar") && intent.getBooleanExtra("continuar", false)) {
-            cargarPartida()
-        }
-
     }
 
 

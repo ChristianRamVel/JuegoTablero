@@ -59,7 +59,6 @@ class TableroFragment : Fragment() {
 
         val bundle = arguments
 
-
         // Si el usuario ha pulsado en continuar partida en el menu principal
         // se carga la ultima partidad guardada
         if (bundle != null) {
