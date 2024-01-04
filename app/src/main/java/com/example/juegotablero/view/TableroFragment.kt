@@ -214,9 +214,32 @@ class TableroFragment : Fragment() {
     private fun mostrarPregunta(pregunta : Pregunta){
         when(pregunta){
             is Pregunta.AdivinaPalabra -> {
+                val adivinarPalabraFragment = AdivinarPalabraFragment()
+                val bundle = Bundle()
+                bundle.putString("definicion", pregunta.definicion)
+                bundle.putString("palabra", pregunta.palabra)
+                adivinarPalabraFragment.arguments = bundle
+
+                val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, adivinarPalabraFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
 
             }
             is Pregunta.JuegoParejas -> {
+                val parejasFragment = parentFragmentManager.findFragmentByTag("parejasFragment")
+                //llamar al fragmento de parejas y pasarle una pregunta recogida del json de firebase
+                if (parejasFragment == null) {
+                    val parejasFragment = ParejasFragment()
+                    val bundle = Bundle()
+                    bundle.putStringArray("parejas", pregunta.parejas.map { it.opcion1 }.toTypedArray())
+                    parejasFragment.arguments = bundle
+
+                    val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_container, parejasFragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                }
 
 
             }
@@ -234,7 +257,17 @@ class TableroFragment : Fragment() {
                 transaction.commit()
             }
             is Pregunta.Test -> {
+                val testFragment = TestFragment()
+                val bundle = Bundle()
+                bundle.putString("definicion", pregunta.enunciado)
+                bundle.putStringArray("opciones", pregunta.opciones.toTypedArray())
+                bundle.putString("respuesta", pregunta.respuestaCorrecta)
+                testFragment.arguments = bundle
 
+                val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, testFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
             }
 
             else -> {

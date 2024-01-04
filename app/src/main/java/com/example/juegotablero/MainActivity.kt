@@ -1,10 +1,10 @@
 package com.example.juegotablero
 
 import android.content.res.Configuration
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -16,7 +16,6 @@ import com.example.juegotablero.view.RepasoFragment
 import com.example.juegotablero.view.TableroFragment
 import com.example.juegotablero.view.TestFragment
 import com.google.android.material.navigation.NavigationView
-
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -68,6 +67,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .commit()
         }
 
+
+        if (intent.hasExtra("continuar") && intent.getBooleanExtra("continuar", false)) {
+            cargarPartida()
+        }
+
     }
 
 
@@ -76,7 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.new_game -> {
                 val tableroFragment = TableroFragment()
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, ParejasFragment())
+                    .replace(R.id.fragment_container, tableroFragment)
                     .commit()
             }
             R.id.new_questions -> {
