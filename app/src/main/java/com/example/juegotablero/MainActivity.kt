@@ -1,10 +1,10 @@
 package com.example.juegotablero
 
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -16,6 +16,7 @@ import com.example.juegotablero.view.RepasoFragment
 import com.example.juegotablero.view.TableroFragment
 import com.example.juegotablero.view.TestFragment
 import com.google.android.material.navigation.NavigationView
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,16 +48,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
 
-        // Resto del código para inicializar el fragmento y realizar otras acciones...
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, ParejasFragment())
-                .commit()
-        }
+
 
 
         if (intent.hasExtra("continuar") && intent.getBooleanExtra("continuar", false)) {
-            cargarPartida()
+            val bundle = Bundle()
+            bundle.putBoolean(
+                "cargarPartida",
+                true
+            )
+            val tableroFragment = TableroFragment()
+            tableroFragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, tableroFragment)
+                .commit()
+        }else{
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, TableroFragment())
+                .commit()
         }
 
     }

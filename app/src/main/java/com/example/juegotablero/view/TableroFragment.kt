@@ -56,6 +56,19 @@ class TableroFragment : Fragment() {
         // Se actualiza la puntación de los jugadores
         actualizarPuntuacion()
         actualizarTablero()
+
+        val bundle = arguments
+
+
+        // Si el usuario ha pulsado en continuar partida en el menu principal
+        // se carga la ultima partidad guardada
+        if (bundle != null) {
+            val valor = bundle.getBoolean("cargarPartida")
+            if (valor) {
+                cargarPartida()
+            }
+        }
+
         btnTirarDado.setOnClickListener {
             // Se obtiene el jugador de el turno actual
             val jugador = if (viewModel.turno == 0) jugador1 else jugador2
