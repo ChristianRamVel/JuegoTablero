@@ -245,7 +245,7 @@ class TableroFragment : Fragment() {
             is Pregunta.Repaso -> {
                 val repasoFragment = RepasoFragment()
                 val bundle = Bundle()
-                bundle.putString("definicion", pregunta.enunciado)
+                bundle.putString("enunciado", pregunta.enunciado)
                 bundle.putStringArray("opciones", pregunta.opciones.toTypedArray())
                 bundle.putString("respuesta", pregunta.respuesta_correcta)
                 repasoFragment.arguments = bundle
