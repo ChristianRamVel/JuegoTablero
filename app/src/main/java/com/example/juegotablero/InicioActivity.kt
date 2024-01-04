@@ -20,8 +20,9 @@ class InicioActivity: AppCompatActivity() {
         val botonContinuarPartida = findViewById<Button>(R.id.continuar_partida)
 
         botonContinuarPartida.setOnClickListener {
-            //val intent = Intent(this, MainActivity::class.java)
-            //startActivity(intent)
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("continuar", true)
+            startActivity(intent)
         }
 
 

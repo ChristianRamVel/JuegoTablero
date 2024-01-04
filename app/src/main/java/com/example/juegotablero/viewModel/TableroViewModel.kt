@@ -72,10 +72,6 @@ class TableroViewModel : ViewModel() {
         jugador.puntuacion ++
     }
 
-    //funcion para comprobar si la respuesta del jugador es correcta
-    fun comprobarRespuestaDeStrings(respuestaJugador: String, respuestaCorrecta: String): Boolean {
-        return respuestaJugador == respuestaCorrecta
-    }
 
     fun cambiarTurno(){
         if (turno == 0){

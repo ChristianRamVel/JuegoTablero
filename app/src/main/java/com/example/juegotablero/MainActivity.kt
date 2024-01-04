@@ -44,11 +44,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
-        // Inicializa y muestra el fragmento del tablero al iniciar la actividad.
-        val tableroFragment = TableroFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, tableroFragment)
-            .commit()
+
+
+
+        // Resto del código para inicializar el fragmento y realizar otras acciones...
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, TableroFragment())
+                .commit()
+        }
+
+
+        if (intent.hasExtra("continuar") && intent.getBooleanExtra("continuar", false)) {
+            cargarPartida()
+        }
+
     }
 
 
@@ -95,6 +105,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun cargarPartida(){
+        val tableroFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? TableroFragment
+        tableroFragment?.cargarPartida()
     }
 
     @Deprecated("Deprecated in Java")

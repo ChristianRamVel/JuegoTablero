@@ -1,5 +1,6 @@
 package com.example.juegotablero.view
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,8 +39,8 @@ class TableroFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Se inicializan los jugadores
-        jugador1 = Jugador("Jugador 1", 0, 0)
-        jugador2 = Jugador("Jugador 2", 0, 0)
+        jugador1 = Jugador("Jugador 1", 0, 1)
+        jugador2 = Jugador("Jugador 2", 0, 1)
 
         // Se inicializa el ViewModel
         viewModel = ViewModelProvider(this)[TableroViewModel::class.java]
@@ -54,7 +55,7 @@ class TableroFragment : Fragment() {
 
         // Se actualiza la puntación de los jugadores
         actualizarPuntuacion()
-
+        actualizarTablero()
         btnTirarDado.setOnClickListener {
             // Se obtiene el jugador de el turno actual
             val jugador = if (viewModel.turno == 0) jugador1 else jugador2
@@ -84,6 +85,7 @@ class TableroFragment : Fragment() {
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugador, preguntaCallback)
+            guardarPartida()
         }
     }
 
@@ -120,7 +122,7 @@ class TableroFragment : Fragment() {
     }
 
     private fun actualizarTurno() {
-        viewModel.cambiarTurno()
+
         tvInfoPartida.text = if (viewModel.turno == 0) {
             getString(R.string.turno_jugador1)
         } else {
@@ -155,18 +157,7 @@ class TableroFragment : Fragment() {
 
         showToast("Número en el dado: $tirada")
         // Actualiza el texto de los botones en el tablero con los nombres de los jugadores
-        for (i in 0 until gridLayout.childCount) {
-            val button = gridLayout.getChildAt(i) as? Button
-            if (button != null) {
-                // Verifica si cualquiera de los jugadores está en esta posición y actualiza el texto del botón
-                button.text = when {
-                    i == jugador1.posicion && i == jugador2.posicion -> "J1/J2"
-                    i == jugador1.posicion -> "J1"
-                    i == jugador2.posicion -> "J2"
-                    else -> ""
-                }
-            }
-        }
+        actualizarTablero()
         //no funciona el cambio de turno si quitas alguno de los dos metodos, ya que uno actualiza la vista y otro el int del turno en el viewmodel
         viewModel.cambiarTurno()
         actualizarTurno()
@@ -244,5 +235,51 @@ class TableroFragment : Fragment() {
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
     }
 
+    private fun guardarPartida() {
+        val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val editor = prefs.edit()
 
+        // Guardar datos de la partida
+        editor.putInt("posicionJugador1", jugador1.posicion)
+        editor.putInt("posicionJugador2", jugador2.posicion)
+        editor.putInt("puntuacionJugador1", jugador1.puntuacion)
+        editor.putInt("puntuacionJugador2", jugador2.puntuacion)
+        editor.putInt("turno", viewModel.turno)
+
+        // Aplicar los cambios
+        editor.apply()
+    }
+
+
+    fun cargarPartida() {
+        val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
+
+        // Cargar datos de la partida
+        jugador1.posicion = prefs.getInt("posicionJugador1", 0)
+        jugador2.posicion = prefs.getInt("posicionJugador2", 0)
+        jugador1.puntuacion = prefs.getInt("puntuacionJugador1", 0)
+        jugador2.puntuacion = prefs.getInt("puntuacionJugador2", 0)
+        viewModel.turno = prefs.getInt("turno", 0)
+
+        // Actualizar la vista
+        actualizarTurno()
+        actualizarPuntuacion()
+        actualizarTablero()
+    }
+
+    private fun actualizarTablero() {
+        // Actualiza el texto de los botones en el tablero con los nombres de los jugadores
+        for (i in 0 until gridLayout.childCount) {
+            val button = gridLayout.getChildAt(i) as? Button
+            if (button != null) {
+                // Verifica si cualquiera de los jugadores está en esta posición y actualiza el texto del botón
+                button.text = when {
+                    i == jugador1.posicion && i == jugador2.posicion -> "J1/J2"
+                    i == jugador1.posicion -> "J1"
+                    i == jugador2.posicion -> "J2"
+                    else -> ""
+                }
+            }
+        }
+    }
 }
