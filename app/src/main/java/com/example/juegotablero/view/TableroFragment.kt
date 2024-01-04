@@ -39,8 +39,8 @@ class TableroFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Se inicializan los jugadores
-        jugador1 = Jugador("Jugador 1", 0, 1)
-        jugador2 = Jugador("Jugador 2", 0, 1)
+        jugador1 = Jugador("Jugador 1", 0, 0)
+        jugador2 = Jugador("Jugador 2", 0, 0)
 
         // Se inicializa el ViewModel
         viewModel = ViewModelProvider(this)[TableroViewModel::class.java]

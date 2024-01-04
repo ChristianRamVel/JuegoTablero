@@ -14,14 +14,14 @@ import com.google.firebase.database.DatabaseError
 
 class TableroViewModel : ViewModel() {
 
-    //el tablero es un array de 20 casillas
-    private val tablero = arrayOfNulls<Casilla>(32)
+    //el tablero es un array de 24 casillas
+    private val tablero = arrayOfNulls<Casilla>(24)
     var turno = 0
     private val preguntasApi = PreguntasApi()
 
     //inicializa el tablero
     init {
-        inicializarTablero()
+        inicializarTablero2()
 
     }
 
@@ -29,13 +29,46 @@ class TableroViewModel : ViewModel() {
 
     private fun inicializarTablero() {
         // Llena el tablero con las casillas y preguntas correspondientes
-        for (i in tablero.indices) {
-            tablero[i] = when (i % 4) {
-                0 -> Casilla("Parejas")
-                1 -> Casilla("Test")
-                2 -> Casilla("AdivinaPalabra")
-                3 -> Casilla("Repaso")
-                else -> null // Esto no debería ocurrir, pero es por si acaso
+        tablero[0] = Casilla("Parejas")
+        tablero[1] = Casilla("Test")
+        tablero[2] = Casilla("AdivinaPalabra")
+        tablero[3] = Casilla("Repaso")
+
+        tablero[4] = Casilla("Test")
+        tablero[5] = Casilla("AdivinaPalabra")
+        tablero[6] = Casilla("Repaso")
+        tablero[7] = Casilla("Parejas")
+
+        tablero[8] = Casilla("AdivinaPalabra")
+        tablero[9] = Casilla("Repaso")
+        tablero[10] = Casilla("Parejas")
+        tablero[11] = Casilla("Test")
+
+        tablero[12] = Casilla("Repaso")
+        tablero[13] = Casilla("Parejas")
+        tablero[14] = Casilla("Test")
+        tablero[15] = Casilla("AdivinaPalabra")
+
+        tablero[16] = Casilla("Parejas")
+        tablero[17] = Casilla("Test")
+        tablero[18] = Casilla("AdivinaPalabra")
+        tablero[19] = Casilla("Repaso")
+
+        tablero[20] = Casilla("Test")
+        tablero[21] = Casilla("AdivinaPalabra")
+        tablero[22] = Casilla("Repaso")
+        tablero[23] = Casilla("Parejas")
+
+    }
+
+    private fun inicializarTablero2() {
+        val tiposPreguntas = listOf("Parejas", "Test", "AdivinaPalabra", "Repaso")
+
+        for (fila in 0 until 6) {
+            for (columna in 0 until 4) {
+                val indice = fila * 4 + columna
+                val tipoPregunta = tiposPreguntas[(columna + fila) % 4]
+                tablero[indice] = Casilla(tipoPregunta)
             }
         }
     }
