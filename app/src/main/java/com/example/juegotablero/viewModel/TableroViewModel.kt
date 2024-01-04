@@ -44,15 +44,7 @@ class TableroViewModel : ViewModel() {
         return (1..6).random()
     }
 
-    //funcion para avanzar en el tablero
-    /*fun avanzar(posicion: Int, dado: Int): Int {
-        var posicionFinal = posicion + dado
-        if (posicionFinal > 19) {
-            posicionFinal = posicionFinal - 20
-        }
-        return posicionFinal
-    }
-*/
+
     //Comprobar que el jugador ha completado las 4 preguntas basicas para pasar a la pregunta final
     fun paseAPreguntaFinal(jugador : Jugador): Boolean {
         val puntuacionJugador = jugador.puntuacion

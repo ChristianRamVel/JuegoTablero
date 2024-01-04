@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Resto del código para inicializar el fragmento y realizar otras acciones...
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, TableroFragment())
+                .replace(R.id.fragment_container, ParejasFragment())
                 .commit()
         }
 
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.new_game -> {
                 val tableroFragment = TableroFragment()
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, tableroFragment)
+                    .replace(R.id.fragment_container, ParejasFragment())
                     .commit()
             }
             R.id.new_questions -> {
