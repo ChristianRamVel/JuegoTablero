@@ -32,14 +32,15 @@ class RepasoFragment : Fragment() {
         if (bundle != null) {
             // se obtiene el enunciado de la pregunta
             val enunciado = bundle.getString("enunciado")
+            val opciones = bundle.getStringArray("opciones")
+            val respuesta = bundle.getString("respuesta")
+
             if (enunciado != null) {
                 // se actualiza el enunciado de la pregunta en la vista
                 actualizarEnunciado(enunciado)
             }
         }
-
     }
-
 
     fun actualizarEnunciado(enunciado: String){
         val textView = view?.findViewById<TextView>(R.id.tvRepasoPregunta)
