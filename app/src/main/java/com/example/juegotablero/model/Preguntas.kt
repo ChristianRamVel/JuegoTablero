@@ -1,5 +1,8 @@
 package com.example.juegotablero.model
 
+import android.os.Parcel
+import android.os.Parcelable
+
 data class PreguntasContainer(
     val preguntas: List<Pregunta>
 )
@@ -42,5 +45,29 @@ sealed class Pregunta {
     data class Pareja(
         val opcion1: String = "",
         val opcion2: String = ""
-    )
+    ) : Parcelable {
+        constructor(parcel: Parcel) : this(
+            parcel.readString() ?: "",
+            parcel.readString() ?: ""
+        )
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(opcion1)
+            parcel.writeString(opcion2)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<Pareja> {
+            override fun createFromParcel(parcel: Parcel): Pareja {
+                return Pareja(parcel)
+            }
+
+            override fun newArray(size: Int): Array<Pareja?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
 }

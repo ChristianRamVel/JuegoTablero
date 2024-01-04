@@ -231,7 +231,7 @@ class TableroFragment : Fragment() {
                 if (parejasFragment == null) {
                     val parejasFragment = ParejasFragment()
                     val bundle = Bundle()
-                    bundle.putStringArray("parejas", pregunta.parejas.map { it.opcion1 }.toTypedArray())
+                    bundle.putParcelableArrayList("parejas", ArrayList(pregunta.parejas))
                     parejasFragment.arguments = bundle
 
                     val transaction = requireActivity().supportFragmentManager.beginTransaction()

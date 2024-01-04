@@ -3,6 +3,7 @@ package com.example.juegotablero.view
 import ParejasViewModel
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.juegotablero.R
+import com.example.juegotablero.model.Pregunta
 
 class ParejasFragment : Fragment() {
 
@@ -33,7 +35,19 @@ class ParejasFragment : Fragment() {
         gridLayout2 = view.findViewById<GridLayout>(R.id.grid2)
 
         // Inicializar el ViewModel
-        viewModel = ViewModelProvider(this).get(ParejasViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ParejasViewModel::class.java]
+
+        val bundle = arguments
+
+        if (bundle != null) {
+            val parejasArray = bundle.getParcelableArrayList<Pregunta.Pareja>("parejas")
+            if (parejasArray != null) {
+                for (pareja in parejasArray) {
+                    viewModel.addWordPair(pareja.opcion1, pareja.opcion2)
+
+                }
+            }
+        }
 
         // Crear y agregar botones dinámicamente al GridLayout
         createButtons()
@@ -43,10 +57,6 @@ class ParejasFragment : Fragment() {
 
     private fun createButtons() {
         // Agregar parejas de prueba
-        viewModel.addWordPair("elefante", "mamífero")
-        viewModel.addWordPair("trucha", "pez")
-        viewModel.addWordPair("pingüino", "ave")
-        viewModel.addWordPair("serpiente", "reptil")
 
         // Obtener la lista de animales y tipos
         val primerosPares = viewModel.getPair1().shuffled()
@@ -58,6 +68,7 @@ class ParejasFragment : Fragment() {
         for (primerPar in primerosPares) {
             val button = Button(requireContext())
             button.text = primerPar
+            button.maxWidth = 500
             button.setOnClickListener {
                 onButtonClicked(button)
             }
@@ -67,6 +78,7 @@ class ParejasFragment : Fragment() {
         for (segundoPar in segundosPares) {
             val button = Button(requireContext())
             button.text = segundoPar
+            button.maxWidth = 500
             button.setOnClickListener {
                 onButtonClicked(button)
             }
