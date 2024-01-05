@@ -3,11 +3,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.AdivinarPalabraFragment">
 
-    <TextView
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/tvEnunciadoAdivinarPalabra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="enunciado"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvIntentosAdivinarPalabra"
+            android:gravity="center"
+
+            />
+
+        <TextView
+            android:id="@+id/tvIntentosAdivinarPalabra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="intentos : 5"
+            app:layout_constraintTop_toBottomOf="@id/tvEnunciadoAdivinarPalabra"
+            app:layout_constraintBottom_toTopOf="@id/tvPalabraAdivinar"
+            android:gravity="center"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/tvPalabraAdivinar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="palabraOculta"
+            app:layout_constraintTop_toBottomOf="@id/tvIntentosAdivinarPalabra"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+            android:layout_marginBottom="400dp"
+            ></TextView>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

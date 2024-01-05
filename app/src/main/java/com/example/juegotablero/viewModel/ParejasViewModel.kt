@@ -5,7 +5,6 @@ class ParejasViewModel : ViewModel() {
     private val wordPairs = mutableListOf<Pair<String, String>>()
     private val aciertos = mutableSetOf<Pair<String, String>>()
 
-    // Devuelve una lista que contiene cada palabra y su pareja, sin barajar
 
     // Agrega una nueva palabra y su clase a la lista de parejas
     fun addWordPair(animal: String, claseAnimal: String) {
@@ -13,11 +12,6 @@ class ParejasViewModel : ViewModel() {
         wordPairs.add(newWordPair)
     }
 
-    // Establece las parejas a partir de un mapa y guarda en wordPairs
-    fun setWordPairs(wordPairsMap: Map<String, String>) {
-        wordPairs.clear()
-        wordPairs.addAll(wordPairsMap.toList())
-    }
 
     // Verifica si la palabra seleccionada coincide con su pareja
     fun isMatch(pareja1: String, pareja2: String): Boolean {
