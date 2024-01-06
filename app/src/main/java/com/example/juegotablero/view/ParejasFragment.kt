@@ -1,6 +1,7 @@
 package com.example.juegotablero.view
 
 import ParejasViewModel
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.juegotablero.R
+import com.example.juegotablero.common.interfaces.OnGameEventListener
 import com.example.juegotablero.model.Pregunta
 
 class ParejasFragment : Fragment() {
@@ -23,6 +25,7 @@ class ParejasFragment : Fragment() {
     private lateinit var gridLayout2: GridLayout
     private var primerParSeleccionado: Button? = null
     private var segundoParSeleccionado: Button? = null
+    private var gameListener: OnGameEventListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -111,11 +114,14 @@ class ParejasFragment : Fragment() {
 
                 if (todasLasParejasAcertadas()) {
                     Toast.makeText(requireContext(), "¡Has ganado!", Toast.LENGTH_SHORT).show()
+                    terminarPartida(true)
+
                 }
                 resetSelections()
             } else {
                 // La combinación es incorrecta, puedes manejarlo según tus necesidades
                 Toast.makeText(requireContext(), "Incorrecto, has perdido", Toast.LENGTH_SHORT).show()
+                terminarPartida(false)
                 // Desmarca visualmente los botones seleccionados
                 resetSelections()
             }
@@ -172,5 +178,26 @@ class ParejasFragment : Fragment() {
         return viewModel.getAciertos() == viewModel.getWordPairs().size
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnGameEventListener) {
+            gameListener = context
+        } else {
+            throw ClassCastException("$context must implement OnParejasGameListener")
+        }
+    }
 
+    fun setGameListener(listener: OnGameEventListener) {
+        gameListener = listener
+    }
+
+    fun terminarPartida(ganador: Boolean) {
+        view?.post {
+            gameListener?.onGameResult(ganador)
+
+            val fragmentManager = requireActivity().supportFragmentManager
+            // Cierra el fragmento actual y vuelve al anterior en la pila
+            fragmentManager.popBackStack()
+        }
+    }
 }

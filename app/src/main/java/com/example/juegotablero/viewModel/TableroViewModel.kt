@@ -27,39 +27,6 @@ class TableroViewModel : ViewModel() {
 
     //inicializa el tablero con las casillas, para saber de que tipo es cada casilla
 
-    private fun inicializarTablero() {
-        // Llena el tablero con las casillas y preguntas correspondientes
-        tablero[0] = Casilla("Parejas")
-        tablero[1] = Casilla("Test")
-        tablero[2] = Casilla("AdivinaPalabra")
-        tablero[3] = Casilla("Repaso")
-
-        tablero[4] = Casilla("Test")
-        tablero[5] = Casilla("AdivinaPalabra")
-        tablero[6] = Casilla("Repaso")
-        tablero[7] = Casilla("Parejas")
-
-        tablero[8] = Casilla("AdivinaPalabra")
-        tablero[9] = Casilla("Repaso")
-        tablero[10] = Casilla("Parejas")
-        tablero[11] = Casilla("Test")
-
-        tablero[12] = Casilla("Repaso")
-        tablero[13] = Casilla("Parejas")
-        tablero[14] = Casilla("Test")
-        tablero[15] = Casilla("AdivinaPalabra")
-
-        tablero[16] = Casilla("Parejas")
-        tablero[17] = Casilla("Test")
-        tablero[18] = Casilla("AdivinaPalabra")
-        tablero[19] = Casilla("Repaso")
-
-        tablero[20] = Casilla("Test")
-        tablero[21] = Casilla("AdivinaPalabra")
-        tablero[22] = Casilla("Repaso")
-        tablero[23] = Casilla("Parejas")
-
-    }
 
     private fun inicializarTablero2() {
         val tiposPreguntas = listOf("Parejas", "Test", "AdivinaPalabra", "Repaso")

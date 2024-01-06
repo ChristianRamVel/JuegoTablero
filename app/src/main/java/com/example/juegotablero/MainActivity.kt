@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
+import com.example.juegotablero.common.interfaces.OnGameEventListener
 import com.example.juegotablero.view.AdivinarPalabraFragment
 import com.example.juegotablero.view.ParejasFragment
 import com.example.juegotablero.view.RepasoFragment
@@ -17,7 +18,8 @@ import com.example.juegotablero.view.TableroFragment
 import com.example.juegotablero.view.TestFragment
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    OnGameEventListener {
 
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var drawer: DrawerLayout
@@ -51,13 +53,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val tableroFragment = TableroFragment()
             tableroFragment.arguments = bundle
-
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, tableroFragment)
+                .replace(R.id.fragment_container, tableroFragment, TableroFragment.TAG)
                 .commit()
         }else{
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, TableroFragment())
+                .replace(R.id.fragment_container, TableroFragment(), TableroFragment.TAG)
                 .commit()
         }
     }
@@ -66,9 +67,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.new_game -> {
-                val tableroFragment = TableroFragment()
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, tableroFragment)
+                    .replace(R.id.fragment_container, TableroFragment(), TableroFragment.TAG)
                     .commit()
             }
             R.id.new_questions -> {
@@ -118,11 +118,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val fragmentManager: FragmentManager = supportFragmentManager
         val currentFragment = fragmentManager.findFragmentById(R.id.fragment_container)
         // Si el fragmento actual es una pregunta no permite volver atrás
-        if (currentFragment is RepasoFragment || currentFragment is ParejasFragment || currentFragment is AdivinarPalabraFragment || currentFragment is TestFragment) {
+        if (currentFragment is RepasoFragment || currentFragment is ParejasFragment || currentFragment is AdivinarPalabraFragment || currentFragment is TestFragment || currentFragment is TableroFragment) {
             // No hace nada
         }else{
             super.onBackPressed()
         }
+    }
+
+    override fun onGameResult(isWinner: Boolean) {
+        val tableroFragment = supportFragmentManager.findFragmentByTag(TableroFragment.TAG) as? TableroFragment
+        tableroFragment?.onGameResult(isWinner)
     }
 
 }

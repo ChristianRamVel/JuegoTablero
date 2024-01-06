@@ -3,6 +3,7 @@ package com.example.juegotablero.view
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,19 +16,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.juegotablero.R
 import com.example.juegotablero.api.PreguntasCallback
+import com.example.juegotablero.common.interfaces.OnGameEventListener
 import com.example.juegotablero.model.Jugador
 import com.example.juegotablero.model.Pregunta
 import com.example.juegotablero.viewModel.TableroViewModel
 import com.google.firebase.database.DatabaseError
 
-class TableroFragment : Fragment() {
+class TableroFragment : Fragment(), OnGameEventListener {
 
     private lateinit var jugador1: Jugador
     private lateinit var jugador2: Jugador
     private lateinit var viewModel: TableroViewModel
     private lateinit var gridLayout: GridLayout
     private lateinit var tvInfoPartida: TextView
+    private var partidaCargada = true
 
+
+    companion object {
+        const val TAG = "TableroFragment"
+        // Resto del código
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,13 +46,6 @@ class TableroFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Se inicializan los jugadores
-        jugador1 = Jugador("Jugador 1", 0, 0)
-        jugador2 = Jugador("Jugador 2", 0, 0)
-
-        // Se inicializa el ViewModel
-        viewModel = ViewModelProvider(this)[TableroViewModel::class.java]
-
         // Se inicializan los componentes de la vista
         gridLayout = view.findViewById(R.id.gridLayoutTablero)
         tvInfoPartida = view.findViewById(R.id.tvInfoPartida)
@@ -52,6 +53,21 @@ class TableroFragment : Fragment() {
 
         // Se crea el tablero
         setupTablero()
+
+        if (!partidaCargada) {
+            actualizarPuntuacion()
+            guardarPartida()
+            actualizarTurno()
+            partidaCargada = true
+        }else{
+            // Se inicializan los jugadores
+            jugador1 = Jugador("Jugador 1", 0, 0)
+            jugador2 = Jugador("Jugador 2", 0, 0)
+
+            // Se inicializa el ViewModel
+            viewModel = ViewModelProvider(this)[TableroViewModel::class.java]
+        }
+
 
         // Se actualiza la puntación de los jugadores
         actualizarPuntuacion()
@@ -79,6 +95,7 @@ class TableroFragment : Fragment() {
                         val pregunta = preguntas.randomOrNull()
                         actualizarTurno()
                         if (pregunta != null) {
+                            guardarPartida()
                             showAlert("Has caído en una casilla de ${viewModel.obtenerTipoCasilla(jugador)}", pregunta)
                         }
                     } else {
@@ -97,7 +114,7 @@ class TableroFragment : Fragment() {
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugador, preguntaCallback)
-            guardarPartida()
+
         }
     }
 
@@ -225,11 +242,12 @@ class TableroFragment : Fragment() {
                 transaction.commit()
 
             }
-            is Pregunta.JuegoParejas -> {
-                val parejasFragment = parentFragmentManager.findFragmentByTag("parejasFragment")
-                //llamar al fragmento de parejas y pasarle una pregunta recogida del json de firebase
-                if (parejasFragment == null) {
+            is Pregunta.JuegoParejas -> { //llamar al fragmento de parejas y pasarle una pregunta recogida del json de firebase
+
                     val parejasFragment = ParejasFragment()
+
+                    parejasFragment.setGameListener(this)
+
                     val bundle = Bundle()
                     bundle.putParcelableArrayList("parejas", ArrayList(pregunta.parejas))
                     parejasFragment.arguments = bundle
@@ -238,7 +256,7 @@ class TableroFragment : Fragment() {
                     transaction.replace(R.id.fragment_container, parejasFragment)
                     transaction.addToBackStack(null)
                     transaction.commit()
-                }
+
 
 
             }
@@ -326,5 +344,30 @@ class TableroFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onGameResult(isWinner: Boolean) {
+        cargarPartida()
+        partidaCargada = false
+        Log.d("gana", isWinner.toString())
+        if (isWinner) {
+            // Se incrementa la puntuación del jugador
+            if (viewModel.turno == 0) {
+                viewModel.sumarPunto(jugador2)
+            } else {
+                viewModel.sumarPunto(jugador1)
+            }
+
+            // Se comprueba si el jugador ha ganado
+            if (viewModel.haGanado(jugador1) || viewModel.haGanado(jugador2)) {
+                // TODO se muestra un mensaje de victoria
+            }
+
+
+        }
+
+
+
+
     }
 }
