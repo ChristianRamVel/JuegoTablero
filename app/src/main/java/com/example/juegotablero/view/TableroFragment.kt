@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.juegotablero.R
 import com.example.juegotablero.api.PreguntasCallback
 import com.example.juegotablero.common.interfaces.OnGameEventListener
+import com.example.juegotablero.model.Estadisticas
 import com.example.juegotablero.model.Jugador
 import com.example.juegotablero.model.Pregunta
 import com.example.juegotablero.viewModel.TableroViewModel
@@ -337,40 +338,46 @@ class TableroFragment : Fragment(), OnGameEventListener {
         // Actualiza el texto de los botones en el tablero con los nombres de los jugadores
         for (i in 0 until gridLayout.childCount) {
             val button = gridLayout.getChildAt(i) as? Button
-            if (button != null) {
                 // Verifica si cualquiera de los jugadores está en esta posición y actualiza el texto del botón
-                button.text = when {
+                button?.text = when {
                     i == jugador1.posicion && i == jugador2.posicion -> "J1/J2"
                     i == jugador1.posicion -> "J1"
                     i == jugador2.posicion -> "J2"
                     else -> ""
                 }
-            }
         }
     }
 
+
+
     override fun onGameResult(isWinner: Boolean) {
+        val refs = requireActivity().getPreferences(Context.MODE_PRIVATE)
+
         cargarPartida()
         partidaCargada = false
-        Log.d("gana", isWinner.toString())
+
         if (isWinner) {
             // Se incrementa la puntuación del jugador
             if (viewModel.turno == 0) {
                 viewModel.sumarPunto(jugador2)
+                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ2)
             } else {
                 viewModel.sumarPunto(jugador1)
+                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ1)
             }
 
             // Se comprueba si el jugador ha ganado
             if (viewModel.haGanado(jugador1) || viewModel.haGanado(jugador2)) {
-                // TODO se muestra un mensaje de victoria
+
             }
 
-
+        }else{
+            if (viewModel.turno == 0) Estadisticas.MINIJUEGOS_PERDIDOSJ2
+            else Estadisticas.MINIJUEGOS_PERDIDOSJ1
         }
 
-
-
+        if (viewModel.turno == 0) Estadisticas.MINIJUEGOS_JUGADOSJ2
+        else Estadisticas.MINIJUEGOS_JUGADOSJ1
 
     }
 }

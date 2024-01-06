@@ -24,6 +24,18 @@
     <!-- Menu inicio -->
     <string name="continuar_partida">Continuar partida</string>
 
+    <!-- Estadisticas -->
+    <string name="resetear">Resetear</string>
+    <string name="minijuegos_jugados">Minijuegos jugados: %1$s</string>
+    <string name="minijuegos_ganados">Minijuegos ganados: %1$s</string>
+    <string name="minijuegos_perdidos">Minijuegos perdidos: %1$s</string>
+    <string name="partidas_ganadas">Partidas ganadas: %1$s</string>
+    <string name="jugador1">Jugador 1</string>
+    <string name="jugador2">Jugador 2</string>
+
+
+
+
 
 
 </resources>

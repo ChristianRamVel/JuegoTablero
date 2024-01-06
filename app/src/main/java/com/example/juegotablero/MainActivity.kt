@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import com.example.juegotablero.common.interfaces.OnGameEventListener
 import com.example.juegotablero.view.AdivinarPalabraFragment
+import com.example.juegotablero.view.EstadisticasFragment
 import com.example.juegotablero.view.ParejasFragment
 import com.example.juegotablero.view.RepasoFragment
 import com.example.juegotablero.view.TableroFragment
@@ -75,6 +76,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.stats -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, EstadisticasFragment())
+                    .commit()
 
             }
             R.id.about_us -> {

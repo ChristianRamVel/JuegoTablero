@@ -3,5 +3,11 @@
     <style name="Base.Theme.JuegoTablero" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <item name="colorPrimary">@color/ColorActionbar</item>
+        <item name="android:textColorPrimary">@color/white</item>
+
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorTertiary">@color/black</item>
+
+
     </style>
 </resources>

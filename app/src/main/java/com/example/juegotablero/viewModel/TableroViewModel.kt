@@ -1,6 +1,8 @@
 package com.example.juegotablero.viewModel
 
 import PreguntasApi
+import android.content.Context
+import android.content.SharedPreferences
 import android.widget.Button
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.findViewTreeViewModelStoreOwner
@@ -61,9 +63,14 @@ class TableroViewModel : ViewModel() {
     //funcion para actualizar la puntuacion del jugador
 
     fun sumarPunto(jugador : Jugador) {
-        jugador.puntuacion ++
+        jugador.puntuacion++
     }
 
+    fun guardarEstadistica( prefs : SharedPreferences, tipo : String){
+        val editor = prefs.edit()
+        editor.putInt(tipo, prefs.getInt(tipo, 0) + 1)
+        editor.apply()
+    }
 
     fun cambiarTurno(){
         if (turno == 0){
@@ -72,6 +79,7 @@ class TableroViewModel : ViewModel() {
             turno = 0
         }
     }
+
 
     fun obtenerPreguntaAleatoria(jugador: Jugador,  callback: PreguntasCallback) {
         val posicion = jugador.posicion-1
