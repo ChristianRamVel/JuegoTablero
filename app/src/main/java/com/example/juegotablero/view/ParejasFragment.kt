@@ -182,8 +182,6 @@ class ParejasFragment : Fragment() {
         super.onAttach(context)
         if (context is OnGameEventListener) {
             gameListener = context
-        } else {
-            throw ClassCastException("$context must implement OnParejasGameListener")
         }
     }
 

@@ -87,6 +87,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
         btnTirarDado.setOnClickListener {
             // Se obtiene el jugador de el turno actual
             val jugador = if (viewModel.turno == 0) jugador1 else jugador2
+            var ultimaTirada = 0
 
             // Se obtiene una pregunta aleatoria de la base de datos dependendiendo del tipo de casilla
             val preguntaCallback = object : PreguntasCallback {
@@ -96,7 +97,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
                         actualizarTurno()
                         if (pregunta != null) {
                             guardarPartida()
-                            showAlert("Has caído en una casilla de ${viewModel.obtenerTipoCasilla(jugador)}", pregunta)
+                            showAlertMinijuego("Has caído en una casilla de ${viewModel.obtenerTipoCasilla(jugador)}", pregunta, ultimaTirada)
                         }
                     } else {
                         showToast("No se obtuvieron preguntas")
@@ -110,7 +111,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
             }
 
             // Se tira el dado y se avanza de casilla
-            avanzar(jugador.posicion, viewModel.tirarDado(), jugador)
+
+            ultimaTirada = viewModel.tirarDado()
+            avanzar(jugador.posicion, ultimaTirada, jugador)
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugador, preguntaCallback)
@@ -184,9 +187,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
         // Actualiza la posición del jugador en el objeto Jugador
         jugador.posicion = posicionFinal
 
-        showToast("Número en el dado: $tirada")
         // Actualiza el texto de los botones en el tablero con los nombres de los jugadores
         actualizarTablero()
+
         //no funciona el cambio de turno si quitas alguno de los dos metodos, ya que uno actualiza la vista y otro el int del turno en el viewmodel
         viewModel.cambiarTurno()
         actualizarTurno()
@@ -198,9 +201,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
         toast.show()
     }
 
-    private fun showAlert(message: String, pregunta: Pregunta) {
+    private fun showAlertMinijuego(message: String, pregunta: Pregunta, ultimaTirada: Int) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
-        builder.setTitle("Alerta")
+        builder.setTitle("Has sacado un $ultimaTirada")
         builder.setMessage(message)
         builder.setPositiveButton("Aceptar") { _, _ ->
             // Al pulsar en aceptar se abre el fragment correspondiente a la pregunta

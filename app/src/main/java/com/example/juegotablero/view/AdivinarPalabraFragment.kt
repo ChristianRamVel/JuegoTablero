@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import com.example.juegotablero.R
+import com.example.juegotablero.common.interfaces.OnGameEventListener
 import com.example.juegotablero.viewModel.AdivinarPalabraViewModel
 
 
@@ -23,6 +24,8 @@ class AdivinarPalabraFragment : Fragment() {
     private lateinit var intentosTextView: TextView
     private var palabraOculta = ""
     private var palabraAdivinarVista = ""
+    private var gameListener: OnGameEventListener? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -156,5 +159,26 @@ class AdivinarPalabraFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         cerrarTeclado()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnGameEventListener) {
+            gameListener = context
+        }
+    }
+
+    fun setGameListener(listener: OnGameEventListener) {
+        gameListener = listener
+    }
+
+    fun terminarPartida(ganador: Boolean) {
+        view?.post {
+            gameListener?.onGameResult(ganador)
+
+            val fragmentManager = requireActivity().supportFragmentManager
+            // Cierra el fragmento actual y vuelve al anterior en la pila
+            fragmentManager.popBackStack()
+        }
     }
 }

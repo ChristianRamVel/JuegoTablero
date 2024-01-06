@@ -1,5 +1,6 @@
 package com.example.juegotablero.view
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.juegotablero.R
+import com.example.juegotablero.common.interfaces.OnGameEventListener
 
 import com.example.juegotablero.viewModel.TestViewModel
 
@@ -19,6 +21,8 @@ class TestFragment : Fragment() {
     private lateinit var button1: Button
     private lateinit var button2: Button
     private lateinit var button3: Button
+    private var gameListener: OnGameEventListener? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,6 +98,27 @@ class TestFragment : Fragment() {
             return true
         }
         return false
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnGameEventListener) {
+            gameListener = context
+        }
+    }
+
+    fun setGameListener(listener: OnGameEventListener) {
+        gameListener = listener
+    }
+
+    fun terminarPartida(ganador: Boolean) {
+        view?.post {
+            gameListener?.onGameResult(ganador)
+
+            val fragmentManager = requireActivity().supportFragmentManager
+            // Cierra el fragmento actual y vuelve al anterior en la pila
+            fragmentManager.popBackStack()
+        }
     }
 
 }
