@@ -114,7 +114,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
             // Se tira el dado y se avanza de casilla
 
             ultimaTirada = viewModel.tirarDado()
-            avanzar(jugador.posicion, ultimaTirada, jugador)
+            avanzar(jugador.posicion, 2, jugador)
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugador, preguntaCallback)
@@ -280,9 +280,13 @@ class TableroFragment : Fragment(), OnGameEventListener {
             is Pregunta.Test -> {
                 val testFragment = TestFragment()
                 val bundle = Bundle()
+
+                testFragment.setGameListener(this)
+
+
                 bundle.putString("definicion", pregunta.enunciado)
                 bundle.putStringArray("opciones", pregunta.opciones.toTypedArray())
-                bundle.putString("respuesta", pregunta.respuestaCorrecta)
+                bundle.putString("respuesta", pregunta.respuesta_correcta)
                 testFragment.arguments = bundle
 
                 val transaction = requireActivity().supportFragmentManager.beginTransaction()

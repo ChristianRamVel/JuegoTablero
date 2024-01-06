@@ -61,6 +61,9 @@ class TestFragment : Fragment() {
                 button2 = view.findViewById(R.id.btnRespuesta2)
                 button3 = view.findViewById(R.id.btnRespuesta3)
 
+                button1.setOnClickListener { verificarRespuesta(button1.text.toString(), respuesta) }
+                button2.setOnClickListener { verificarRespuesta(button2.text.toString(), respuesta) }
+                button3.setOnClickListener { verificarRespuesta(button3.text.toString(), respuesta) }
 
 
                 Log.d("puntos", "puntos: ${viewModel.getAciertos()}")
@@ -91,13 +94,13 @@ class TestFragment : Fragment() {
         }
     }
 
-    fun verificarRespuesta(opcion: String, respuestaCorrecta: String?): Boolean{
-
+    fun verificarRespuesta(opcion: String, respuestaCorrecta: String?){
         if (opcion == respuestaCorrecta){
-            viewModel.incrementarAciertos()
-            return true
+            terminarPartida(true)
+        }else{
+            terminarPartida(false)
         }
-        return false
+
     }
 
     override fun onAttach(context: Context) {
@@ -112,13 +115,11 @@ class TestFragment : Fragment() {
     }
 
     fun terminarPartida(ganador: Boolean) {
-        view?.post {
             gameListener?.onGameResult(ganador)
 
             val fragmentManager = requireActivity().supportFragmentManager
             // Cierra el fragmento actual y vuelve al anterior en la pila
             fragmentManager.popBackStack()
-        }
     }
 
 }

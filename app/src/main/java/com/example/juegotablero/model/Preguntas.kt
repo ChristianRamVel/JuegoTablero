@@ -26,7 +26,7 @@ sealed class Pregunta {
         @Transient val tipo: String = "Test",
         val enunciado: String = "",
         val opciones: List<String> = emptyList(),
-        val respuestaCorrecta: String = ""
+        val respuesta_correcta: String = ""
     ) : Pregunta()
 
     data class JuegoParejas(
