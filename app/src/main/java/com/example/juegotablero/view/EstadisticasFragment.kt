@@ -24,6 +24,25 @@ class EstadisticasFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_estadisticas, container, false)
 
         // Lee las estadísticas desde SharedPreferences
+        leerEstadisticas(view)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val botonResetear = view.findViewById<View>(R.id.botonResetear)
+
+        botonResetear.setOnClickListener {
+            viewModel.resetearEstadisticas(requireActivity().getPreferences(Context.MODE_PRIVATE))
+
+            // Actualizar las estadísticas mostradas
+            leerEstadisticas(view)
+        }
+    }
+
+    fun leerEstadisticas(view : View){
         val estadisticas = viewModel.leerEstadisticas(requireActivity().getPreferences(Context.MODE_PRIVATE))
 
         view.findViewById<TextView>(R.id.partidasGanadasJ1).text =
@@ -49,18 +68,5 @@ class EstadisticasFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.minijuegosPerdidosJ2).text =
             getString(R.string.minijuegos_perdidos, estadisticas[Estadisticas.MINIJUEGOS_PERDIDOSJ2].toString())
-
-
-        return view
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-
-
-
-
-
 }

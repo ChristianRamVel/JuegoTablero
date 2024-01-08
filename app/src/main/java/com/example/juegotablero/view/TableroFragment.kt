@@ -27,6 +27,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
     private lateinit var jugador1: Jugador
     private lateinit var jugador2: Jugador
+    private var vista : View? = null
     private lateinit var viewModel: TableroViewModel
     private lateinit var gridLayout: GridLayout
     private lateinit var tvInfoPartida: TextView
@@ -41,38 +42,36 @@ class TableroFragment : Fragment(), OnGameEventListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_tablero, container, false)
+        var view : View?
+
+        if (vista == null) {
+            vista = inflater.inflate(R.layout.fragment_tablero, container, false)
+            view = vista
+            gridLayout = view?.findViewById(R.id.gridLayoutTablero)!!
+            tvInfoPartida = view.findViewById(R.id.tvInfoPartida)!!
+            jugador1 = Jugador("Jugador 1", 0, 0)
+            jugador2 = Jugador("Jugador 2", 0, 0)
+
+            // Se inicializa el ViewModel
+            viewModel = ViewModelProvider(this)[TableroViewModel::class.java]
+
+            setupTablero()
+            actualizarTurno()
+            actualizarTablero()
+
+        }
+        view = vista
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // Se inicializan los componentes de la vista
-        gridLayout = view.findViewById(R.id.gridLayoutTablero)
-        tvInfoPartida = view.findViewById(R.id.tvInfoPartida)
-        val btnTirarDado = view.findViewById<Button>(R.id.btnTirarDado)
+        val btnTirarDado = view.findViewById<Button>(R.id.btnTirarDado)!!
 
-        // Se crea el tablero
-        setupTablero()
-
-        if (!partidaCargada) {
-            actualizarPuntuacion()
-            guardarPartida()
-            actualizarTurno()
-            partidaCargada = true
-        }else{
-            // Se inicializan los jugadores
-            jugador1 = Jugador("Jugador 1", 0, 0)
-            jugador2 = Jugador("Jugador 2", 0, 0)
-
-            // Se inicializa el ViewModel
-            viewModel = ViewModelProvider(this)[TableroViewModel::class.java]
-        }
-
-
-        // Se actualiza la puntación de los jugadores
         actualizarPuntuacion()
-        actualizarTablero()
 
         val bundle = arguments
 
@@ -363,9 +362,6 @@ class TableroFragment : Fragment(), OnGameEventListener {
     override fun onGameResult(isWinner: Boolean) {
         val refs = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
-        cargarPartida()
-        partidaCargada = false
-
         if (isWinner) {
             // Se incrementa la puntuación del jugador
             if (viewModel.turno == 0) {
@@ -388,6 +384,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
         if (viewModel.turno == 0) Estadisticas.MINIJUEGOS_JUGADOSJ2
         else Estadisticas.MINIJUEGOS_JUGADOSJ1
+
+        guardarPartida()
 
     }
 }

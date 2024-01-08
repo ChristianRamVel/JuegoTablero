@@ -14,6 +14,14 @@ class EstadisticasViewModel : ViewModel() {
         }
     }
 
+    fun resetearEstadisticas(prefs: SharedPreferences) {
+        val editor = prefs.edit()
+        Estadisticas.estadisticas.forEach { (key, _) ->
+            editor.putInt(key, 0)
+        }
+        editor.apply()
+    }
+
 
 
 
