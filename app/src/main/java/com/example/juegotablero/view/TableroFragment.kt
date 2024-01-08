@@ -236,6 +236,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
             is Pregunta.AdivinaPalabra -> {
                 val adivinarPalabraFragment = AdivinarPalabraFragment()
                 val bundle = Bundle()
+
+                adivinarPalabraFragment.setGameListener(this)
+
                 bundle.putString("definicion", pregunta.definicion)
                 bundle.putString("palabra", pregunta.palabra)
                 adivinarPalabraFragment.arguments = bundle
@@ -267,6 +270,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
             is Pregunta.Repaso -> {
                 val repasoFragment = RepasoFragment()
                 val bundle = Bundle()
+
+                repasoFragment.setGameListener(this)
+
                 bundle.putString("enunciado", pregunta.enunciado)
                 bundle.putStringArray("opciones", pregunta.opciones.toTypedArray())
                 bundle.putString("respuesta", pregunta.respuesta_correcta)

@@ -19,14 +19,14 @@
             android:padding="10dp"
             android:layout_marginHorizontal="20dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvRespuestas"
+            app:layout_constraintBottom_toTopOf="@id/gridRespuestasRepaso"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
             />
 
-        <TextView
-            android:id="@+id/tvRespuestas"
+        <GridLayout
+            android:id="@+id/gridRespuestasRepaso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Posibles respuestas: "
@@ -37,14 +37,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-        </TextView>
+        </GridLayout>
 
         <Button
             android:id="@+id/btnRespuesta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/comprobar"
-            app:layout_constraintTop_toBottomOf="@id/tvRespuestas"
+            app:layout_constraintTop_toBottomOf="@id/gridRespuestasRepaso"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

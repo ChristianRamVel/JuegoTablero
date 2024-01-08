@@ -46,9 +46,9 @@ class TestFragment : Fragment() {
             val opciones = bundle.getStringArray("opciones")
             val respuesta = bundle.getString("respuesta")
 
-            Log.d("TestFragment", "Bundle JSON: $bundle")
+            //Log.d("TestFragment", "Bundle JSON: $bundle")
 
-            Log.d("TestFragment", "Enunciado: $enunciado, Opciones: ${opciones?.contentToString()}, Respuesta Correcta: $respuesta")
+            //Log.d("TestFragment", "Enunciado: $enunciado, Opciones: ${opciones?.contentToString()}, Respuesta Correcta: $respuesta")
 
                 // se actualiza el enunciado de la pregunta en la vista
             if (enunciado != null) {

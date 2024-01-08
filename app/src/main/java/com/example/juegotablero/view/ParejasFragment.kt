@@ -4,15 +4,12 @@ import ParejasViewModel
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import com.example.juegotablero.R
 import com.example.juegotablero.common.interfaces.OnGameEventListener
@@ -35,7 +32,7 @@ class ParejasFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_parejas, container, false)
         gridLayout1 = view.findViewById(R.id.grid1)
-        gridLayout2 = view.findViewById<GridLayout>(R.id.grid2)
+        gridLayout2 = view.findViewById(R.id.grid2)
 
         // Inicializar el ViewModel
         viewModel = ViewModelProvider(this)[ParejasViewModel::class.java]
@@ -46,7 +43,7 @@ class ParejasFragment : Fragment() {
             val parejasArray = bundle.getParcelableArrayList<Pregunta.Pareja>("parejas")
             if (parejasArray != null) {
                 for (pareja in parejasArray) {
-                    viewModel.addWordPair(pareja.opcion1, pareja.opcion2)
+                    viewModel.anadirParejas(pareja.opcion1, pareja.opcion2)
 
                 }
             }
@@ -61,9 +58,9 @@ class ParejasFragment : Fragment() {
     private fun createButtons() {
         // Agregar parejas de prueba
 
-        // Obtener la lista de animales y tipos
-        val primerosPares = viewModel.getPair1().shuffled()
-        val segundosPares = viewModel.getPair2().shuffled()
+        // Obtener la lista de parejas desordenadas
+        val primerosPares = viewModel.getPar1().shuffled()
+        val segundosPares = viewModel.getPar2().shuffled()
 
 
 
@@ -91,14 +88,14 @@ class ParejasFragment : Fragment() {
 
     private fun onButtonClicked(button: Button) {
         if (primerParSeleccionado == null) {
-            // Si no hay un animal seleccionado, guarda el botón del animal seleccionado
+            // Si no hay un par seleccioando, guarda el botón del animal seleccionado
             primerParSeleccionado = button
-            // Marca visualmente el botón seleccionado (puedes ajustar según tus necesidades)
+
             primerParSeleccionado?.isSelected = true
         } else {
-            // Si ya hay un animal seleccionado, guarda el botón del tipo seleccionado
+            // Si ya hay un par seleccionado, guarda el botón del tipo seleccionado
             segundoParSeleccionado = button
-            // Marca visualmente el botón seleccionado (puedes ajustar según tus necesidades)
+
             segundoParSeleccionado?.isSelected = true
 
             // Verifica si la combinación es correcta
@@ -106,10 +103,9 @@ class ParejasFragment : Fragment() {
             val tipo = segundoParSeleccionado?.text.toString()
 
             if (viewModel.isMatch(animal, tipo)) {
-                // La combinación es correcta, puedes manejarlo según tus necesidades
                 Toast.makeText(requireContext(), "¡Correcto!", Toast.LENGTH_SHORT).show()
 
-                // Oculta o deshabilita los botones correspondientes
+                // Oculta los botones correspondientes
                 ocultarBotones(aciertos = setOf(animal to tipo))
 
                 if (todasLasParejasAcertadas()) {
@@ -117,13 +113,12 @@ class ParejasFragment : Fragment() {
                     terminarPartida(true)
 
                 }
-                resetSelections()
+                resetSelecciones()
             } else {
-                // La combinación es incorrecta, puedes manejarlo según tus necesidades
                 Toast.makeText(requireContext(), "Incorrecto, has perdido", Toast.LENGTH_SHORT).show()
                 terminarPartida(false)
-                // Desmarca visualmente los botones seleccionados
-                resetSelections()
+                // Desmarca los botones seleccionados
+                resetSelecciones()
             }
         }
     }
@@ -133,7 +128,7 @@ class ParejasFragment : Fragment() {
         for (i in 0 until gridLayout1.childCount) {
             val button = gridLayout1.getChildAt(i) as Button
             val par1 = button.text.toString()
-            val par2 = viewModel.getMatchForWord1(par1)
+            val par2 = viewModel.getParejaPalabra1(par1)
             val pareja = par1 to par2
             val isMatched = aciertos.contains(pareja)
             if (isMatched) {
@@ -146,7 +141,7 @@ class ParejasFragment : Fragment() {
         for (i in 0 until gridLayout2.childCount) {
             val button = gridLayout2.getChildAt(i) as Button
             val par2 = button.text.toString()
-            val par1 = viewModel.getMatchForWord2(par2)
+            val par1 = viewModel.getparejaPalabra2(par2)
             val pareja = par1 to par2
             val isMatched = aciertos.contains(pareja)
             if (isMatched) {
@@ -157,25 +152,16 @@ class ParejasFragment : Fragment() {
     }
 
 
-    private fun resetSelections() {
+    private fun resetSelecciones() {
         primerParSeleccionado?.isSelected = false
         segundoParSeleccionado?.isSelected = false
         primerParSeleccionado = null
         segundoParSeleccionado = null
     }
 
-    private fun resetSelectionsVisual() {
-        // Desmarca visualmente los botones seleccionados
-        primerParSeleccionado?.isSelected = false
-        segundoParSeleccionado?.isSelected = false
-        // Reinicia las selecciones
-        resetSelections()
-    }
-
-
     //funcion para saber si ya se han acertado todas las parejas
     fun todasLasParejasAcertadas(): Boolean {
-        return viewModel.getAciertos() == viewModel.getWordPairs().size
+        return viewModel.getAciertos() == viewModel.getParejasDePalabras().size
     }
 
     override fun onAttach(context: Context) {

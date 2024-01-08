@@ -3,6 +3,7 @@ package com.example.juegotablero.view
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.SystemClock.sleep
 import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -49,7 +50,7 @@ class AdivinarPalabraFragment : Fragment() {
             val definicion = bundle.getString("definicion")
             val palabra = bundle.getString("palabra")
             palabraOculta = palabra!!
-            Log.d("AdivinarPalabraFragment", "Bundle JSON: $bundle")
+            //Log.d("AdivinarPalabraFragment", "Bundle JSON: $bundle")
 
             if (definicion != null) {
                 actualizarEnunciado(definicion)
@@ -77,8 +78,6 @@ class AdivinarPalabraFragment : Fragment() {
         palabraTextView.requestFocus()
 
     }
-
-
 
 
     private fun actualizarEnunciado(enunciado: String) {
@@ -117,8 +116,8 @@ class AdivinarPalabraFragment : Fragment() {
         var letraAcierto = false
 
         for (i in palabra.indices) {
-            val letraActual = palabra[i].toString().toLowerCase()
-            val letraPulsada = letra.toLowerCase()
+            val letraActual = palabra[i].toString().lowercase()
+            val letraPulsada = letra.lowercase()
 
             if (letraActual == letraPulsada) {
                 // Sustituimos el guion bajo en la posición correspondiente con la letra correcta
@@ -135,6 +134,7 @@ class AdivinarPalabraFragment : Fragment() {
             // Verifica si el jugador ha adivinado toda la palabra
             if (palabraAdivinarVista.indexOf('_') == -1) {
                 Toast.makeText(requireContext(), "Has ganado", Toast.LENGTH_SHORT).show()
+                terminarPartida(true)
             }
         } else {
             // Si la letra no está en la palabra, decrementa los intentos
@@ -153,6 +153,7 @@ class AdivinarPalabraFragment : Fragment() {
 
         if (intentos == 0) {
             Toast.makeText(requireContext(), "Has agotado los intentos", Toast.LENGTH_SHORT).show()
+            terminarPartida(false)
         }
     }
 

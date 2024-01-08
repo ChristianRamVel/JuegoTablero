@@ -2,14 +2,14 @@ import androidx.lifecycle.ViewModel
 
 class ParejasViewModel : ViewModel() {
 
-    private val wordPairs = mutableListOf<Pair<String, String>>()
+    private val parejasDePalabras = mutableListOf<Pair<String, String>>()
     private val aciertos = mutableSetOf<Pair<String, String>>()
 
 
     // Agrega una nueva palabra y su clase a la lista de parejas
-    fun addWordPair(animal: String, claseAnimal: String) {
+    fun anadirParejas(animal: String, claseAnimal: String) {
         val newWordPair = Pair(animal, claseAnimal)
-        wordPairs.add(newWordPair)
+        parejasDePalabras.add(newWordPair)
     }
 
 
@@ -22,7 +22,7 @@ class ParejasViewModel : ViewModel() {
             return false  // Ya ha sido acertada, no permitir otra vez
         }
 
-        val correctType = wordPairs.find { it.first == pareja1 }?.second
+        val correctType = parejasDePalabras.find { it.first == pareja1 }?.second
         val match = correctType == pareja2
 
         if (match) {
@@ -33,27 +33,28 @@ class ParejasViewModel : ViewModel() {
         return match
     }
 
-    fun getMatchForWord1(word: String): String? {
-        return wordPairs.find { it.first == word }?.second
+    fun getParejaPalabra1(word: String): String? {
+        return parejasDePalabras.find { it.first == word }?.second
     }
 
-    fun getMatchForWord2(word: String): String? {
-        return wordPairs.find { it.second == word }?.first
+    fun getparejaPalabra2(word: String): String? {
+        return parejasDePalabras.find { it.second == word }?.first
     }
 
-    fun getPair1(): List<String> {
-        return wordPairs.map { it.first }
+    fun getPar1(): List<String> {
+        return parejasDePalabras.map { it.first }
     }
 
-    fun getPair2(): List<String> {
-        return wordPairs.map { it.second }
+    fun getPar2(): List<String> {
+        return parejasDePalabras.map { it.second }
     }
 
     fun getAciertos(): Int {
         return aciertos.size
     }
 
-    fun getWordPairs(): List<Pair<String, String>> {
-        return wordPairs
+    fun getParejasDePalabras(): List<Pair<String, String>> {
+        return parejasDePalabras
     }
+
 }
