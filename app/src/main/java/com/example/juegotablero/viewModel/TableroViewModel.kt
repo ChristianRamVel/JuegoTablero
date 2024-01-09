@@ -23,14 +23,14 @@ class TableroViewModel : ViewModel() {
 
     //inicializa el tablero
     init {
-        inicializarTablero2()
+        inicializarTablero()
 
     }
 
     //inicializa el tablero con las casillas, para saber de que tipo es cada casilla
 
 
-    private fun inicializarTablero2() {
+    private fun inicializarTablero() {
         val tiposPreguntas = listOf("Parejas", "Test", "AdivinaPalabra", "Repaso")
 
         for (fila in 0 until 6) {

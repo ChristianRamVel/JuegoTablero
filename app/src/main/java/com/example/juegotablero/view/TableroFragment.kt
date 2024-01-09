@@ -190,9 +190,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
         // Actualiza el texto de los botones en el tablero con los nombres de los jugadores
         actualizarTablero()
 
-        //no funciona el cambio de turno si quitas alguno de los dos metodos, ya que uno actualiza la vista y otro el int del turno en el viewmodel
-        viewModel.cambiarTurno()
-        actualizarTurno()
+
     }
 
 
@@ -365,10 +363,10 @@ class TableroFragment : Fragment(), OnGameEventListener {
         if (isWinner) {
             // Se incrementa la puntuación del jugador
             if (viewModel.turno == 0) {
-                viewModel.sumarPunto(jugador2)
+                viewModel.sumarPunto(jugador1)
                 viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ2)
             } else {
-                viewModel.sumarPunto(jugador1)
+                viewModel.sumarPunto(jugador2)
                 viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ1)
             }
 
@@ -380,6 +378,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
         }else{
             if (viewModel.turno == 0) Estadisticas.MINIJUEGOS_PERDIDOSJ2
             else Estadisticas.MINIJUEGOS_PERDIDOSJ1
+            //no funciona el cambio de turno si quitas alguno de los dos metodos, ya que uno actualiza la vista y otro el int del turno en el viewmodel
+            viewModel.cambiarTurno()
+            actualizarTurno()
         }
 
         if (viewModel.turno == 0) Estadisticas.MINIJUEGOS_JUGADOSJ2
