@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager
 import com.example.juegotablero.common.interfaces.OnGameEventListener
 import com.example.juegotablero.view.AdivinarPalabraFragment
 import com.example.juegotablero.view.EstadisticasFragment
+import com.example.juegotablero.view.MenuNuevaPreguntaFragment
 import com.example.juegotablero.view.ParejasFragment
 import com.example.juegotablero.view.RepasoFragment
 import com.example.juegotablero.view.TableroFragment
@@ -73,7 +74,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.new_questions -> {
-
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, MenuNuevaPreguntaFragment())
+                transaction.addToBackStack(null) // Agregar la transacción a la pila de retroceso
+                transaction.commit()
             }
             R.id.stats -> {
 
