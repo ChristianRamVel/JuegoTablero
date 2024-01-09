@@ -93,12 +93,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
             val preguntaCallback = object : PreguntasCallback {
                 override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
                     if (preguntas.isNotEmpty()) {
-                        val pregunta = preguntas.randomOrNull()
                         actualizarTurno()
-                        if (pregunta != null) {
-                            guardarPartida()
-                            showAlertMinijuego("Has caído en una casilla de ${viewModel.obtenerTipoCasilla(jugador)}", pregunta, ultimaTirada)
-                        }
+                        guardarPartida()
+                        showAlertMinijuego("Has caído en una casilla de ${viewModel.obtenerTipoCasilla(jugador)}", preguntas, ultimaTirada)
                     } else {
                         showToast("No se obtuvieron preguntas")
                     }
@@ -236,13 +233,13 @@ class TableroFragment : Fragment(), OnGameEventListener {
         toast.show()
     }
 
-    private fun showAlertMinijuego(message: String, pregunta: Pregunta, ultimaTirada: Int) {
+    private fun showAlertMinijuego(message: String, preguntas: List<Pregunta> , ultimaTirada: Int) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
         builder.setTitle("Has sacado un $ultimaTirada")
         builder.setMessage(message)
         builder.setPositiveButton("Aceptar") { _, _ ->
             // Al pulsar en aceptar se abre el fragment correspondiente a la pregunta
-            mostrarPregunta(pregunta)
+            mostrarPregunta(preguntas)
         }
         val dialog: androidx.appcompat.app.AlertDialog = builder.create()
 
@@ -265,8 +262,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
         dialog.show()
     }
 
-    private fun mostrarPregunta(pregunta : Pregunta){
-        when(pregunta){
+    private fun mostrarPregunta(preguntas : List<Pregunta>){
+        when(val pregunta = preguntas.randomOrNull()){
             is Pregunta.AdivinaPalabra -> {
                 val adivinarPalabraFragment = AdivinarPalabraFragment()
                 val bundle = Bundle()
@@ -318,7 +315,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 transaction.commit()
             }
             is Pregunta.Test -> {
-                val testFragment = TestFragment()
+                val testFragment = TestFragment(preguntas)
                 val bundle = Bundle()
 
                 testFragment.setGameListener(this)

@@ -12,15 +12,18 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.juegotablero.R
 import com.example.juegotablero.common.interfaces.OnGameEventListener
+import com.example.juegotablero.model.Pregunta
 
 import com.example.juegotablero.viewModel.TestViewModel
 
-class TestFragment : Fragment() {
+class TestFragment(var preguntas : List<Pregunta>) : Fragment() {
 
     private lateinit var viewModel: TestViewModel
     private lateinit var button1: Button
     private lateinit var button2: Button
     private lateinit var button3: Button
+    private var indicePreguntaActual: Int = 0
+
     private var gameListener: OnGameEventListener? = null
 
 
@@ -36,41 +39,38 @@ class TestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // se obtienen los datos que se han enviado desde el fragmento anterior
-        val bundle = arguments
 
-        // se comprueba que el bundle no sea nulo
-        if (bundle != null) {
-            // se obtiene el enunciado de la pregunta
-            val enunciado = bundle.getString("definicion")
-            val opciones = bundle.getStringArray("opciones")
-            val respuesta = bundle.getString("respuesta")
-
-            //Log.d("TestFragment", "Bundle JSON: $bundle")
-
-            //Log.d("TestFragment", "Enunciado: $enunciado, Opciones: ${opciones?.contentToString()}, Respuesta Correcta: $respuesta")
-
-                // se actualiza el enunciado de la pregunta en la vista
-            if (enunciado != null) {
-                //rellenar el textview con el enunciado de la pregunta y las opciones de respuesta en los botones
-                actualizarEnunciado(enunciado)
-                actualizarOpciones(opciones)
-
-
-                button1 = view.findViewById(R.id.btnRespuesta1)
-                button2 = view.findViewById(R.id.btnRespuesta2)
-                button3 = view.findViewById(R.id.btnRespuesta3)
-
-                button1.setOnClickListener { verificarRespuesta(button1.text.toString(), respuesta) }
-                button2.setOnClickListener { verificarRespuesta(button2.text.toString(), respuesta) }
-                button3.setOnClickListener { verificarRespuesta(button3.text.toString(), respuesta) }
-
-
-                Log.d("puntos", "puntos: ${viewModel.getAciertos()}")
+        for (pregunta in preguntas){
+            if (pregunta is Pregunta.Test){
+                Log.d("TestFragment", "Pregunta: ${pregunta.enunciado}")
             }
-
         }
 
+        actualizarPreguntaActual()
+    }
+
+    fun actualizarPreguntaActual() {
+        if (indicePreguntaActual < preguntas.size) {
+            val preguntaActual = preguntas[indicePreguntaActual]
+            if (preguntaActual is Pregunta.Test) {
+                // Logica para actualizar la vista con la pregunta actual
+                // Puedes reutilizar tu lógica existente de actualización aquí
+
+                val enunciado = preguntaActual.enunciado
+                val opciones = preguntaActual.opciones
+                val respuesta = preguntaActual.respuesta_correcta
+
+
+                actualizarEnunciado(enunciado)
+                actualizarOpciones(opciones, respuesta)
+
+                // Incrementa el índice para la siguiente pregunta
+                indicePreguntaActual++
+            }
+        } else {
+            // Se han respondido todas las preguntas, puedes manejar el fin del juego aquí
+            terminarPartida(true) // O false si prefieres
+        }
     }
 
     fun actualizarEnunciado(enunciado: String){
@@ -78,29 +78,41 @@ class TestFragment : Fragment() {
         textView?.text = enunciado
     }
 
-    fun actualizarOpciones(opciones: Array<String>?){
+    fun actualizarOpciones(opciones: List<String>?, respuestaCorrecta: String?){
         val button1 = view?.findViewById<Button>(R.id.btnRespuesta1)
         val button2 = view?.findViewById<Button>(R.id.btnRespuesta2)
         val button3 = view?.findViewById<Button>(R.id.btnRespuesta3)
 
         if (button1 != null) {
             button1.text = opciones?.get(0)
+            button1.setOnClickListener { verificarRespuesta(button1.text.toString(), respuestaCorrecta) }
+
         }
         if (button2 != null) {
             button2.text = opciones?.get(1)
+            button2.setOnClickListener { verificarRespuesta(button2.text.toString(), respuestaCorrecta) }
+
         }
         if (button3 != null) {
             button3.text = opciones?.get(2)
+            button3.setOnClickListener { verificarRespuesta(button3.text.toString(), respuestaCorrecta) }
         }
+
+
+
     }
 
-    fun verificarRespuesta(opcion: String, respuestaCorrecta: String?){
-        if (opcion == respuestaCorrecta){
-            terminarPartida(true)
-        }else{
+    fun verificarRespuesta(opcion: String, respuestaCorrecta: String?) {
+        if (opcion == respuestaCorrecta) {
+            viewModel.incrementarAciertos()
+            if (viewModel.getAciertos() == 5){
+                terminarPartida(true)
+            }else {
+                actualizarPreguntaActual()
+            }
+        } else {
             terminarPartida(false)
         }
-
     }
 
     override fun onAttach(context: Context) {

@@ -114,8 +114,15 @@ class TableroViewModel : ViewModel() {
     fun obtenerPreguntaAleatoriaTest(callback: PreguntasCallback) {
         preguntasApi.obtenerPreguntasTest(object : PreguntasCallback {
             override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
-                val pregunta = preguntas.randomOrNull()
-                callback.onPreguntasObtenidas(listOfNotNull(pregunta))
+
+                if (preguntas.size >= 5) {
+                    // Obtener 5 preguntas aleatorias
+                    val preguntasAleatorias = preguntas.shuffled().take(5)
+                    callback.onPreguntasObtenidas(preguntasAleatorias)
+                } else {
+                    // Manejar el caso donde no hay suficientes preguntas
+                    callback.onPreguntasObtenidas(emptyList())
+                }
             }
 
             override fun onError(error: DatabaseError) {
