@@ -49,8 +49,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
             view = vista
             gridLayout = view?.findViewById(R.id.gridLayoutTablero)!!
             tvInfoPartida = view.findViewById(R.id.tvInfoPartida)!!
-            jugador1 = Jugador("Jugador 1", 0, 0)
-            jugador2 = Jugador("Jugador 2", 0, 0)
+            jugador1 = Jugador("Jugador 1", false, false, false, false, false,0)
+            jugador2 = Jugador("Jugador 2", false, false, false, false, false,0)
 
             // Se inicializa el ViewModel
             viewModel = ViewModelProvider(this)[TableroViewModel::class.java]
@@ -165,8 +165,45 @@ class TableroFragment : Fragment(), OnGameEventListener {
     private fun actualizarPuntuacion() {
         val tvPuntuacionJugador1 = view?.findViewById<TextView>(R.id.tvInfoJugador1)
         val tvPuntuacionJugador2 = view?.findViewById<TextView>(R.id.tvInfoJugador2)
-        tvPuntuacionJugador1?.text = getString(R.string.infoJugador1, jugador1.puntuacion.toString())
-        tvPuntuacionJugador2?.text = getString(R.string.infoJugador2, jugador2.puntuacion.toString())
+
+        // Función para actualizar el TextView sin duplicar la cadena
+        fun actualizarTextView(tv: TextView?, nuevoTexto: String) {
+            val textoActual = tv?.text.toString()
+            if (!textoActual.contains(nuevoTexto)) {
+                tv?.text = "$textoActual\n$nuevoTexto"
+            }
+        }
+
+        if (jugador1.PAdivinaPalabra) {
+            actualizarTextView(tvPuntuacionJugador1, getString(R.string.PAdivinaPalabra))
+        }
+        if (jugador1.PParejas) {
+            actualizarTextView(tvPuntuacionJugador1, getString(R.string.PParejas))
+        }
+        if (jugador1.PRepaso) {
+            actualizarTextView(tvPuntuacionJugador1, getString(R.string.PRepaso))
+        }
+        if (jugador1.PTest) {
+            actualizarTextView(tvPuntuacionJugador1, getString(R.string.PTest))
+        }
+        if (jugador1.PFinal) {
+            actualizarTextView(tvPuntuacionJugador1, getString(R.string.PFinal))
+        }
+        if (jugador2.PAdivinaPalabra) {
+            actualizarTextView(tvPuntuacionJugador2, getString(R.string.PAdivinaPalabra))
+        }
+        if (jugador2.PParejas) {
+            actualizarTextView(tvPuntuacionJugador2, getString(R.string.PParejas))
+        }
+        if (jugador2.PRepaso) {
+            actualizarTextView(tvPuntuacionJugador2, getString(R.string.PRepaso))
+        }
+        if (jugador2.PTest) {
+            actualizarTextView(tvPuntuacionJugador2, getString(R.string.PTest))
+        }
+        if (jugador2.PFinal) {
+            actualizarTextView(tvPuntuacionJugador2, getString(R.string.PFinal))
+        }
     }
 
     private fun avanzar(posicionJugador: Int, tirada: Int, jugador: Jugador) {
@@ -316,8 +353,16 @@ class TableroFragment : Fragment(), OnGameEventListener {
         // Guardar datos de la partida
         editor.putInt("posicionJugador1", jugador1.posicion)
         editor.putInt("posicionJugador2", jugador2.posicion)
-        editor.putInt("puntuacionJugador1", jugador1.puntuacion)
-        editor.putInt("puntuacionJugador2", jugador2.puntuacion)
+        editor.putBoolean("puntuacionJugador1", jugador1.PAdivinaPalabra)
+        editor.putBoolean("puntuacionJugador2", jugador2.PAdivinaPalabra)
+        editor.putBoolean("puntuacionJugador1", jugador1.PParejas)
+        editor.putBoolean("puntuacionJugador2", jugador2.PParejas)
+        editor.putBoolean("puntuacionJugador1", jugador1.PRepaso)
+        editor.putBoolean("puntuacionJugador2", jugador2.PRepaso)
+        editor.putBoolean("puntuacionJugador1", jugador1.PTest)
+        editor.putBoolean("puntuacionJugador2", jugador2.PTest)
+        editor.putBoolean("puntuacionJugador1", jugador1.PFinal)
+        editor.putBoolean("puntuacionJugador2", jugador2.PFinal)
         editor.putInt("turno", viewModel.turno)
 
         // Aplicar los cambios
@@ -331,8 +376,16 @@ class TableroFragment : Fragment(), OnGameEventListener {
         // Cargar datos de la partida
         jugador1.posicion = prefs.getInt("posicionJugador1", 0)
         jugador2.posicion = prefs.getInt("posicionJugador2", 0)
-        jugador1.puntuacion = prefs.getInt("puntuacionJugador1", 0)
-        jugador2.puntuacion = prefs.getInt("puntuacionJugador2", 0)
+        jugador1.PAdivinaPalabra = prefs.getBoolean("puntuacionJugador1", false)
+        jugador2.PAdivinaPalabra = prefs.getBoolean("puntuacionJugador2", false)
+        jugador1.PParejas = prefs.getBoolean("puntuacionJugador1", false)
+        jugador2.PParejas = prefs.getBoolean("puntuacionJugador2", false)
+        jugador1.PRepaso = prefs.getBoolean("puntuacionJugador1", false)
+        jugador2.PRepaso = prefs.getBoolean("puntuacionJugador2", false)
+        jugador1.PTest = prefs.getBoolean("puntuacionJugador1", false)
+        jugador2.PTest = prefs.getBoolean("puntuacionJugador2", false)
+        jugador1.PFinal = prefs.getBoolean("puntuacionJugador1", false)
+        jugador2.PFinal = prefs.getBoolean("puntuacionJugador2", false)
         viewModel.turno = prefs.getInt("turno", 0)
 
         // Actualizar la vista

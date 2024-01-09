@@ -49,21 +49,27 @@ class TableroViewModel : ViewModel() {
 
     //Comprobar que el jugador ha completado las 4 preguntas basicas para pasar a la pregunta final
     fun paseAPreguntaFinal(jugador : Jugador): Boolean {
-        val puntuacionJugador = jugador.puntuacion
-        return puntuacionJugador == 4
+
+        return jugador.PAdivinaPalabra && jugador.PParejas && jugador.PRepaso && jugador.PTest
     }
 
     //funcion para comprobar si el jugador ha ganado
 
     fun haGanado(jugador : Jugador): Boolean {
-        val puntuacionJugador = jugador.puntuacion
-        return puntuacionJugador == 5
+        return jugador.PAdivinaPalabra && jugador.PParejas && jugador.PRepaso && jugador.PTest && jugador.PFinal
     }
 
     //funcion para actualizar la puntuacion del jugador
 
     fun sumarPunto(jugador : Jugador) {
-        jugador.puntuacion++
+        obtenerTipoCasilla(jugador)?.let {
+            when (it) {
+                "Parejas" -> jugador.PParejas = true
+                "Test" -> jugador.PTest = true
+                "AdivinaPalabra" -> jugador.PAdivinaPalabra = true
+                "Repaso" -> jugador.PRepaso = true
+            }
+        }
     }
 
     fun guardarEstadistica( prefs : SharedPreferences, tipo : String){
