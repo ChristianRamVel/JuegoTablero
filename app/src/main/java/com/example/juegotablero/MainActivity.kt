@@ -76,9 +76,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.stats -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, EstadisticasFragment())
-                    .commit()
+
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, EstadisticasFragment())
+                transaction.addToBackStack(null) // Agregar la transacción a la pila de retroceso
+                transaction.commit()
+
 
             }
             R.id.about_us -> {
