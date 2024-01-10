@@ -1,5 +1,5 @@
-import android.util.Log
-import com.example.juegotablero.api.PreguntasCallback
+import com.example.juegotablero.api.CrearPreguntasCallback
+import com.example.juegotablero.api.ObtenerPreguntasCallback
 import com.example.juegotablero.model.Pregunta
 import com.google.firebase.database.*
 import com.google.firebase.database.ValueEventListener
@@ -7,7 +7,7 @@ import com.google.firebase.database.ValueEventListener
 class PreguntasApi {
     private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
 
-    fun obtenerPreguntasRepaso(callback: PreguntasCallback) {
+    fun obtenerPreguntasRepaso(callback: ObtenerPreguntasCallback) {
         val repasoReference = databaseReference.child("repaso")
         repasoReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -20,7 +20,7 @@ class PreguntasApi {
             }
         })
     }
-    fun obtenerPreguntasAdivinaPalabra(callback: PreguntasCallback) {
+    fun obtenerPreguntasAdivinaPalabra(callback: ObtenerPreguntasCallback) {
         val adivinaPalabraReference = databaseReference.child("adivina_palabra")
         adivinaPalabraReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -34,7 +34,7 @@ class PreguntasApi {
         })
     }
 
-    fun obtenerPreguntasTest(callback: PreguntasCallback) {
+    fun obtenerPreguntasTest(callback: ObtenerPreguntasCallback) {
         val testReference = databaseReference.child("test")
         testReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -48,7 +48,7 @@ class PreguntasApi {
         })
     }
 
-    fun obtenerPreguntasJuegoParejas(callback: PreguntasCallback) {
+    fun obtenerPreguntasJuegoParejas(callback: ObtenerPreguntasCallback) {
         val juegoParejasReference = databaseReference.child("juego_parejas")
         juegoParejasReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -62,7 +62,7 @@ class PreguntasApi {
         })
     }
 
-    fun obtenerPreguntasPruebaFinal(callback: PreguntasCallback) {
+    fun obtenerPreguntasPruebaFinal(callback: ObtenerPreguntasCallback) {
         val pruebaFinalReference = databaseReference.child("prueba_final")
         pruebaFinalReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -74,5 +74,24 @@ class PreguntasApi {
                 callback.onError(databaseError)
             }
         })
+    }
+
+    fun agregarPregunta(categoria: String, pregunta: Pregunta, callback: CrearPreguntasCallback) {
+        val categoriaReference = databaseReference.child(categoria)
+
+        // Generar una nueva clave única para la pregunta
+        val nuevaClave = categoriaReference.push().key
+
+        if (nuevaClave != null) {
+            // Establecer la nueva pregunta en la base de datos bajo la clave generada
+            categoriaReference.child(nuevaClave).setValue(pregunta)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        callback.onPreguntaCreada()
+                    } else {
+                        callback.onError(task.exception)
+                    }
+                }
+        }
     }
 }

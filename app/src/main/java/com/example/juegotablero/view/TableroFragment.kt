@@ -3,7 +3,6 @@ package com.example.juegotablero.view
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.juegotablero.R
-import com.example.juegotablero.api.PreguntasCallback
+import com.example.juegotablero.api.ObtenerPreguntasCallback
 import com.example.juegotablero.common.interfaces.OnGameEventListener
 import com.example.juegotablero.model.Estadisticas
 import com.example.juegotablero.model.Jugador
@@ -90,7 +89,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
             var ultimaTirada = 0
 
             // Se obtiene una pregunta aleatoria de la base de datos dependendiendo del tipo de casilla
-            val preguntaCallback = object : PreguntasCallback {
+            val preguntaCallback = object : ObtenerPreguntasCallback {
                 override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
                     if (preguntas.isNotEmpty()) {
                         actualizarTurno()

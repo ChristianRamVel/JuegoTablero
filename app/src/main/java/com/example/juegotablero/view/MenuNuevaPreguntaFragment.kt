@@ -21,6 +21,8 @@ class MenuNuevaPreguntaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
           elegirPregunta()
     }
 
@@ -32,23 +34,20 @@ class MenuNuevaPreguntaFragment : Fragment() {
         val buttonPruebaFinal = view?.findViewById<View>(R.id.btnPruebaFinal)
 
         buttonAdivinaPalabra?.setOnClickListener {
-            val nuevaPreguntaFragment = NuevaPreguntaFragment()
-            val bundle = Bundle()
-            bundle.putString("tipoPregunta", "adivinaPalabra")
-            nuevaPreguntaFragment.arguments = bundle
+            val formularioAPFragment = FormularioAPFragment()
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, nuevaPreguntaFragment)
+                .replace(R.id.fragment_container, formularioAPFragment)
                 .addToBackStack(null)
                 .commit()
         }
 
         buttonTest?.setOnClickListener {
-            val nuevaPreguntaFragment = NuevaPreguntaFragment()
+            val formularioEORFragment = FormularioEORFragment()
             val bundle = Bundle()
             bundle.putString("tipoPregunta", "test")
-            nuevaPreguntaFragment.arguments = bundle
+            formularioEORFragment.arguments = bundle
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, nuevaPreguntaFragment)
+                .replace(R.id.fragment_container, formularioEORFragment)
                 .addToBackStack(null)
                 .commit()
         }
@@ -65,23 +64,23 @@ class MenuNuevaPreguntaFragment : Fragment() {
         }
 
         buttonRepaso?.setOnClickListener {
-            val nuevaPreguntaFragment = NuevaPreguntaFragment()
+            val formularioEORFragment = FormularioEORFragment()
             val bundle = Bundle()
             bundle.putString("tipoPregunta", "repaso")
-            nuevaPreguntaFragment.arguments = bundle
+            formularioEORFragment.arguments = bundle
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, nuevaPreguntaFragment)
+                .replace(R.id.fragment_container, formularioEORFragment)
                 .addToBackStack(null)
                 .commit()
         }
 
         buttonPruebaFinal?.setOnClickListener {
-            val nuevaPreguntaFragment = NuevaPreguntaFragment()
+            val formularioEORFragment = FormularioEORFragment()
             val bundle = Bundle()
-            bundle.putString("tipoPregunta", "pruebaFinal")
-            nuevaPreguntaFragment.arguments = bundle
+            bundle.putString("tipoPregunta", "prueba final")
+            formularioEORFragment.arguments = bundle
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, nuevaPreguntaFragment)
+                .replace(R.id.fragment_container, formularioEORFragment)
                 .addToBackStack(null)
                 .commit()
         }

@@ -39,8 +39,19 @@
     <string name="jugador2">Jugador 2</string>
 
 
-
+    <!-- Añadir preguntas -->
     <string name="tipoPregunta">¿Que tipo de pregunta quieres añadir?</string>
+    <string name="respuestaCorrecta">Respuesta correcta:</string>
+    <string name="opcion1">Opción 1</string>
+    <string name="opcion2">Opción 2</string>
+    <string name="opcion3">Opción 3</string>
+    <string name="palabra">Palabra</string>
+
+    <string name="escribeEnunciado">Escribe tu enunciado aqui…</string>
+    <string name="escribeDefinicion">Escribe tu definición aqui…</string>
+    <string name="nuevaPregunta">Nueva pregunta %1$s</string>
+    <string name="crearNuevaPregunta">Crear nueva pregunta</string>
+
 
 
 

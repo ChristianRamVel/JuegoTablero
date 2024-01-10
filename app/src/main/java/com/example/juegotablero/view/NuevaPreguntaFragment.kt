@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.juegotablero.R
+import com.example.juegotablero.api.CrearPreguntasCallback
 
 class NuevaPreguntaFragment : Fragment(){
 
@@ -14,7 +15,7 @@ class NuevaPreguntaFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_nueva_pregunta, container, false)
+        return inflater.inflate(R.layout.fragment_formulario_eor, container, false)
     }
 
 
@@ -23,6 +24,9 @@ class NuevaPreguntaFragment : Fragment(){
 
         val bundle = arguments
         val tipoPregunta = bundle?.getString("tipoPregunta")
+
+
+
 
         generarFormulario(tipoPregunta)
 

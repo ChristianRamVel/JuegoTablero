@@ -2,6 +2,7 @@ package com.example.juegotablero.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.database.Exclude
 
 data class PreguntasContainer(
     val preguntas: List<Pregunta>
@@ -10,6 +11,7 @@ data class PreguntasContainer(
 sealed class Pregunta {
 
     data class Repaso(
+        @get:Exclude
         @Transient val tipo: String = "Repaso",
         val enunciado: String = "",
         val opciones: List<String> = emptyList(),
@@ -17,12 +19,14 @@ sealed class Pregunta {
     ) : Pregunta()
 
     data class AdivinaPalabra(
+        @get:Exclude
         @Transient val tipo: String = "AdivinaPalabra",
         val definicion: String = "",
         val palabra: String = ""
     ) : Pregunta()
 
     data class Test(
+        @get:Exclude
         @Transient val tipo: String = "Test",
         val enunciado: String = "",
         val opciones: List<String> = emptyList(),
@@ -30,11 +34,13 @@ sealed class Pregunta {
     ) : Pregunta()
 
     data class JuegoParejas(
+        @get:Exclude
         @Transient val tipo: String = "JuegoParejas",
         val parejas: List<Pareja> = emptyList()
     ) : Pregunta()
 
     data class PruebaFinal(
+        @get:Exclude
         @Transient val tipo: String = "Final",
         val enunciado: String = "",
         val opciones: List<String>? = emptyList(),

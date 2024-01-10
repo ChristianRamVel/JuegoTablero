@@ -1,16 +1,11 @@
 package com.example.juegotablero.viewModel
 
 import PreguntasApi
-import android.content.Context
 import android.content.SharedPreferences
-import android.widget.Button
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
-import com.example.juegotablero.R
-import com.example.juegotablero.api.PreguntasCallback
+import com.example.juegotablero.api.ObtenerPreguntasCallback
 import com.example.juegotablero.model.Casilla
 import com.example.juegotablero.model.Jugador
-import com.example.juegotablero.model.Pregunta.Pareja
 import com.example.juegotablero.model.Pregunta
 import com.google.firebase.database.DatabaseError
 
@@ -87,7 +82,7 @@ class TableroViewModel : ViewModel() {
     }
 
 
-    fun obtenerPreguntaAleatoria(jugador: Jugador,  callback: PreguntasCallback) {
+    fun obtenerPreguntaAleatoria(jugador: Jugador,  callback: ObtenerPreguntasCallback) {
         val posicion = jugador.posicion-1
         val casilla = tablero[posicion % tablero.size]
 
@@ -98,8 +93,8 @@ class TableroViewModel : ViewModel() {
             "Repaso" -> obtenerPreguntaAleatoriaRepaso(callback)
         }
     }
-    fun obtenerPreguntaAleatoriaJuegoParejas(callback: PreguntasCallback) {
-        preguntasApi.obtenerPreguntasJuegoParejas(object : PreguntasCallback {
+    fun obtenerPreguntaAleatoriaJuegoParejas(callback: ObtenerPreguntasCallback) {
+        preguntasApi.obtenerPreguntasJuegoParejas(object : ObtenerPreguntasCallback {
             override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
                 val pregunta = preguntas.randomOrNull()
                 callback.onPreguntasObtenidas(listOfNotNull(pregunta))
@@ -111,8 +106,8 @@ class TableroViewModel : ViewModel() {
         })
     }
 
-    fun obtenerPreguntaAleatoriaTest(callback: PreguntasCallback) {
-        preguntasApi.obtenerPreguntasTest(object : PreguntasCallback {
+    fun obtenerPreguntaAleatoriaTest(callback: ObtenerPreguntasCallback) {
+        preguntasApi.obtenerPreguntasTest(object : ObtenerPreguntasCallback {
             override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
 
                 if (preguntas.size >= 5) {
@@ -131,8 +126,8 @@ class TableroViewModel : ViewModel() {
         })
     }
 
-    fun obtenerPreguntaAleatoriaAdivinaPalabra(callback: PreguntasCallback) {
-        preguntasApi.obtenerPreguntasAdivinaPalabra(object : PreguntasCallback {
+    fun obtenerPreguntaAleatoriaAdivinaPalabra(callback: ObtenerPreguntasCallback) {
+        preguntasApi.obtenerPreguntasAdivinaPalabra(object : ObtenerPreguntasCallback {
             override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
                 val pregunta = preguntas.randomOrNull()
                 callback.onPreguntasObtenidas(listOfNotNull(pregunta))
@@ -144,8 +139,8 @@ class TableroViewModel : ViewModel() {
         })
     }
 
-    fun obtenerPreguntaAleatoriaRepaso(callback: PreguntasCallback) {
-        preguntasApi.obtenerPreguntasRepaso(object : PreguntasCallback {
+    fun obtenerPreguntaAleatoriaRepaso(callback: ObtenerPreguntasCallback) {
+        preguntasApi.obtenerPreguntasRepaso(object : ObtenerPreguntasCallback {
             override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
                 val pregunta = preguntas.randomOrNull()
                 callback.onPreguntasObtenidas(listOfNotNull(pregunta))
