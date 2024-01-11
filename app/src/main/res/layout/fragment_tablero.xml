@@ -7,7 +7,7 @@
     tools:context=".view.TableroFragment">
 
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="10dp">
@@ -18,10 +18,11 @@
             android:id="@+id/tvInfoJugador1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvInfoJugador2"
             android:background="#CCCCCC"
             android:gravity="center"
             android:padding="16dp"
@@ -34,9 +35,11 @@
             android:id="@+id/tvInfoJugador2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvInfoJugador1"
+            app:layout_constraintEnd_toEndOf="parent"
             android:background="#CCCCCC"
             android:gravity="center"
             android:padding="16dp"
@@ -49,44 +52,54 @@
             android:id="@+id/gridLayoutTablero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvInfoJugador1"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/tvInfoJugador1"
+            app:layout_constraintBottom_toTopOf="@id/tvInfoPartida"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:columnCount="6"
             android:orientation="horizontal"
             android:rowCount="8">
 
 
 
-            <TextView
-                android:id="@+id/tvInfoPartida"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_row="6"
-                android:layout_rowWeight="3"
-                android:layout_column="0"
-                android:layout_columnSpan="6"
-                android:layout_marginTop="10dp"
-                android:text="@string/turno_jugador1"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="20sp"
 
-                />
 
         </GridLayout>
 
-    </RelativeLayout>
-    <Button
-        android:id="@+id/btnTirarDado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tirar Dado"
-        android:textColor="@color/white"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="60dp"
-        android:backgroundTint="@color/botonesComprobar"
-        />
+        <TextView
+            android:id="@+id/tvInfoPartida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/turno_jugador1"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintTop_toBottomOf="@id/gridLayoutTablero"
+            app:layout_constraintBottom_toTopOf="@id/btnTirarDado"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
+
+        <Button
+            android:id="@+id/btnTirarDado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tirar Dado"
+            android:textColor="@color/white"
+            android:layout_marginBottom="60dp"
+            android:backgroundTint="@color/botonesComprobar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>

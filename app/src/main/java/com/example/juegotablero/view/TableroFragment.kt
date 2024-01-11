@@ -3,6 +3,7 @@ package com.example.juegotablero.view
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.SystemClock.sleep
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,13 +107,21 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 }
             }
 
-            // Se tira el dado y se avanza de casilla
+            if(viewModel.haGanado(jugador)){
+                // Si el jugador ha ganado se muestra un mensaje y se reinicia la partida
+                showAlertMinijuego("¡¡El jugador ${jugador.nombre} ha ganado!!", emptyList(), 0)
+                sleep(3000)
+                reiniarPartida()
 
-            ultimaTirada = viewModel.tirarDado()
-            avanzar(jugador.posicion, 2, jugador)
+            }else{
+                // Se tira el dado y se avanza de casilla
 
-            // Se obtiene una pregunta aleatoria de la base de datos
-            viewModel.obtenerPreguntaAleatoria(jugador, preguntaCallback)
+                ultimaTirada = viewModel.tirarDado()
+                avanzar(jugador.posicion, 2, jugador)
+                // Se obtiene una pregunta aleatoria de la base de datos
+                viewModel.obtenerPreguntaAleatoria(jugador, preguntaCallback)
+            }
+
 
         }
     }
@@ -234,7 +243,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
     private fun showAlertMinijuego(message: String, preguntas: List<Pregunta> , ultimaTirada: Int) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
-        builder.setTitle("Has sacado un $ultimaTirada")
+        var titulo = {if (ultimaTirada == 0) "" else "Has sacado un $ultimaTirada"}
+        builder.setTitle(titulo())
         builder.setMessage(message)
         builder.setPositiveButton("Aceptar") { _, _ ->
             // Al pulsar en aceptar se abre el fragment correspondiente a la pregunta
@@ -263,6 +273,22 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
     private fun mostrarPregunta(preguntas : List<Pregunta>){
         when(val pregunta = preguntas.randomOrNull()){
+            is Pregunta.PruebaFinal -> {
+                val repasoFragment = RepasoFragment()
+                val bundle = Bundle()
+
+                repasoFragment.setGameListener(this)
+
+                bundle.putString("enunciado", pregunta.enunciado)
+                bundle.putStringArray("opciones", pregunta.opciones?.toTypedArray())
+                bundle.putString("respuesta", pregunta.respuestaCorrecta)
+                repasoFragment.arguments = bundle
+
+                val transaction = requireActivity().supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, repasoFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
             is Pregunta.AdivinaPalabra -> {
                 val adivinarPalabraFragment = AdivinarPalabraFragment()
                 val bundle = Bundle()
@@ -332,7 +358,10 @@ class TableroFragment : Fragment(), OnGameEventListener {
             }
 
             else -> {
-                Toast.makeText(requireContext(), "Error al mostrar la pregunta", Toast.LENGTH_SHORT).show()}
+                if(jugador1.posicion!=0 && jugador2.posicion!=0){
+                    Toast.makeText(requireContext(), "Error al mostrar la pregunta", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
     }
@@ -404,6 +433,14 @@ class TableroFragment : Fragment(), OnGameEventListener {
         }
     }
 
+    fun borrarInfoTextView(){
+        val tvPuntuacionJugador1 = view?.findViewById<TextView>(R.id.tvInfoJugador1)
+        val tvPuntuacionJugador2 = view?.findViewById<TextView>(R.id.tvInfoJugador2)
+
+        tvPuntuacionJugador1?.text = "Info J1"
+        tvPuntuacionJugador2?.text = "Info J2"
+    }
+
 
 
     override fun onGameResult(isWinner: Boolean) {
@@ -419,10 +456,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ1)
             }
 
-            // Se comprueba si el jugador ha ganado
-            if (viewModel.haGanado(jugador1) || viewModel.haGanado(jugador2)) {
+            if(viewModel.paseAPreguntaFinal(jugador1)){jugador1.posicion = 24}
+            if(viewModel.paseAPreguntaFinal(jugador2)){jugador2.posicion = 24}
 
-            }
 
         }else{
             if (viewModel.turno == 0) Estadisticas.MINIJUEGOS_PERDIDOSJ2
@@ -436,6 +472,15 @@ class TableroFragment : Fragment(), OnGameEventListener {
         else Estadisticas.MINIJUEGOS_JUGADOSJ1
 
         guardarPartida()
+
+    }
+
+    fun reiniarPartida(){
+        jugador1 = Jugador("Jugador 1", false, false, false, false, false,0)
+        jugador2 = Jugador("Jugador 2", false, false, false, false, false,0)
+        viewModel.turno = 0
+        borrarInfoTextView()
+        actualizarTablero()
 
     }
 }

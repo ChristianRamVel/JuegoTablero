@@ -12,7 +12,7 @@ import com.google.firebase.database.DatabaseError
 class TableroViewModel : ViewModel() {
 
     //el tablero es un array de 24 casillas
-    private val tablero = arrayOfNulls<Casilla>(24)
+    private val tablero = arrayOfNulls<Casilla>(25)
     var turno = 0
     private val preguntasApi = PreguntasApi()
 
@@ -35,6 +35,8 @@ class TableroViewModel : ViewModel() {
                 tablero[indice] = Casilla(tipoPregunta)
             }
         }
+        tablero[24] = Casilla("PruebaFinal")
+
     }
     //funcion para tirar el dado de 6 caras
     fun tirarDado(): Int {
@@ -63,6 +65,7 @@ class TableroViewModel : ViewModel() {
                 "Test" -> jugador.PTest = true
                 "AdivinaPalabra" -> jugador.PAdivinaPalabra = true
                 "Repaso" -> jugador.PRepaso = true
+                "PruebaFinal" -> jugador.PFinal = true
             }
         }
     }
@@ -91,6 +94,7 @@ class TableroViewModel : ViewModel() {
             "Test" -> obtenerPreguntaAleatoriaTest(callback)
             "AdivinaPalabra" -> obtenerPreguntaAleatoriaAdivinaPalabra(callback)
             "Repaso" -> obtenerPreguntaAleatoriaRepaso(callback)
+            "PruebaFinal" -> callback.onPreguntasObtenidas(emptyList())
         }
     }
     fun obtenerPreguntaAleatoriaJuegoParejas(callback: ObtenerPreguntasCallback) {
@@ -154,6 +158,9 @@ class TableroViewModel : ViewModel() {
 
     fun obtenerTipoCasilla(jugador: Jugador): String? {
         val casilla = tablero[(jugador.posicion-1) % tablero.size]
+        if(paseAPreguntaFinal(jugador)){
+            return "PruebaFinal"
+        }
         return casilla?.tipo
     }
 }

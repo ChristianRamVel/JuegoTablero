@@ -99,14 +99,13 @@ class ParejasFragment : Fragment() {
             segundoParSeleccionado?.isSelected = true
 
             // Verifica si la combinación es correcta
-            val animal = primerParSeleccionado?.text.toString()
-            val tipo = segundoParSeleccionado?.text.toString()
+            val par1 = primerParSeleccionado?.text.toString()
+            val par2 = segundoParSeleccionado?.text.toString()
 
-            if (viewModel.isMatch(animal, tipo)) {
-                Toast.makeText(requireContext(), "¡Correcto!", Toast.LENGTH_SHORT).show()
+            if (viewModel.isMatch(par1, par2)) {
 
                 // Oculta los botones correspondientes
-                ocultarBotones(aciertos = setOf(animal to tipo))
+                ocultarBotones(aciertos = setOf(par1 to par2))
 
                 if (todasLasParejasAcertadas()) {
                     Toast.makeText(requireContext(), "¡Has ganado!", Toast.LENGTH_SHORT).show()
