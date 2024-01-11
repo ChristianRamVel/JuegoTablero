@@ -30,6 +30,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
     private lateinit var jugador2: Jugador
     private var vista : View? = null
     private lateinit var viewModel: TableroViewModel
+    private lateinit var jugadorActual: Jugador
     private lateinit var gridLayout: GridLayout
     private lateinit var tvInfoPartida: TextView
 
@@ -92,7 +93,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
 
             // Se obtiene el jugador de el turno actual
-            val jugador = if (viewModel.turno == 0) jugador1 else jugador2
+            jugadorActual = if (viewModel.turno == 0) jugador1 else jugador2
             var ultimaTirada = 0
 
             // Se obtiene una pregunta aleatoria de la base de datos dependendiendo del tipo de casilla
@@ -101,7 +102,13 @@ class TableroFragment : Fragment(), OnGameEventListener {
                     if (preguntas.isNotEmpty()) {
                         actualizarTurno()
                         guardarPartida()
-                        showAlertMinijuego("Has caído en una casilla de ${viewModel.obtenerTipoCasilla(jugador)}", preguntas, ultimaTirada)
+                        if (viewModel.paseAPreguntaFinal(jugadorActual)) {
+                            showAlertMinijuego("Has completado todas las pruebas y va a comenzar la prueba final", preguntas, ultimaTirada)
+
+                        }else{
+                            showAlertMinijuego("Has caído en una casilla de ${viewModel.obtenerTipoCasilla(jugadorActual)}", preguntas, ultimaTirada)
+
+                        }
                     } else {
                         showToast("No se obtuvieron preguntas")
                     }
@@ -116,10 +123,10 @@ class TableroFragment : Fragment(), OnGameEventListener {
             // Se tira el dado y se avanza de casilla
 
             ultimaTirada = viewModel.tirarDado()
-            avanzar(jugador.posicion, 1, jugador)
+            avanzar(jugadorActual.posicion, 2, jugadorActual)
 
             // Se obtiene una pregunta aleatoria de la base de datos
-            viewModel.obtenerPreguntaAleatoria(jugador, preguntaCallback)
+            viewModel.obtenerPreguntaAleatoria(jugadorActual, preguntaCallback)
 
         }
     }
@@ -241,6 +248,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
     private fun showAlertMinijuego(message: String, preguntas: List<Pregunta> , ultimaTirada: Int) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        if (viewModel.paseAPreguntaFinal(jugador1) || viewModel.paseAPreguntaFinal(jugador2)) builder.setTitle("Estas listo")
+        else
         builder.setTitle("Has sacado un $ultimaTirada")
         builder.setMessage(message)
         builder.setPositiveButton("Aceptar") { _, _ ->
@@ -465,11 +474,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
         if (isWinner) {
             if (viewModel.paseAPreguntaFinal(jugador1) || viewModel.paseAPreguntaFinal(jugador2)) {
-                if (viewModel.turno == 0){
-                    viewModel.sumarPuntoFinal(jugador1)
-                } else {
-                    viewModel.sumarPuntoFinal(jugador2)
-                }
+                    viewModel.sumarPuntoFinal(jugadorActual)
+
             }
             // Se incrementa la puntuación del jugador
             else if (viewModel.turno == 0) {
@@ -481,7 +487,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
             }
 
             // Se comprueba si el jugador ha ganado
-            if (viewModel.haGanado(jugador1) || viewModel.haGanado(jugador2)) {
+            if (viewModel.haGanado(jugadorActual)) {
                 showAlertFinalDePartida("El jugador ${if (viewModel.turno == 0) "1" else "2"} ha ganado")
             }
 
