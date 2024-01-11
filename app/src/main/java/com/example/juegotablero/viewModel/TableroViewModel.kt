@@ -12,14 +12,13 @@ import com.google.firebase.database.DatabaseError
 class TableroViewModel : ViewModel() {
 
     //el tablero es un array de 24 casillas
-    private val tablero = arrayOfNulls<Casilla>(25)
+    private val tablero = arrayOfNulls<Casilla>(24)
     var turno = 0
     private val preguntasApi = PreguntasApi()
 
     //inicializa el tablero
     init {
         inicializarTablero()
-
     }
 
     //inicializa el tablero con las casillas, para saber de que tipo es cada casilla
@@ -35,8 +34,6 @@ class TableroViewModel : ViewModel() {
                 tablero[indice] = Casilla(tipoPregunta)
             }
         }
-        tablero[24] = Casilla("PruebaFinal")
-
     }
     //funcion para tirar el dado de 6 caras
     fun tirarDado(): Int {
@@ -65,9 +62,12 @@ class TableroViewModel : ViewModel() {
                 "Test" -> jugador.PTest = true
                 "AdivinaPalabra" -> jugador.PAdivinaPalabra = true
                 "Repaso" -> jugador.PRepaso = true
-                "PruebaFinal" -> jugador.PFinal = true
             }
         }
+    }
+
+    fun sumarPuntoFinal(jugador : Jugador) {
+        jugador.PFinal = true
     }
 
     fun guardarEstadistica( prefs : SharedPreferences, tipo : String){
@@ -86,15 +86,19 @@ class TableroViewModel : ViewModel() {
 
 
     fun obtenerPreguntaAleatoria(jugador: Jugador,  callback: ObtenerPreguntasCallback) {
-        val posicion = jugador.posicion-1
+        val posicion = jugador.posicion
         val casilla = tablero[posicion % tablero.size]
 
-        when (casilla?.tipo) {
-            "Parejas" -> obtenerPreguntaAleatoriaJuegoParejas(callback)
-            "Test" -> obtenerPreguntaAleatoriaTest(callback)
-            "AdivinaPalabra" -> obtenerPreguntaAleatoriaAdivinaPalabra(callback)
-            "Repaso" -> obtenerPreguntaAleatoriaRepaso(callback)
-            "PruebaFinal" -> callback.onPreguntasObtenidas(emptyList())
+        if (paseAPreguntaFinal(jugador)){
+            obtenerPreguntaAleatoriaPruebaFinal(callback)
+        }else {
+
+            when (casilla?.tipo) {
+                "Parejas" -> obtenerPreguntaAleatoriaJuegoParejas(callback)
+                "Test" -> obtenerPreguntaAleatoriaTest(callback)
+                "AdivinaPalabra" -> obtenerPreguntaAleatoriaAdivinaPalabra(callback)
+                "Repaso" -> obtenerPreguntaAleatoriaRepaso(callback)
+            }
         }
     }
     fun obtenerPreguntaAleatoriaJuegoParejas(callback: ObtenerPreguntasCallback) {
@@ -156,11 +160,20 @@ class TableroViewModel : ViewModel() {
         })
     }
 
+    fun obtenerPreguntaAleatoriaPruebaFinal(callback: ObtenerPreguntasCallback) {
+        preguntasApi.obtenerPreguntasPruebaFinal(object : ObtenerPreguntasCallback {
+            override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
+                val pregunta = preguntas.randomOrNull()
+                callback.onPreguntasObtenidas(listOfNotNull(pregunta))
+            }
+            override fun onError(error: DatabaseError) {
+                callback.onError(error)
+            }
+        })
+    }
+
     fun obtenerTipoCasilla(jugador: Jugador): String? {
-        val casilla = tablero[(jugador.posicion-1) % tablero.size]
-        if(paseAPreguntaFinal(jugador)){
-            return "PruebaFinal"
-        }
+        val casilla = tablero[(jugador.posicion) % tablero.size]
         return casilla?.tipo
     }
 }

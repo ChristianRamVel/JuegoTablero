@@ -44,8 +44,7 @@ sealed class Pregunta {
         @Transient val tipo: String = "Final",
         val enunciado: String = "",
         val opciones: List<String>? = emptyList(),
-        val respuestaCorrecta: String? = "",
-        val respuestaCorrectaPalabrasClave: String? = ""
+        val respuesta_correcta: String? = ""
     ) : Pregunta()
 
     data class Pareja(
