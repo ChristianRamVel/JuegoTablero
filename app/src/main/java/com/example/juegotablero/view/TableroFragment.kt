@@ -3,6 +3,8 @@ package com.example.juegotablero.view
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,6 +71,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
         // Se inicializan los componentes de la vista
         val btnTirarDado = view.findViewById<Button>(R.id.btnTirarDado)!!
+        btnTirarDado.isEnabled = true
 
         actualizarPuntuacion()
 
@@ -84,6 +87,11 @@ class TableroFragment : Fragment(), OnGameEventListener {
         }
 
         btnTirarDado.setOnClickListener {
+            btnTirarDado.isEnabled = false
+
+            vibrate()
+
+
             // Se obtiene el jugador de el turno actual
             val jugador = if (viewModel.turno == 0) jugador1 else jugador2
             var ultimaTirada = 0
@@ -157,6 +165,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
             getString(R.string.turno_jugador2)
         }
     }
+
+
 
     private fun actualizarPuntuacion() {
         val tvPuntuacionJugador1 = view?.findViewById<TextView>(R.id.tvInfoJugador1)
@@ -437,5 +447,15 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
         guardarPartida()
 
+
     }
+
+    fun vibrate() {
+        val vibrator = requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            val vibrationEffect = VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
+            vibrator.vibrate(vibrationEffect)
+        }
+    }
+
 }
