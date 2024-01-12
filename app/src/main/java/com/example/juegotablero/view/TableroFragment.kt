@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.Slide
 import com.example.juegotablero.R
 import com.example.juegotablero.api.ObtenerPreguntasCallback
 import com.example.juegotablero.common.interfaces.OnGameEventListener
@@ -366,6 +368,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
                 testFragment.setGameListener(this)
 
+                añadirTrancision(testFragment)
+
+                testFragment.exitTransition = null
 
                 bundle.putString("definicion", pregunta.enunciado)
                 bundle.putStringArray("opciones", pregunta.opciones.toTypedArray())
@@ -403,6 +408,12 @@ class TableroFragment : Fragment(), OnGameEventListener {
     private fun isDarkModeEnabled(): Boolean {
         val nightModeFlags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    fun añadirTrancision(fragment: Fragment){
+        val transicionEntrada = Slide(Gravity.END)
+        transicionEntrada.duration = 200
+        fragment.enterTransition =  transicionEntrada
     }
 
     private fun guardarPartida() {

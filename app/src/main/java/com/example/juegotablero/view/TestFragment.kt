@@ -144,7 +144,6 @@ class TestFragment(var preguntas : List<Pregunta>) : Fragment() {
 
     fun terminarPartida(ganador: Boolean) {
             gameListener?.onGameResult(ganador)
-
             val fragmentManager = requireActivity().supportFragmentManager
             // Cierra el fragmento actual y vuelve al anterior en la pila
             fragmentManager.popBackStack()
