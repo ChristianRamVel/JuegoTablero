@@ -250,7 +250,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
         if (viewModel.paseAPreguntaFinal(jugador1) || viewModel.paseAPreguntaFinal(jugador2)) builder.setTitle("Estas listo")
         else
-        builder.setTitle("Has sacado un $ultimaTirada")
+            builder.setTitle("Has sacado un $ultimaTirada")
         builder.setMessage(message)
         builder.setPositiveButton("Aceptar") { _, _ ->
             // Al pulsar en aceptar se abre el fragment correspondiente a la pregunta
