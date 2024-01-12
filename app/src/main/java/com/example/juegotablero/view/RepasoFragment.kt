@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.juegotablero.R
 import com.example.juegotablero.common.interfaces.OnGameEventListener
 import com.example.juegotablero.model.Pregunta
@@ -46,11 +47,7 @@ class RepasoFragment : Fragment() {
             if (enunciado != null) {
                 // se actualiza el enunciado de la pregunta en la vista
                 actualizarEnunciado(enunciado)
-
-                // se verifica que el array de opciones no sea nulo
-                if (opciones != null) {
-                    generarBotones(opciones)
-                }
+                actualizarOpciones(opciones?.toList(), respuesta)
             }
         }
     }
@@ -61,15 +58,24 @@ class RepasoFragment : Fragment() {
         textView?.text = enunciado
     }
 
-    fun generarBotones(opciones: Array<String>){
-        val gridLayout = view?.findViewById<GridLayout>(R.id.gridRespuestasRepaso)
-        for (opcion in opciones){
-            val button = Button(context)
-            button.text = opcion
-            button.setOnClickListener {
-                onButtonClicked(button)
-            }
-            gridLayout?.addView(button)
+    fun actualizarOpciones(opciones: List<String>?, respuestaCorrecta: String?){
+        val button1 = view?.findViewById<Button>(R.id.btnRespuesta1)
+        val button2 = view?.findViewById<Button>(R.id.btnRespuesta2)
+        val button3 = view?.findViewById<Button>(R.id.btnRespuesta3)
+
+        if (button1 != null) {
+            button1.text = opciones?.get(0)
+            button1.setOnClickListener { onButtonClicked(button1) }
+
+        }
+        if (button2 != null) {
+            button2.text = opciones?.get(1)
+            button2.setOnClickListener { onButtonClicked(button2) }
+
+        }
+        if (button3 != null) {
+            button3.text = opciones?.get(2)
+            button3.setOnClickListener { onButtonClicked(button3) }
         }
     }
 
@@ -79,10 +85,36 @@ class RepasoFragment : Fragment() {
         val respuestaCorrecta = bundle?.getString("respuesta")
 
         if (button.text == respuestaCorrecta){
-            terminarPartida(true)
+            marcarOpcionConColor(button, true)
+            button.postDelayed({
+                terminarPartida(true)
+            }, 1000)
         }else{
-            terminarPartida(false)
+            marcarOpcionConColor(button, false)
+            button.postDelayed({
+                terminarPartida(false)
+            }, 1000)
         }
+    }
+
+    fun marcarOpcionConColor(button: Button, correcto: Boolean){
+        desactivarBotones()
+        if (correcto){
+            button.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.correcto);
+        }else{
+            button.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.incorrecto);
+        }
+
+    }
+
+    fun desactivarBotones(){
+        val button1 = view?.findViewById<Button>(R.id.btnRespuesta1)
+        val button2 = view?.findViewById<Button>(R.id.btnRespuesta2)
+        val button3 = view?.findViewById<Button>(R.id.btnRespuesta3)
+
+        button1?.isClickable = false
+        button2?.isClickable = false
+        button3?.isClickable = false
     }
 
 
@@ -97,6 +129,7 @@ class RepasoFragment : Fragment() {
     fun setGameListener(listener: OnGameEventListener) {
         gameListener = listener
     }
+
 
     fun terminarPartida(ganador: Boolean) {
         view?.post {

@@ -100,9 +100,6 @@ class TestFragment(var preguntas : List<Pregunta>) : Fragment() {
             button3.text = opciones?.get(2)
             button3.setOnClickListener { verificarRespuesta(button3.text.toString(), respuestaCorrecta, button3) }
         }
-
-
-
     }
 
     fun verificarRespuesta(opcion: String, respuestaCorrecta: String?, button : Button) {
