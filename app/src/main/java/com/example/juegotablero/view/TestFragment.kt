@@ -76,6 +76,7 @@ class TestFragment(var preguntas : List<Pregunta>) : Fragment() {
     }
 
     fun actualizarEnunciado(enunciado: String){
+        activarBotones()
         val textView = view?.findViewById<TextView>(R.id.tvTestEnunciado)
         textView?.text = enunciado
     }
@@ -153,6 +154,7 @@ class TestFragment(var preguntas : List<Pregunta>) : Fragment() {
     }
 
     fun marcarOpcionConColor(button: Button, correcto: Boolean){
+        desactivarBotones()
         if (correcto){
             // cambiar background tint
             button.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.correcto);
@@ -175,6 +177,38 @@ class TestFragment(var preguntas : List<Pregunta>) : Fragment() {
         }
         if (button3 != null) {
             button3.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ColorActionbar);
+        }
+    }
+
+    fun desactivarBotones(){
+        val button1 = view?.findViewById<Button>(R.id.btnRespuesta1)
+        val button2 = view?.findViewById<Button>(R.id.btnRespuesta2)
+        val button3 = view?.findViewById<Button>(R.id.btnRespuesta3)
+
+        if (button1 != null) {
+            button1.isClickable = false
+        }
+        if (button2 != null) {
+            button2.isClickable = false
+        }
+        if (button3 != null) {
+            button3.isClickable = false
+        }
+    }
+
+    fun activarBotones(){
+        val button1 = view?.findViewById<Button>(R.id.btnRespuesta1)
+        val button2 = view?.findViewById<Button>(R.id.btnRespuesta2)
+        val button3 = view?.findViewById<Button>(R.id.btnRespuesta3)
+
+        if (button1 != null) {
+            button1.isClickable = true
+        }
+        if (button2 != null) {
+            button2.isClickable = true
+        }
+        if (button3 != null) {
+            button3.isClickable = true
         }
     }
 
