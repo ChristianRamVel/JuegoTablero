@@ -2,6 +2,7 @@ package com.example.juegotablero.view
 
 import android.content.Context
 import android.os.Bundle
+import android.os.SystemClock.sleep
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.juegotablero.R
 import com.example.juegotablero.common.interfaces.OnGameEventListener
@@ -85,33 +87,49 @@ class TestFragment(var preguntas : List<Pregunta>) : Fragment() {
 
         if (button1 != null) {
             button1.text = opciones?.get(0)
-            button1.setOnClickListener { verificarRespuesta(button1.text.toString(), respuestaCorrecta) }
+            button1.setOnClickListener { verificarRespuesta(button1.text.toString(), respuestaCorrecta, button1) }
 
         }
         if (button2 != null) {
             button2.text = opciones?.get(1)
-            button2.setOnClickListener { verificarRespuesta(button2.text.toString(), respuestaCorrecta) }
+            button2.setOnClickListener { verificarRespuesta(button2.text.toString(), respuestaCorrecta, button2) }
 
         }
         if (button3 != null) {
             button3.text = opciones?.get(2)
-            button3.setOnClickListener { verificarRespuesta(button3.text.toString(), respuestaCorrecta) }
+            button3.setOnClickListener { verificarRespuesta(button3.text.toString(), respuestaCorrecta, button3) }
         }
 
 
 
     }
 
-    fun verificarRespuesta(opcion: String, respuestaCorrecta: String?) {
+    fun verificarRespuesta(opcion: String, respuestaCorrecta: String?, button : Button) {
         if (opcion == respuestaCorrecta) {
             viewModel.incrementarAciertos()
             if (viewModel.getAciertos() == 5){
-                terminarPartida(true)
+                marcarOpcionConColor(button, true)
+
+                button.postDelayed({
+                    resetearColorBotones()
+                    terminarPartida(true)
+                }, 1000)
             }else {
-                actualizarPreguntaActual()
+                marcarOpcionConColor(button, true)
+
+                button.postDelayed({
+                    resetearColorBotones()
+                    actualizarPreguntaActual()
+                }, 1000)
+
             }
         } else {
-            terminarPartida(false)
+            marcarOpcionConColor(button, false)
+
+            button.postDelayed({
+                resetearColorBotones()
+                terminarPartida(false)
+            }, 1000)
         }
     }
 
@@ -132,6 +150,32 @@ class TestFragment(var preguntas : List<Pregunta>) : Fragment() {
             val fragmentManager = requireActivity().supportFragmentManager
             // Cierra el fragmento actual y vuelve al anterior en la pila
             fragmentManager.popBackStack()
+    }
+
+    fun marcarOpcionConColor(button: Button, correcto: Boolean){
+        if (correcto){
+            // cambiar background tint
+            button.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.correcto);
+        }else{
+            button.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.incorrecto);
+        }
+
+    }
+
+    fun resetearColorBotones(){
+        val button1 = view?.findViewById<Button>(R.id.btnRespuesta1)
+        val button2 = view?.findViewById<Button>(R.id.btnRespuesta2)
+        val button3 = view?.findViewById<Button>(R.id.btnRespuesta3)
+
+        if (button1 != null) {
+            button1.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ColorActionbar);
+        }
+        if (button2 != null) {
+            button2.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ColorActionbar);
+        }
+        if (button3 != null) {
+            button3.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ColorActionbar);
+        }
     }
 
 }
