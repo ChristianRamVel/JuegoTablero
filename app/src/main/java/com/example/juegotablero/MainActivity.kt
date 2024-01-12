@@ -18,6 +18,7 @@ import com.example.juegotablero.view.ParejasFragment
 import com.example.juegotablero.view.RepasoFragment
 import com.example.juegotablero.view.TableroFragment
 import com.example.juegotablero.view.TestFragment
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -44,6 +45,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
+
+        val params = toolbar.layoutParams as AppBarLayout.LayoutParams
+        params.scrollFlags = 0
+        toolbar.layoutParams = params
 
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
