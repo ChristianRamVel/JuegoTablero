@@ -32,6 +32,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         // Nombres de las columnas de la tabla jugadores.
         private const val KEY_JUGADOR_ID = "id"
         private const val KEY_JUGADOR_NOMBRE = "nombre"
+        private const val KEY_JUGADOR_POSICION = "posicion"
         private const val KEY_JUGADOR_PAREJAS = "parejas"
         private const val KEY_JUGADOR_TEST = "test"
         private const val KEY_JUGADOR_ADIVINAPALABRA = "adivinapalabra"
@@ -49,8 +50,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         // Sentencia SQL para crear la tabla de jugadores
         val createJugadorTable = ("CREATE TABLE " + TABLE_JUGADORES + "("
                 + KEY_JUGADOR_ID + " INTEGER PRIMARY KEY," + KEY_JUGADOR_NOMBRE + " TEXT,"
-                + KEY_JUGADOR_PAREJAS + " INTEGER," + KEY_JUGADOR_TEST + " INTEGER,"
-                + KEY_JUGADOR_ADIVINAPALABRA + " INTEGER," + KEY_JUGADOR_REPASO + " INTEGER," + KEY_JUGADOR_FINAL + " INTEGER" + ")")
+                + KEY_JUGADOR_POSICION + " INTEGER," + KEY_JUGADOR_PAREJAS
+                + " INTEGER," + KEY_JUGADOR_TEST + " INTEGER," + KEY_JUGADOR_ADIVINAPALABRA
+                + " INTEGER," + KEY_JUGADOR_REPASO + " INTEGER," + KEY_JUGADOR_FINAL + " INTEGER" + ")")
 
         // Ejecuta las sentencias SQL para crear las tablas
         db.execSQL(createPartidaTable)
@@ -70,7 +72,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val selectQuery = "SELECT * FROM $TABLE_PARTIDAS"
 
         val db = this.readableDatabase
-        var cursor: Cursor? = null
+        val cursor: Cursor?
         try {
             // Ejecuta la consulta SQL.
             cursor = db.rawQuery(selectQuery, null)
@@ -117,6 +119,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val db = this.writableDatabase
         val contentValuesJugador1 = ContentValues()
         contentValuesJugador1.put(KEY_JUGADOR_NOMBRE, jugador1.nombre)
+        contentValuesJugador1.put(KEY_JUGADOR_POSICION, jugador1.posicion)
         contentValuesJugador1.put(KEY_JUGADOR_PAREJAS, jugador1.PParejas)
         contentValuesJugador1.put(KEY_JUGADOR_TEST, jugador1.PTest)
         contentValuesJugador1.put(KEY_JUGADOR_ADIVINAPALABRA, jugador1.PAdivinaPalabra)
@@ -126,6 +129,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         val contentValuesJugador2 = ContentValues()
         contentValuesJugador2.put(KEY_JUGADOR_NOMBRE, jugador2.nombre)
+        contentValuesJugador2.put(KEY_JUGADOR_POSICION, jugador2.posicion)
         contentValuesJugador2.put(KEY_JUGADOR_PAREJAS, jugador2.PParejas)
         contentValuesJugador2.put(KEY_JUGADOR_TEST, jugador2.PTest)
         contentValuesJugador2.put(KEY_JUGADOR_ADIVINAPALABRA, jugador2.PAdivinaPalabra)
@@ -161,11 +165,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.update(TABLE_PARTIDAS, contentValues, "$KEY_ID = ?", arrayOf(partida.id.toString()))
         db.close()
     }
-    
+
     fun guardarJugadores(jugador1: Jugador, jugador2: Jugador) {
         val db = this.writableDatabase
         val contentValuesJugador1 = ContentValues()
         contentValuesJugador1.put(KEY_JUGADOR_NOMBRE, jugador1.nombre)
+        contentValuesJugador1.put(KEY_JUGADOR_POSICION, jugador1.posicion)
         contentValuesJugador1.put(KEY_JUGADOR_PAREJAS, jugador1.PParejas)
         contentValuesJugador1.put(KEY_JUGADOR_TEST, jugador1.PTest)
         contentValuesJugador1.put(KEY_JUGADOR_ADIVINAPALABRA, jugador1.PAdivinaPalabra)
@@ -175,6 +180,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         val contentValuesJugador2 = ContentValues()
         contentValuesJugador2.put(KEY_JUGADOR_NOMBRE, jugador2.nombre)
+        contentValuesJugador2.put(KEY_JUGADOR_POSICION, jugador2.posicion)
         contentValuesJugador2.put(KEY_JUGADOR_PAREJAS, jugador2.PParejas)
         contentValuesJugador2.put(KEY_JUGADOR_TEST, jugador2.PTest)
         contentValuesJugador2.put(KEY_JUGADOR_ADIVINAPALABRA, jugador2.PAdivinaPalabra)
@@ -185,14 +191,139 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
 
+    fun cargarPartida(id: Int) : Partida {
+        val selectQuery = "SELECT * FROM $TABLE_PARTIDAS WHERE $KEY_ID = $id"
 
+        val db = this.readableDatabase
+        val cursor: Cursor?
+        try {
+            // Ejecuta la consulta SQL.
+            cursor = db.rawQuery(selectQuery, null)
+        } catch (e: SQLiteException) {
+            // Maneja la excepción en caso de error al ejecutar la consulta.
+            db.execSQL(selectQuery)
+            return Partida(0, 0, 0, 0, "")
+        }
 
+        // Variables para almacenar los valores de las columnas.
+        val id: Int
+        val jugador1_id: Int
+        val jugador2_id: Int
+        val turno: Int
+        val fecha: String
 
+        // Itera a través del cursor para leer los datos de la base de datos.
+        if (cursor.moveToFirst()) {
+            // Obtiene los índices de las columnas.
+            val idIndex = cursor.getColumnIndex(KEY_ID)
+            val jugador1_idIndex = cursor.getColumnIndex(KEY_JUGADOR1ID)
+            val jugador2_idIndex = cursor.getColumnIndex(KEY_JUGADOR2ID)
+            val turnoIndex = cursor.getColumnIndex(KEY_TURNO)
+            val fechaIndex = cursor.getColumnIndex(KEY_FECHA)
 
+            if (idIndex != -1 && jugador1_idIndex != -1 && jugador2_idIndex != -1 && turnoIndex != -1 && fechaIndex != -1) {
+                // Lee los valores y los añade a la lista de partidas.
+                id = cursor.getInt(idIndex)
+                jugador1_id = cursor.getInt(jugador1_idIndex)
+                jugador2_id = cursor.getInt(jugador2_idIndex)
+                turno = cursor.getInt(turnoIndex)
+                fecha = cursor.getString(fechaIndex)
+                cursor.close()
+                return Partida(id, jugador1_id, jugador2_id, turno, fecha)
+            }
+        }
+        cursor.close()
+        return Partida(0, 0, 0, 0, "")
+    }
 
+    fun cargarJugador(id: Int) : Jugador {
+        val selectQuery = "SELECT * FROM $TABLE_JUGADORES WHERE $KEY_JUGADOR_ID = $id"
 
+        val db = this.readableDatabase
+        val cursor: Cursor?
+        try {
+            // Ejecuta la consulta SQL.
+            cursor = db.rawQuery(selectQuery, null)
+        } catch (e: SQLiteException) {
+            // Maneja la excepción en caso de error al ejecutar la consulta.
+            db.execSQL(selectQuery)
+            return Jugador(0, "", false, false, false, false, false, 0)
+        }
 
+        // Variables para almacenar los valores de las columnas.
+        val id: Int
+        val nombre: String
+        val parejas: Boolean
+        val test: Boolean
+        val adivinapalabra: Boolean
+        val repaso: Boolean
+        val final: Boolean
+        val posicion: Int
 
+        // Itera a través del cursor para leer los datos de la base de datos.
+        if (cursor.moveToFirst()) {
+            // Obtiene los índices de las columnas.
+            val idIndex = cursor.getColumnIndex(KEY_JUGADOR_ID)
+            val nombreIndex = cursor.getColumnIndex(KEY_JUGADOR_NOMBRE)
+            val parejasIndex = cursor.getColumnIndex(KEY_JUGADOR_PAREJAS)
+            val testIndex = cursor.getColumnIndex(KEY_JUGADOR_TEST)
+            val adivinapalabraIndex = cursor.getColumnIndex(KEY_JUGADOR_ADIVINAPALABRA)
+            val repasoIndex = cursor.getColumnIndex(KEY_JUGADOR_REPASO)
+            val finalIndex = cursor.getColumnIndex(KEY_JUGADOR_FINAL)
+            val posicionIndex = cursor.getColumnIndex(KEY_JUGADOR_POSICION)
+
+            if (idIndex != -1 && nombreIndex != -1 && parejasIndex != -1 && testIndex != -1 && adivinapalabraIndex != -1 && repasoIndex != -1 && finalIndex != -1 && posicionIndex != -1) {
+                // Lee los valores y los añade a la lista de partidas.
+                id = cursor.getInt(idIndex)
+                nombre = cursor.getString(nombreIndex)
+                parejas = cursor.getInt(parejasIndex) == 1
+                test = cursor.getInt(testIndex) == 1
+                adivinapalabra = cursor.getInt(adivinapalabraIndex) == 1
+                repaso = cursor.getInt(repasoIndex) == 1
+                final = cursor.getInt(finalIndex) == 1
+                posicion = cursor.getInt(posicionIndex)
+                cursor.close()
+                return Jugador(id, nombre, parejas, test, adivinapalabra, repaso, final, posicion)
+            }
+        }
+
+        cursor.close()
+        return Jugador(0, "", false, false, false, false, false, 0)
+        }
+
+    fun obtenerIDUltimoJugador() : Int {
+        val selectQuery = "SELECT * FROM $TABLE_JUGADORES ORDER BY $KEY_JUGADOR_ID DESC LIMIT 1"
+
+        val db = this.readableDatabase
+        val cursor: Cursor?
+        try {
+            // Ejecuta la consulta SQL.
+            cursor = db.rawQuery(selectQuery, null)
+        } catch (e: SQLiteException) {
+            // Maneja la excepción en caso de error al ejecutar la consulta.
+            db.execSQL(selectQuery)
+            return 0
+        }
+
+        // Variables para almacenar los valores de las columnas.
+        val id: Int
+
+        // Itera a través del cursor para leer los datos de la base de datos.
+        if (cursor.moveToFirst()) {
+            // Obtiene los índices de las columnas.
+            val idIndex = cursor.getColumnIndex(KEY_JUGADOR_ID)
+
+            if (idIndex != -1) {
+                // Lee los valores y los añade a la lista de partidas.
+                id = cursor.getInt(idIndex)
+                cursor.close()
+                return id
+            }
+        }
+
+        cursor.close()
+        return 0
+    }
 
 
 }

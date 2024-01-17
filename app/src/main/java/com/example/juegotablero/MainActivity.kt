@@ -125,10 +125,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return super.onOptionsItemSelected(item)
     }
 
-    fun cargarPartida(){
-        val tableroFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? TableroFragment
-        tableroFragment?.cargarPartida()
-    }
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
