@@ -30,9 +30,16 @@
             android:title="@string/ajustes" />
 
         <item
+            android:id="@+id/musica"
+            android:icon="@drawable/music"
+            android:title="@string/musica" />
+
+        <item
             android:id="@+id/exit"
             android:icon="@drawable/exit"
             android:title="@string/salir" />
+
+
 
     </group>
 </menu>

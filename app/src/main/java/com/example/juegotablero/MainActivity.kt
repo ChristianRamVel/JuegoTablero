@@ -20,17 +20,25 @@ import com.example.juegotablero.view.TableroFragment
 import com.example.juegotablero.view.TestFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationView
+import android.media.MediaPlayer
+import androidx.core.content.ContentProviderCompat.requireContext
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     OnGameEventListener {
 
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var drawer: DrawerLayout
-
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.musica)
+
+        // Reproduce la música en un bucle (si se desea)
+        mediaPlayer?.isLooping = true
+        mediaPlayer?.start()
 
         //toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
@@ -72,6 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
         when(item.itemId){
             R.id.new_game -> {
                 supportFragmentManager.popBackStack()
@@ -99,6 +108,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.settings -> {
 
+            }
+            R.id.musica -> {
+                if (mediaPlayer?.isPlaying == true) {
+                    mediaPlayer?.pause()
+
+                } else {
+                    mediaPlayer?.start()
+                }
             }
             R.id.exit -> {
                 finish()
