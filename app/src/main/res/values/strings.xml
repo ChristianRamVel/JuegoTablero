@@ -28,6 +28,8 @@
 
     <!-- Menu inicio -->
     <string name="continuar_partida">Continuar partida</string>
+    <string name="partidas_guardadas">Partidas guardadas</string>
+    <string name="cerrar">Cerrar</string>
 
     <!-- Estadisticas -->
     <string name="resetear">Resetear</string>
@@ -51,6 +53,9 @@
     <string name="escribeDefinicion">Escribe tu definición aqui…</string>
     <string name="nuevaPregunta">Nueva pregunta %1$s</string>
     <string name="crearNuevaPregunta">Crear nueva pregunta</string>
+
+
+
 
 
 

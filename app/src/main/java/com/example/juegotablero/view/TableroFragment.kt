@@ -55,8 +55,17 @@ class TableroFragment : Fragment(), OnGameEventListener {
             val factory = TableroViewModelFactory(requireContext()) // O applicationContext según el contexto que tengas
             viewModel = ViewModelProvider(this, factory)[TableroViewModel::class.java]
 
-            viewModel.crearJugadores()
-            viewModel.crearPartida()
+
+
+            val idPartida = arguments?.getInt("idPartida")
+
+            if (idPartida != null) {
+                viewModel.cargarPartida(idPartida)
+                viewModel.cargarJugadores()
+            } else {
+                viewModel.crearJugadores()
+                viewModel.crearPartida()
+            }
 
             setupTablero()
             actualizarTurno()
@@ -114,13 +123,11 @@ class TableroFragment : Fragment(), OnGameEventListener {
             }
 
             // Se tira el dado y se avanza de casilla
-
             ultimaTirada = viewModel.tirarDado()
             avanzar(jugadorActual.posicion, 2)
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugadorActual, preguntaCallback)
-
         }
     }
 

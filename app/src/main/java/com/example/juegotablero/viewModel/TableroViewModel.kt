@@ -199,12 +199,13 @@ class TableroViewModel(context: Context) : ViewModel() {
     }
 
     fun crearPartida(){
-        val id =  dbHelper.crearPartida(jugador1.id, jugador2.id, turno, obtenerFechaActual())
-        partida = Partida(id.toInt(), jugador1.id, jugador2.id, turno, obtenerFechaActual())
+        val id =  dbHelper.crearPartida(jugador1.id, jugador2.id, turno, obtenerFechaYHoraActual())
+        partida = Partida(id.toInt(), jugador1.id, jugador2.id, turno, obtenerFechaYHoraActual())
     }
 
     fun cargarPartida(id : Int){
         partida = dbHelper.cargarPartida(id)
+        turno = partida.turno
     }
 
     fun cargarJugadores(){
@@ -214,7 +215,7 @@ class TableroViewModel(context: Context) : ViewModel() {
 
     fun guardarPartida(){
         partida.turno = turno
-        partida.fecha = obtenerFechaActual()
+        partida.fecha = obtenerFechaYHoraActual()
         dbHelper.guardarPartida(partida)
     }
 
@@ -226,12 +227,26 @@ class TableroViewModel(context: Context) : ViewModel() {
 
 
     // obtener la fecha actual del sistema
-    fun obtenerFechaActual(): String {
+    fun obtenerFechaYHoraActual(): String {
         val c = java.util.Calendar.getInstance()
         val dia = c.get(java.util.Calendar.DAY_OF_MONTH)
-        val mes = c.get(java.util.Calendar.MONTH)
+        val mes = c.get(java.util.Calendar.MONTH) + 1
         val anio = c.get(java.util.Calendar.YEAR)
-        return "$dia/$mes/$anio"
+        val hora = c.get(java.util.Calendar.HOUR_OF_DAY)
+        val minuto = c.get(java.util.Calendar.MINUTE)
+        val segundo = c.get(java.util.Calendar.SECOND)
+
+        val diaStr = if (dia < 10) "0$dia" else dia.toString()
+        val mesStr = if (mes < 10) "0$mes" else mes.toString()
+        val horaStr = if (hora < 10) "0$hora" else hora.toString()
+        val minutoStr = if (minuto < 10) "0$minuto" else minuto.toString()
+        val segundoStr = if (segundo < 10) "0$segundo" else segundo.toString()
+
+        val fechaHoraFormateada = String.format("%s/%s/%s %s:%s:%s", diaStr, mesStr, anio, horaStr, minutoStr, segundoStr)
+
+        Log.d("fecha", fechaHoraFormateada)
+        return fechaHoraFormateada
+
     }
 
 
