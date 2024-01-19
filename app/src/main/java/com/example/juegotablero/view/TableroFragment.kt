@@ -24,12 +24,11 @@ import com.example.juegotablero.model.Estadisticas
 import com.example.juegotablero.model.Jugador
 import com.example.juegotablero.model.Pregunta
 import com.example.juegotablero.viewModel.TableroViewModel
+import com.example.juegotablero.viewModel.TableroViewModelFactory
 import com.google.firebase.database.DatabaseError
 
 class TableroFragment : Fragment(), OnGameEventListener {
 
-    private lateinit var jugador1: Jugador
-    private lateinit var jugador2: Jugador
     private var vista : View? = null
     private lateinit var viewModel: TableroViewModel
     private lateinit var jugadorActual: Jugador
@@ -52,11 +51,21 @@ class TableroFragment : Fragment(), OnGameEventListener {
             view = vista
             gridLayout = view?.findViewById(R.id.gridLayoutTablero)!!
             tvInfoPartida = view.findViewById(R.id.tvInfoPartida)!!
-            jugador1 = Jugador("Jugador 1", false, false, false, false, false,-1)
-            jugador2 = Jugador("Jugador 2", false, false, false, false, false,-1)
 
-            // Se inicializa el ViewModel
-            viewModel = ViewModelProvider(this)[TableroViewModel::class.java]
+            val factory = TableroViewModelFactory(requireContext()) // O applicationContext según el contexto que tengas
+            viewModel = ViewModelProvider(this, factory)[TableroViewModel::class.java]
+
+
+
+            val idPartida = arguments?.getInt("idPartida")
+
+            if (idPartida != null) {
+                viewModel.cargarPartida(idPartida)
+                viewModel.cargarJugadores()
+            } else {
+                viewModel.crearJugadores()
+                viewModel.crearPartida()
+            }
 
             setupTablero()
             actualizarTurno()
@@ -77,16 +86,6 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
         actualizarPuntuacion()
 
-        val bundle = arguments
-
-        // Si el usuario ha pulsado en continuar partida en el menu principal
-        // se carga la ultima partidad guardada
-        if (bundle != null) {
-            val valor = bundle.getBoolean("cargarPartida")
-            if (valor) {
-                cargarPartida()
-            }
-        }
 
         btnTirarDado.setOnClickListener {
             btnTirarDado.isEnabled = false
@@ -95,7 +94,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
 
             // Se obtiene el jugador de el turno actual
-            jugadorActual = if (viewModel.turno == 0) jugador1 else jugador2
+            jugadorActual = if (viewModel.turno == 0) viewModel.jugador1 else viewModel.jugador2
             var ultimaTirada = 0
 
             // Se obtiene una pregunta aleatoria de la base de datos dependendiendo del tipo de casilla
@@ -103,7 +102,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 override fun onPreguntasObtenidas(preguntas: List<Pregunta>) {
                     if (preguntas.isNotEmpty()) {
                         actualizarTurno()
-                        guardarPartida()
+                        viewModel.guardarPartida()
+                        viewModel.guardarJugadores()
                         if (viewModel.paseAPreguntaFinal(jugadorActual)) {
                             showAlertMinijuego("Has completado todas las pruebas y va a comenzar la prueba final", preguntas, ultimaTirada)
 
@@ -123,13 +123,11 @@ class TableroFragment : Fragment(), OnGameEventListener {
             }
 
             // Se tira el dado y se avanza de casilla
-
             ultimaTirada = viewModel.tirarDado()
-            avanzar(jugadorActual.posicion, 2, jugadorActual)
+            avanzar(jugadorActual.posicion, 2)
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugadorActual, preguntaCallback)
-
         }
     }
 
@@ -186,60 +184,72 @@ class TableroFragment : Fragment(), OnGameEventListener {
             }
         }
 
-        if (jugador1.PAdivinaPalabra) {
+        if (viewModel.jugador1.PAdivinaPalabra) {
             actualizarTextView(tvPuntuacionJugador1, getString(R.string.PAdivinaPalabra))
         }
-        if (jugador1.PParejas) {
+        if (viewModel.jugador1.PParejas) {
             actualizarTextView(tvPuntuacionJugador1, getString(R.string.PParejas))
         }
-        if (jugador1.PRepaso) {
+        if (viewModel.jugador1.PRepaso) {
             actualizarTextView(tvPuntuacionJugador1, getString(R.string.PRepaso))
         }
-        if (jugador1.PTest) {
+        if (viewModel.jugador1.PTest) {
             actualizarTextView(tvPuntuacionJugador1, getString(R.string.PTest))
         }
-        if (jugador1.PFinal) {
+        if (viewModel.jugador1.PFinal) {
             actualizarTextView(tvPuntuacionJugador1, getString(R.string.PFinal))
         }
-        if (jugador2.PAdivinaPalabra) {
+        if (viewModel.jugador2.PAdivinaPalabra) {
             actualizarTextView(tvPuntuacionJugador2, getString(R.string.PAdivinaPalabra))
         }
-        if (jugador2.PParejas) {
+        if (viewModel.jugador2.PParejas) {
             actualizarTextView(tvPuntuacionJugador2, getString(R.string.PParejas))
         }
-        if (jugador2.PRepaso) {
+        if (viewModel.jugador2.PRepaso) {
             actualizarTextView(tvPuntuacionJugador2, getString(R.string.PRepaso))
         }
-        if (jugador2.PTest) {
+        if (viewModel.jugador2.PTest) {
             actualizarTextView(tvPuntuacionJugador2, getString(R.string.PTest))
         }
-        if (jugador2.PFinal) {
+        if (viewModel.jugador2.PFinal) {
             actualizarTextView(tvPuntuacionJugador2, getString(R.string.PFinal))
         }
     }
 
-    private fun avanzar(posicionJugador: Int, tirada: Int, jugador: Jugador) {
+    private fun avanzar(posicionJugador: Int, tirada: Int) {
         // Calcula la nueva posición del jugador
         var posicionFinal = posicionJugador + tirada
+
 
         // Si la posición supera 31, vuelve al inicio y sigue avanzando
         if (posicionFinal > 23) {
             // Regresa al inicio
-            jugador.posicion = 0
+
+            if (viewModel.turno == 0) {
+                viewModel.jugador1.posicion = 0
+            } else {
+                viewModel.jugador2.posicion = 0
+            }
             // Continúa avanzando con la cantidad restante
             posicionFinal = tirada - (24 - posicionJugador)
         } else {
             // Actualiza la posición del jugador
-            jugador.posicion = posicionFinal
+              if (viewModel.turno == 0) {
+                    viewModel.jugador1.posicion = posicionFinal
+                } else {
+                    viewModel.jugador2.posicion = posicionFinal
+                }
         }
 
         // Actualiza la posición del jugador en el objeto Jugador
-        jugador.posicion = posicionFinal
+        if (viewModel.turno == 0) {
+            viewModel.jugador1.posicion = posicionFinal
+        } else {
+            viewModel.jugador2.posicion = posicionFinal
+        }
 
         // Actualiza el texto de los botones en el tablero con los nombres de los jugadores
         actualizarTablero()
-
-
     }
 
 
@@ -250,7 +260,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
     private fun showAlertMinijuego(message: String, preguntas: List<Pregunta> , ultimaTirada: Int) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
-        if (viewModel.paseAPreguntaFinal(jugador1) || viewModel.paseAPreguntaFinal(jugador2)) builder.setTitle("Estas listo")
+        if (viewModel.paseAPreguntaFinal(viewModel.jugador1) || viewModel.paseAPreguntaFinal(viewModel.jugador2)) builder.setTitle("Estas listo")
         else
             builder.setTitle("Has sacado un $ultimaTirada")
         builder.setMessage(message)
@@ -416,53 +426,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
         fragment.enterTransition =  transicionEntrada
     }
 
-    private fun guardarPartida() {
-        val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        val editor = prefs.edit()
-
-        // Guardar datos de la partida
-        editor.putInt("posicionJugador1", jugador1.posicion)
-        editor.putInt("posicionJugador2", jugador2.posicion)
-        editor.putBoolean("pJ1PAdivinaPalabra", jugador1.PAdivinaPalabra)
-        editor.putBoolean("pJ2PAdivinaPalabra", jugador2.PAdivinaPalabra)
-        editor.putBoolean("pJ1PParejas", jugador1.PParejas)
-        editor.putBoolean("pJ2PParejas", jugador2.PParejas)
-        editor.putBoolean("pJ1PRepaso", jugador1.PRepaso)
-        editor.putBoolean("pJ2PRepaso", jugador2.PRepaso)
-        editor.putBoolean("pJ1PTest", jugador1.PTest)
-        editor.putBoolean("pJ2PTest", jugador2.PTest)
-        editor.putBoolean("pJ1PFinal", jugador1.PFinal)
-        editor.putBoolean("pJ2PFinal", jugador2.PFinal)
-        editor.putInt("turno", viewModel.turno)
-
-        // Aplicar los cambios
-        editor.apply()
-    }
 
 
-    fun cargarPartida() {
-        val prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
-
-        // Cargar datos de la partida
-        jugador1.posicion = prefs.getInt("posicionJugador1", 0)
-        jugador2.posicion = prefs.getInt("posicionJugador2", 0)
-        jugador1.PAdivinaPalabra = prefs.getBoolean("pJ1PAdivinaPalabra", false)
-        jugador2.PAdivinaPalabra = prefs.getBoolean("pJ2PAdivinaPalabra", false)
-        jugador1.PParejas = prefs.getBoolean("pJ1PParejas", false)
-        jugador2.PParejas = prefs.getBoolean("pJ2PParejas", false)
-        jugador1.PRepaso = prefs.getBoolean("pJ1PRepaso", false)
-        jugador2.PRepaso = prefs.getBoolean("pJ2PRepaso", false)
-        jugador1.PTest = prefs.getBoolean("pJ1PTest", false)
-        jugador2.PTest = prefs.getBoolean("pJ2PTest", false)
-        jugador1.PFinal = prefs.getBoolean("pJ1PFinal", false)
-        jugador2.PFinal = prefs.getBoolean("pJ2PFinal", false)
-        viewModel.turno = prefs.getInt("turno", 0)
-
-        // Actualizar la vista
-        actualizarTurno()
-        actualizarPuntuacion()
-        actualizarTablero()
-    }
 
     private fun actualizarTablero() {
         // Actualiza el texto de los botones en el tablero con los nombres de los jugadores
@@ -470,9 +435,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
             val button = gridLayout.getChildAt(i) as? Button
                 // Verifica si cualquiera de los jugadores está en esta posición y actualiza el texto del botón
                 button?.text = when {
-                    i == jugador1.posicion && i == jugador2.posicion -> "J1/J2"
-                    i == jugador1.posicion -> "J1"
-                    i == jugador2.posicion -> "J2"
+                    i == viewModel.jugador1.posicion && i == viewModel.jugador2.posicion -> "J1/J2"
+                    i == viewModel.jugador1.posicion -> "J1"
+                    i == viewModel.jugador2.posicion -> "J2"
                     else -> ""
                 }
         }
@@ -484,16 +449,16 @@ class TableroFragment : Fragment(), OnGameEventListener {
         val refs = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
         if (isWinner) {
-            if (viewModel.paseAPreguntaFinal(jugador1) || viewModel.paseAPreguntaFinal(jugador2)) {
+            if (viewModel.paseAPreguntaFinal(viewModel.jugador1) || viewModel.paseAPreguntaFinal(viewModel.jugador2)) {
                     viewModel.sumarPuntoFinal(jugadorActual)
 
             }
             // Se incrementa la puntuación del jugador
             else if (viewModel.turno == 0) {
-                viewModel.sumarPunto(jugador1)
+                viewModel.sumarPunto(viewModel.jugador1)
                 viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ2)
             } else {
-                viewModel.sumarPunto(jugador2)
+                viewModel.sumarPunto(viewModel.jugador2)
                 viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ1)
             }
 
@@ -512,8 +477,8 @@ class TableroFragment : Fragment(), OnGameEventListener {
         if (viewModel.turno == 0) Estadisticas.MINIJUEGOS_JUGADOSJ2
         else Estadisticas.MINIJUEGOS_JUGADOSJ1
 
-        guardarPartida()
-
+        viewModel.guardarJugadores()
+        viewModel.guardarPartida()
 
     }
 

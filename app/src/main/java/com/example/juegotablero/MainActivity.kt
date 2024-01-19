@@ -54,9 +54,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
 
-        if (intent.hasExtra("continuar") && intent.getBooleanExtra("continuar", false)) {
+        if (intent.hasExtra("idPartida")) {
             val bundle = Bundle()
-            bundle.putBoolean("cargarPartida", true)
+            bundle.putInt("idPartida", intent.getIntExtra("idPartida", 0))
 
             val tableroFragment = TableroFragment()
             tableroFragment.arguments = bundle
@@ -125,10 +125,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return super.onOptionsItemSelected(item)
     }
 
-    fun cargarPartida(){
-        val tableroFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? TableroFragment
-        tableroFragment?.cargarPartida()
-    }
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
