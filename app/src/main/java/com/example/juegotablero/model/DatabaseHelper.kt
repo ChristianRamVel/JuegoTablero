@@ -325,6 +325,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return 0
     }
 
+    fun eliminarPartidaYJugadores(id: Int, jugador1ID: Int, jugador2ID: Int) {
+        val db = this.writableDatabase
+        db.delete(TABLE_PARTIDAS, "$KEY_ID = ?", arrayOf(id.toString()))
+        db.delete(TABLE_JUGADORES, "$KEY_JUGADOR_ID = ?", arrayOf(jugador1ID.toString()))
+        db.delete(TABLE_JUGADORES, "$KEY_JUGADOR_ID = ?", arrayOf(jugador2ID.toString()))
+        db.close()
+    }
+
 
 }
 
