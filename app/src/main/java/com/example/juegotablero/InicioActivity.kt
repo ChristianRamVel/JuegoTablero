@@ -59,6 +59,7 @@ class InicioActivity: AppCompatActivity() {
         }
 
         lvPartidasGuardadas.setOnItemLongClickListener { _, _, position, _ ->
+            dialog.dismiss()
             val partida = partidas[position]
             showAlertBorrarPartida(partida)
             true
@@ -86,6 +87,7 @@ class InicioActivity: AppCompatActivity() {
         }
         builder.setNegativeButton("Cancelar") { dialog, _ ->
             dialog.dismiss()
+            mostrarPartidasGuardadas()
         }
         val dialog: androidx.appcompat.app.AlertDialog = builder.create()
 
