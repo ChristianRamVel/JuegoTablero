@@ -333,6 +333,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.close()
     }
 
+    fun eliminarPartidas() {
+        val db = this.writableDatabase
+        db.delete(TABLE_PARTIDAS, null, null)
+        db.delete(TABLE_JUGADORES, null, null)
+        db.close()
+    }
+
 
 }
 

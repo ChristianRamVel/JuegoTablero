@@ -3,7 +3,18 @@
     <style name="Base.Theme.JuegoTablero" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/ColorActionbar</item>
+        <item name="snackbarStyle">@style/AppSnackBar</item>
+        <item name="snackbarTextViewStyle">@style/AppSnackBar_textview</item>
     </style>
+
+    <style name="AppSnackBar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:background"> @color/white</item>
+    </style>
+
+    <style name="AppSnackBar_textview" parent="Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 
     <style name="Theme.JuegoTablero" parent="Base.Theme.JuegoTablero" />
 </resources>

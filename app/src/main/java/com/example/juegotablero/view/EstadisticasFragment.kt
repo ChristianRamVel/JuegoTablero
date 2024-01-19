@@ -35,7 +35,7 @@ class EstadisticasFragment : Fragment() {
         val botonResetear = view.findViewById<View>(R.id.botonResetear)
 
         botonResetear.setOnClickListener {
-            viewModel.resetearEstadisticas(requireActivity().getPreferences(Context.MODE_PRIVATE))
+            viewModel.resetearEstadisticas(requireActivity().getSharedPreferences("Estadisticas", Context.MODE_PRIVATE))
 
             // Actualizar las estadísticas mostradas
             leerEstadisticas(view)
@@ -43,7 +43,7 @@ class EstadisticasFragment : Fragment() {
     }
 
     fun leerEstadisticas(view : View){
-        val estadisticas = viewModel.leerEstadisticas(requireActivity().getPreferences(Context.MODE_PRIVATE))
+        val estadisticas = viewModel.leerEstadisticas(requireActivity().getSharedPreferences("Estadisticas", Context.MODE_PRIVATE))
 
         view.findViewById<TextView>(R.id.partidasGanadasJ1).text =
             getString(R.string.partidas_ganadas, estadisticas[Estadisticas.PARTIDAS_GANADASJ1].toString())

@@ -30,6 +30,9 @@
     <string name="continuar_partida">Continuar partida</string>
     <string name="partidas_guardadas">Partidas guardadas</string>
     <string name="cerrar">Cerrar</string>
+    <string name="borrar_partidas">Borrar todas las partidas</string>
+    <string name="resetear_estadisticas">Resetear estadisticas</string>
+
 
     <!-- Estadisticas -->
     <string name="resetear">Resetear</string>

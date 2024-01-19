@@ -90,7 +90,11 @@ class TableroFragment : Fragment(), OnGameEventListener {
         btnTirarDado.setOnClickListener {
             btnTirarDado.isEnabled = false
 
-            vibrate()
+            val sharedPreferences = requireContext().getSharedPreferences("config", Context.MODE_PRIVATE)
+            val vibration = sharedPreferences.getBoolean("vibration", true)
+            if (vibration){
+                vibrate()
+            }
 
 
             // Se obtiene el jugador de el turno actual
@@ -446,7 +450,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
 
     override fun onGameResult(isWinner: Boolean) {
-        val refs = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val refs = requireActivity().getSharedPreferences("Estadisticas", Context.MODE_PRIVATE)
 
         if (isWinner) {
             if (viewModel.paseAPreguntaFinal(viewModel.jugador1) || viewModel.paseAPreguntaFinal(viewModel.jugador2)) {

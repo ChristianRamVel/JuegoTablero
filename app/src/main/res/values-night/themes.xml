@@ -8,6 +8,17 @@
         <item name="android:textColorSecondary">@color/black</item>
         <item name="android:textColorTertiary">@color/black</item>
 
-
+        <item name="snackbarStyle">@style/AppSnackBar</item>
+        <item name="snackbarTextViewStyle">@style/AppSnackBar_textview</item>
     </style>
+
+    <style name="AppSnackBar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:background"> @color/white</item>
+    </style>
+
+    <style name="AppSnackBar_textview" parent="Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
 </resources>
