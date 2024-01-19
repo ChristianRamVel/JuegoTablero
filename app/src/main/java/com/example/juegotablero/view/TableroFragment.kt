@@ -11,8 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -35,7 +37,6 @@ class TableroFragment : Fragment(), OnGameEventListener {
     private lateinit var gridLayout: GridLayout
     private lateinit var tvInfoPartida: TextView
 
-
     companion object {
         const val TAG = "TableroFragment"
         // Resto del código
@@ -46,15 +47,19 @@ class TableroFragment : Fragment(), OnGameEventListener {
     ): View? {
         var view : View?
 
+
+
         if (vista == null) {
             vista = inflater.inflate(R.layout.fragment_tablero, container, false)
             view = vista
             gridLayout = view?.findViewById(R.id.gridLayoutTablero)!!
             tvInfoPartida = view.findViewById(R.id.tvInfoPartida)!!
 
+            val btnTirarDado = view.findViewById<AppCompatImageButton>(R.id.btnTirarDado)!! // Cambié de Button a AppCompatImageButton
+            btnTirarDado.isEnabled = true
+
             val factory = TableroViewModelFactory(requireContext()) // O applicationContext según el contexto que tengas
             viewModel = ViewModelProvider(this, factory)[TableroViewModel::class.java]
-
 
 
             val idPartida = arguments?.getInt("idPartida")
@@ -81,7 +86,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
         super.onViewCreated(view, savedInstanceState)
 
         // Se inicializan los componentes de la vista
-        val btnTirarDado = view.findViewById<Button>(R.id.btnTirarDado)!!
+        val btnTirarDado = view.findViewById<ImageButton>(R.id.btnTirarDado)!!
         btnTirarDado.isEnabled = true
 
         actualizarPuntuacion()
@@ -99,7 +104,17 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
             // Se obtiene el jugador de el turno actual
             jugadorActual = if (viewModel.turno == 0) viewModel.jugador1 else viewModel.jugador2
-            var ultimaTirada = 0
+            val ultimaTirada = viewModel.tirarDado()
+
+            //se camia la imagen del dado
+            when(ultimaTirada){
+                1 -> btnTirarDado.setImageResource(R.drawable.dado1)
+                2 -> btnTirarDado.setImageResource(R.drawable.dado2)
+                3 -> btnTirarDado.setImageResource(R.drawable.dado3)
+                4 -> btnTirarDado.setImageResource(R.drawable.dado4)
+                5 -> btnTirarDado.setImageResource(R.drawable.dado5)
+                6 -> btnTirarDado.setImageResource(R.drawable.dado6)
+            }
 
             // Se obtiene una pregunta aleatoria de la base de datos dependendiendo del tipo de casilla
             val preguntaCallback = object : ObtenerPreguntasCallback {
@@ -126,8 +141,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 }
             }
 
-            // Se tira el dado y se avanza de casilla
-            ultimaTirada = viewModel.tirarDado()
+
             avanzar(jugadorActual.posicion, 2)
 
             // Se obtiene una pregunta aleatoria de la base de datos
