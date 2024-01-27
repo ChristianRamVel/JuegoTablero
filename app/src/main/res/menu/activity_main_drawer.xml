@@ -20,19 +20,9 @@
             android:title="@string/estadisticas" />
 
         <item
-            android:id="@+id/about_us"
-            android:icon="@drawable/about_us"
-            android:title="@string/sobre_nosotros" />
-
-        <item
             android:id="@+id/settings"
             android:icon="@drawable/gear_solid"
             android:title="@string/ajustes" />
-
-        <item
-            android:id="@+id/musica"
-            android:icon="@drawable/music"
-            android:title="@string/musica" />
 
         <item
             android:id="@+id/exit"

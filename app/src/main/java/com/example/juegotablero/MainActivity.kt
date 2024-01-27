@@ -1,5 +1,7 @@
 package com.example.juegotablero
 
+import android.app.Dialog
+import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,7 +23,12 @@ import com.example.juegotablero.view.TestFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationView
 import android.media.MediaPlayer
+import android.widget.Button
+import android.widget.ImageView
 import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.juegotablero.model.DatabaseHelper
+import com.example.juegotablero.viewModel.EstadisticasViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     OnGameEventListener {
@@ -106,19 +113,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
             }
-            R.id.about_us -> {
-
-            }
             R.id.settings -> {
-
-            }
-            R.id.musica -> {
-                if (mediaPlayer?.isPlaying == true) {
-                    mediaPlayer?.pause()
-
-                } else {
-                    mediaPlayer?.start()
-                }
+                mostrarAjustes()
             }
             R.id.exit -> {
                 finish()
@@ -181,6 +177,116 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (music) {
             mediaPlayer?.start()
         }
+    }
+
+    private fun mostrarAjustes() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_ajustes_inicio)
+
+        val vibrationIcon = dialog.findViewById<ImageView>(R.id.vibrationIcon)
+        val musicIcon = dialog.findViewById<ImageView>(R.id.musicIcon)
+
+        // comprobar si la vibracion esta activada o no en shared preferences
+        val sharedPreferences = getSharedPreferences("config", MODE_PRIVATE)
+
+
+        var vibration = sharedPreferences.getBoolean("vibration", true)
+        if (vibration) {
+            vibrationIcon.setImageResource(R.drawable.vibration)
+        } else {
+            vibrationIcon.setImageResource(R.drawable.vibration_disabled)
+        }
+
+        var music = sharedPreferences.getBoolean("music", true)
+        if (music) {
+            musicIcon.setImageResource(R.drawable.music)
+        } else {
+            musicIcon.setImageResource(R.drawable.music_off)
+        }
+
+        vibrationIcon.setOnClickListener {
+            vibration = sharedPreferences.getBoolean("vibration", true)
+            val editor = sharedPreferences.edit()
+            if (vibration) {
+                vibrationIcon.setImageResource(R.drawable.vibration_disabled)
+                editor.putBoolean("vibration", false)
+                Snackbar.make(findViewById(R.id.drawer_layout), "Vibración desactivada", Snackbar.LENGTH_SHORT).show()
+            } else {
+                vibrationIcon.setImageResource(R.drawable.vibration)
+                editor.putBoolean("vibration", true)
+                Snackbar.make(findViewById(R.id.drawer_layout), "Vibración activada", Snackbar.LENGTH_SHORT).show()
+            }
+            editor.apply()
+        }
+
+        musicIcon.setOnClickListener {
+            music = sharedPreferences.getBoolean("music", true)
+            val editor = sharedPreferences.edit()
+            if (music) {
+                musicIcon.setImageResource(R.drawable.music_off)
+                editor.putBoolean("music", false)
+                mediaPlayer?.pause()
+                Snackbar.make(findViewById(R.id.drawer_layout), "Música desactivada", Snackbar.LENGTH_SHORT).show()
+            } else {
+                musicIcon.setImageResource(R.drawable.music)
+                editor.putBoolean("music", true)
+                mediaPlayer?.start()
+                Snackbar.make(findViewById(R.id.drawer_layout), "Música activada", Snackbar.LENGTH_SHORT).show()
+            }
+            editor.apply()
+        }
+
+
+        val btnBorrarPartidas = dialog.findViewById<Button>(R.id.btnBorrarPartidas)
+        btnBorrarPartidas.setOnClickListener {
+            dialog.dismiss()
+            showAlertBorrarPartidas()
+        }
+
+        val btnBorrarEstadisticas = dialog.findViewById<Button>(R.id.btnResetearEstadisticas)
+        btnBorrarEstadisticas.setOnClickListener {
+            dialog.dismiss()
+            showAlertBorrarEstadisticas()
+        }
+
+        dialog.show()
+    }
+
+    private fun showAlertBorrarPartidas() {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+
+        builder.setTitle("¿Quieres borrar todas las partidas?")
+        builder.setMessage("Estas a punto de borrar todas las partidas guardadas")
+        builder.setPositiveButton("Aceptar") { _, _ ->
+            val dbHelper = DatabaseHelper(this)
+            dbHelper.eliminarPartidas()
+            Snackbar.make(findViewById(R.id.drawer_layout), "Partidas borradas", Snackbar.LENGTH_SHORT).show()
+        }
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.dismiss()
+
+        }
+        val dialog: androidx.appcompat.app.AlertDialog = builder.create()
+
+        dialog.show()
+    }
+
+    private fun showAlertBorrarEstadisticas() {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+
+        builder.setTitle("¿Quieres resetear todas las estadisticas?")
+        builder.setMessage("Estas a punto de resetear todas las estadisticas guardadas")
+        builder.setPositiveButton("Aceptar") { _, _ ->
+            val estadisticasViewModel = EstadisticasViewModel()
+            estadisticasViewModel.resetearEstadisticas(getSharedPreferences("Estadisticas", Context.MODE_PRIVATE))
+            Snackbar.make(findViewById(R.id.drawer_layout), "Estadisticas reseteadas", Snackbar.LENGTH_SHORT).show()
+        }
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.dismiss()
+        }
+        val dialog: androidx.appcompat.app.AlertDialog = builder.create()
+
+        dialog.show()
     }
 }
 

@@ -2,6 +2,9 @@ package com.example.juegotablero.view
 
 import android.content.Context
 import android.content.res.Configuration
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -16,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Slide
@@ -93,6 +97,13 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
 
         btnTirarDado.setOnClickListener {
+
+            if (!isInternetAvailable()) {
+                showToast("No hay conexión a internet, inténtelo mas tarde")
+                return@setOnClickListener
+            }
+
+
             btnTirarDado.isEnabled = false
 
             val sharedPreferences = requireContext().getSharedPreferences("config", Context.MODE_PRIVATE)
@@ -505,6 +516,21 @@ class TableroFragment : Fragment(), OnGameEventListener {
         if (vibrator.hasVibrator()) {
             val vibrationEffect = VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
             vibrator.vibrate(vibrationEffect)
+        }
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager = getSystemService(requireContext(), ConnectivityManager::class.java) as ConnectivityManager
+
+        val networkCapabilities = connectivityManager.activeNetwork ?: return false
+        val actNw =
+            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+
+        return when {
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
         }
     }
 
