@@ -160,6 +160,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         tableroFragment?.onGameResult(isWinner)
     }
 
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer?.pause()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayer?.start()
+    }
+
 }
 
 
