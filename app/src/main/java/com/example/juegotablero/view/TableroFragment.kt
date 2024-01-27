@@ -6,8 +6,10 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +34,7 @@ import com.example.juegotablero.model.Pregunta
 import com.example.juegotablero.viewModel.TableroViewModel
 import com.example.juegotablero.viewModel.TableroViewModelFactory
 import com.google.firebase.database.DatabaseError
+import kotlinx.coroutines.delay
 
 class TableroFragment : Fragment(), OnGameEventListener {
 
@@ -152,8 +155,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 }
             }
 
-
-            avanzar(jugadorActual.posicion, 2)
+            avanzar(jugadorActual.posicion, ultimaTirada)
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugadorActual, preguntaCallback)
