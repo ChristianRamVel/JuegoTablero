@@ -112,14 +112,24 @@ class InicioActivity: AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_ajustes_inicio)
 
         val vibrationIcon = dialog.findViewById<ImageView>(R.id.vibrationIcon)
+        val musicIcon = dialog.findViewById<ImageView>(R.id.musicIcon)
+
         // comprobar si la vibracion esta activada o no en shared preferences
         val sharedPreferences = getSharedPreferences("config", MODE_PRIVATE)
+
 
         var vibration = sharedPreferences.getBoolean("vibration", true)
         if (vibration) {
             vibrationIcon.setImageResource(R.drawable.vibration)
         } else {
             vibrationIcon.setImageResource(R.drawable.vibration_disabled)
+        }
+
+        var music = sharedPreferences.getBoolean("music", true)
+        if (music) {
+            musicIcon.setImageResource(R.drawable.music)
+        } else {
+            musicIcon.setImageResource(R.drawable.music_off)
         }
 
         vibrationIcon.setOnClickListener {
@@ -133,6 +143,21 @@ class InicioActivity: AppCompatActivity() {
                 vibrationIcon.setImageResource(R.drawable.vibration)
                 editor.putBoolean("vibration", true)
                 Snackbar.make(findViewById(R.id.inicio), "Vibración activada", Snackbar.LENGTH_SHORT).show()
+            }
+            editor.apply()
+        }
+
+        musicIcon.setOnClickListener {
+            music = sharedPreferences.getBoolean("music", true)
+            val editor = sharedPreferences.edit()
+            if (music) {
+                musicIcon.setImageResource(R.drawable.music_off)
+                editor.putBoolean("music", false)
+                Snackbar.make(findViewById(R.id.inicio), "Música desactivada", Snackbar.LENGTH_SHORT).show()
+            } else {
+                musicIcon.setImageResource(R.drawable.music)
+                editor.putBoolean("music", true)
+                Snackbar.make(findViewById(R.id.inicio), "Música activada", Snackbar.LENGTH_SHORT).show()
             }
             editor.apply()
         }

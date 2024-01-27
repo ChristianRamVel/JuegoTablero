@@ -19,6 +19,19 @@
         app:layout_constraintTop_toBottomOf="@+id/btnResetearEstadisticas"
         tools:srcCompat="@drawable/vibration" />
 
+    <ImageView
+        android:id="@+id/musicIcon"
+        android:layout_width="61dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnResetearEstadisticas"
+        app:layout_constraintVertical_bias="0.498"
+        tools:srcCompat="@drawable/music" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="400dp"

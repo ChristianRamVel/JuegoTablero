@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var drawer: DrawerLayout
     private var mediaPlayer: MediaPlayer? = null
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,7 +40,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // Reproduce la música en un bucle (si se desea)
         mediaPlayer?.isLooping = true
-        mediaPlayer?.start()
+
+        startMusic()
 
         //toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar_main)
@@ -169,9 +172,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onResume() {
         super.onResume()
-        mediaPlayer?.start()
+        startMusic()
     }
+    fun startMusic(){
+        val sharedPreferences = getSharedPreferences("config", MODE_PRIVATE)
 
+        val music = sharedPreferences.getBoolean("music", true)
+        if (music) {
+            mediaPlayer?.start()
+        }
+    }
 }
 
 
