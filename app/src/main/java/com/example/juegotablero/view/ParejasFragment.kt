@@ -4,6 +4,7 @@ import ParejasViewModel
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.juegotablero.R
 import com.example.juegotablero.common.interfaces.OnGameEventListener
 import com.example.juegotablero.model.Pregunta
@@ -66,9 +68,10 @@ class ParejasFragment : Fragment() {
 
         // Crear y agregar botones dinámicamente al GridLayout
         for (primerPar in primerosPares) {
-            val button = Button(requireContext())
+            val button = Button(ContextThemeWrapper(requireContext(), R.style.MyButtonStyle))
             button.text = primerPar
-            button.maxWidth = 500
+
+
             button.setOnClickListener {
                 onButtonClicked(button)
             }
@@ -76,7 +79,8 @@ class ParejasFragment : Fragment() {
         }
 
         for (segundoPar in segundosPares) {
-            val button = Button(requireContext())
+            val button = Button(ContextThemeWrapper(requireContext(), R.style.MyButtonStyle))
+
             button.text = segundoPar
             button.maxWidth = 500
             button.setOnClickListener {
@@ -92,6 +96,11 @@ class ParejasFragment : Fragment() {
             primerParSeleccionado = button
 
             primerParSeleccionado?.isSelected = true
+
+            // poner el boton en color verde
+            primerParSeleccionado?.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.botonesComprobar);
+
+
         } else {
             // Si ya hay un par seleccionado, guarda el botón del tipo seleccionado
             segundoParSeleccionado = button

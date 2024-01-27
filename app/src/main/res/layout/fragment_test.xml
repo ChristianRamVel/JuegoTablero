@@ -28,7 +28,7 @@
             android:text="@string/pregunta"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@+id/layoutTest"
+            app:layout_constraintBottom_toTopOf="@+id/layoutFinal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,7 +37,7 @@
         </TextView>
 
         <GridLayout
-            android:id="@+id/layoutTest"
+            android:id="@+id/layoutFinal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"

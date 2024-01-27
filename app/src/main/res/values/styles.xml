@@ -46,5 +46,18 @@
     </style>
 
 
+    <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@drawable/buttonshape</item>
+        <item name="android:layout_width">270dp</item>
+        <item name="android:backgroundTint">@color/ColorActionbar</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+
 
 </resources>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorFondo"
     tools:context=".view.AdivinarPalabraFragment">
-
-
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,10 +17,10 @@
             android:id="@+id/tvEnunciadoAdivinarPalabra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="enunciado"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvIntentosAdivinarPalabra"
             android:gravity="center"
+            android:text="enunciado"
+            app:layout_constraintBottom_toTopOf="@id/tvIntentosAdivinarPalabra"
+            app:layout_constraintTop_toTopOf="parent"
 
             />
 
@@ -29,23 +28,20 @@
             android:id="@+id/tvIntentosAdivinarPalabra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="intentos : 5"
-            app:layout_constraintTop_toBottomOf="@id/tvEnunciadoAdivinarPalabra"
-            app:layout_constraintBottom_toTopOf="@id/tvPalabraAdivinar"
             android:gravity="center"
-            ></TextView>
+            android:text="intentos : 5"
+            app:layout_constraintBottom_toTopOf="@id/tvPalabraAdivinar"
+            app:layout_constraintTop_toBottomOf="@id/tvEnunciadoAdivinarPalabra"></TextView>
 
         <TextView
             android:id="@+id/tvPalabraAdivinar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="palabraOculta"
-            app:layout_constraintTop_toBottomOf="@id/tvIntentosAdivinarPalabra"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:gravity="center"
             android:layout_marginBottom="400dp"
-            ></TextView>
-
+            android:gravity="center"
+            android:text="palabraOculta"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIntentosAdivinarPalabra"></TextView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
