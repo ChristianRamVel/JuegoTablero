@@ -9,59 +9,65 @@
         android:id="@+id/jugador2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/roboto_bold"
         android:text="@string/jugador2"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/partidasGanadasJ2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minijuegosPerdidosJ1" />
 
     <TextView
         android:id="@+id/minijuegosPerdidosJ2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/minijuegos_perdidos"
-        app:layout_constraintBottom_toTopOf="@+id/botonResetear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minijuegosGanadosJ2" />
 
     <TextView
         android:id="@+id/partidasGanadasJ2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/partidas_ganadas"
-        app:layout_constraintBottom_toTopOf="@+id/minijuegosJugadosJ2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jugador2" />
 
     <TextView
         android:id="@+id/minijuegosGanadosJ2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/minijuegos_ganados"
-        app:layout_constraintBottom_toTopOf="@+id/minijuegosPerdidosJ2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minijuegosJugadosJ2" />
 
     <TextView
         android:id="@+id/minijuegosJugadosJ2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/minijuegos_jugados"
-        app:layout_constraintBottom_toTopOf="@+id/minijuegosGanadosJ2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/partidasGanadasJ2" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:fontFamily="@font/roboto_bold"
         android:text="@string/estadisticas"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,68 +77,73 @@
 
     <Button
         android:id="@+id/botonResetear"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/buttonshape"
         android:text="@string/resetear"
         android:textColor="@color/white"
-        android:backgroundTint="@color/botonesComprobar"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minijuegosPerdidosJ2" />
 
     <TextView
         android:id="@+id/partidasGanadasJ1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/partidas_ganadas"
-        app:layout_constraintBottom_toTopOf="@+id/minijuegosJugadosJ1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
     <TextView
         android:id="@+id/minijuegosJugadosJ1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/minijuegos_jugados"
-        app:layout_constraintBottom_toTopOf="@+id/minijuegosGanadosJ1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/partidasGanadasJ1" />
 
     <TextView
         android:id="@+id/minijuegosGanadosJ1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/minijuegos_ganados"
-        app:layout_constraintBottom_toTopOf="@+id/minijuegosPerdidosJ1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minijuegosJugadosJ1" />
 
     <TextView
         android:id="@+id/minijuegosPerdidosJ1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/minijuegos_perdidos"
-        app:layout_constraintBottom_toTopOf="@+id/jugador2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minijuegosGanadosJ1" />
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/roboto_bold"
         android:text="@string/jugador1"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/partidasGanadasJ1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

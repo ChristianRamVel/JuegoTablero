@@ -485,26 +485,34 @@ class TableroFragment : Fragment(), OnGameEventListener {
             // Se incrementa la puntuación del jugador
             else if (viewModel.turno == 0) {
                 viewModel.sumarPunto(viewModel.jugador1)
-                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ2)
+                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ1)
             } else {
                 viewModel.sumarPunto(viewModel.jugador2)
-                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ1)
+                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_GANADOSJ2)
             }
 
             // Se comprueba si el jugador ha ganado
             if (viewModel.haGanado(jugadorActual)) {
                 showAlertFinalDePartida("El jugador ${if (viewModel.turno == 0) "1" else "2"} ha ganado")
+                if (viewModel.turno == 0) viewModel.guardarEstadistica(refs, Estadisticas.PARTIDAS_GANADASJ1)
+                else viewModel.guardarEstadistica(refs, Estadisticas.PARTIDAS_GANADASJ2)
             }
 
+            if (viewModel.turno == 0) viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_JUGADOSJ1)
+            else viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_JUGADOSJ2)
+
         }else{
-            if (viewModel.turno == 0) Estadisticas.MINIJUEGOS_PERDIDOSJ2
-            else Estadisticas.MINIJUEGOS_PERDIDOSJ1
+            if (viewModel.turno == 0){
+                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_PERDIDOSJ1)
+                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_JUGADOSJ1)
+            }
+            else{
+                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_PERDIDOSJ2)
+                viewModel.guardarEstadistica(refs, Estadisticas.MINIJUEGOS_JUGADOSJ2)
+            }
             viewModel.cambiarTurno()
             actualizarTurno()
         }
-
-        if (viewModel.turno == 0) Estadisticas.MINIJUEGOS_JUGADOSJ2
-        else Estadisticas.MINIJUEGOS_JUGADOSJ1
 
         viewModel.guardarJugadores()
         viewModel.guardarPartida()
