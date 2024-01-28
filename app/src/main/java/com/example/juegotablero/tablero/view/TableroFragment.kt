@@ -165,7 +165,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 }
             }
 
-            avanzar(jugadorActual.posicion, ultimaTirada)
+            avanzar(jugadorActual.posicion, 1)
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugadorActual, preguntaCallback)
@@ -197,6 +197,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 layoutParams.rowSpec = GridLayout.spec(fila)
                 layoutParams.columnSpec = GridLayout.spec(columna)
                 button.layoutParams = layoutParams
+                button.maxWidth = 100
                 button.setBackgroundColor(colors[(fila + columna) % colors.size])
                 button.text = ""
                 gridLayout.addView(button)
@@ -485,9 +486,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
             val button = gridLayout.getChildAt(i) as? Button
                 // Verifica si cualquiera de los jugadores está en esta posición y actualiza el texto del botón
                 button?.text = when {
-                    i == viewModel.jugador1.posicion && i == viewModel.jugador2.posicion -> "J1/J2"
-                    i == viewModel.jugador1.posicion -> "J1"
-                    i == viewModel.jugador2.posicion -> "J2"
+                    i == viewModel.jugador1.posicion && i == viewModel.jugador2.posicion -> "Ambos"
+                    i == viewModel.jugador1.posicion -> viewModel.jugador1.nombre
+                    i == viewModel.jugador2.posicion -> viewModel.jugador2.nombre
                     else -> ""
                 }
         }
@@ -576,7 +577,19 @@ class TableroFragment : Fragment(), OnGameEventListener {
             val nombreJugador1 = dialog.findViewById<TextView>(R.id.etJugador1).text.toString()
             val nombreJugador2 = dialog.findViewById<TextView>(R.id.etJugador2).text.toString()
 
-            if (nombreJugador1.isNotEmpty() && nombreJugador2.isNotEmpty()) {
+                if (nombreJugador1.isEmpty() || nombreJugador2.isEmpty()) {
+                    Toast.makeText(requireContext(), "Introduce un nombre para cada jugador", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if (nombreJugador1 == nombreJugador2) {
+                    Toast.makeText(requireContext(), "Los nombres de los jugadores no pueden ser iguales", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if (nombreJugador1.length > 10 || nombreJugador2.length > 10) {
+                    Toast.makeText(requireContext(), "Los nombres de los jugadores no pueden tener mas de 10 caracteres", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
                 viewModel.crearJugadores(nombreJugador1, nombreJugador2)
                 viewModel.crearPartida()
 
@@ -588,9 +601,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 actualizarTablero()
 
                 dialog.dismiss()
-            } else {
-                Toast.makeText(requireContext(), "Introduce un nombre para cada jugador", Toast.LENGTH_SHORT).show()
-            }
+
         }
 
         dialog.show()
