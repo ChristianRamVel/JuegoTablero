@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JuegoTablero</string>
+    <string name="turno_jugador1">Turno del Jugador 1</string>
+    <string name="turno_jugador2">Turno del Jugador 2</string>
+    <string name="infoJugador1">Info J1: </string>
+    <string name="infoJugador2">Info J2: </string>
+    <string name="PAdivinaPalabra">Ad.Palabra</string>
+    <string name="PTest">Test</string>
+    <string name="PParejas">Parejas</string>
+    <string name="PRepaso">Repaso</string>
+    <string name="PFinal">P.Final</string>
+    <string name="pregunta">enunciado pregunta</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="comprobar">Comprobar</string>
+    <string name="navigation_drawer_open">Abrir</string>
+    <string name="navigation_drawer_close">Cerrar</string>
+    <string name="logo">Logo</string>
+
+
+    <!-- Menu lateral -->
+    <string name="nueva_partida">Nueva partida</string>
+    <string name="sobre_nosotros">Sobre nosotros</string>
+    <string name="añadir_preguntas">Añadir preguntas</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="salir">Salir</string>
+    <string name="estadisticas">Estadisticas</string>
+
+    <!-- Menu inicio -->
+    <string name="continuar_partida">Continuar partida</string>
+    <string name="partidas_guardadas">Partidas guardadas</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="borrar_partidas">Borrar todas las partidas</string>
+    <string name="resetear_estadisticas">Resetear estadisticas</string>
+
+
+    <!-- Estadisticas -->
+    <string name="resetear">Resetear</string>
+    <string name="minijuegos_jugados">Minijuegos jugados: %1$s</string>
+    <string name="minijuegos_ganados">Minijuegos ganados: %1$s</string>
+    <string name="minijuegos_perdidos">Minijuegos perdidos: %1$s</string>
+    <string name="partidas_ganadas">Partidas ganadas: %1$s</string>
+    <string name="jugador1">Jugador 1</string>
+    <string name="jugador2">Jugador 2</string>
+
+
+    <!-- Añadir preguntas -->
+    <string name="tipoPregunta">¿Que tipo de pregunta quieres añadir?</string>
+    <string name="respuestaCorrecta">Respuesta correcta:</string>
+    <string name="opcion1">Opción 1</string>
+    <string name="opcion2">Opción 2</string>
+    <string name="opcion3">Opción 3</string>
+    <string name="palabra">Palabra</string>
+
+    <string name="escribeEnunciado">Escribe tu enunciado aquí…</string>
+    <string name="escribeDefinicion">Escribe tu definición aqui…</string>
+    <string name="nuevaPregunta">Nueva pregunta %1$s</string>
+    <string name="crearNuevaPregunta">Crear nueva pregunta</string>
+    <string name="musica">Música</string>
+
+    <string name="vibracionDescativada">Vibración activada</string>
+    <string name="vibracionActivada">Vibración desactivada</string>
+    <string name="musicaDesactivada">Música desactivada</string>
+    <string name="musicaActivada">Música activada</string>
+
+
+    <string name="resetearConfirmacion">¿Estás seguro de que quieres resetear las estadísticas?</string>
+    <string name="resetearConfirmacionMensaje">Se van a borrar todas las estadísticas guardadas para siempre</string>
+    <string name="borrarConfirmacion">¿Seguro que quieres borrar todas las partidas?</string>
+    <string name="borrarConfirmacionMensaje">Se van a borrar todas las partidas guardadas para siempre</string>
+
+    <string name="cancelar">Cancelar</string>
+    <string name="aceptar">Aceptar</string>
+
+    <string name="tirada">Has sacado un %1$d</string>
+    <string name="casillaCaida">Has caido en una casilla de %1$s</string>
+
+    <string name="finDePartida">Fin de la partida</string>
+
+    <string name="mensajePruebaFinal">Has completado todas las pruebas y va a comenzar la prueba final</string>
+
+    <string name="noInternet">No hay conexión a internet, inténtelo de nuevo más tarde</string>
+
+
+
+
+
+
+</resources>

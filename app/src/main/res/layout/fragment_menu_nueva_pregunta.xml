@@ -8,9 +8,11 @@
 
     <Button
         android:id="@+id/btnAdivinaPalabra"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/buttonshape"
         android:text="@string/PAdivinaPalabra"
         app:layout_constraintBottom_toTopOf="@+id/btnParejas"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,20 +20,24 @@
 
     <Button
         android:id="@+id/btnPruebaFinal"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="236dp"
+        android:layout_marginBottom="180dp"
+        android:background="@drawable/buttonshape"
         android:text="@string/PFinal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnTest"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/buttonshape"
         android:text="@string/PTest"
         app:layout_constraintBottom_toTopOf="@+id/btnPruebaFinal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,9 +45,11 @@
 
     <Button
         android:id="@+id/btnRepaso"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/buttonshape"
         android:text="@string/PRepaso"
         app:layout_constraintBottom_toTopOf="@+id/btnTest"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,9 +57,11 @@
 
     <Button
         android:id="@+id/btnParejas"
-        android:layout_width="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/buttonshape"
         android:text="@string/PParejas"
         app:layout_constraintBottom_toTopOf="@+id/btnRepaso"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,8 +71,10 @@
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/tipoPregunta"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

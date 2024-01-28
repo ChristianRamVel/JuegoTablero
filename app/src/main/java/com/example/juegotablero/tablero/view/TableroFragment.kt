@@ -103,7 +103,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
         btnTirarDado.setOnClickListener {
 
             if (!isInternetAvailable()) {
-                showToast("No hay conexión a internet, inténtelo mas tarde")
+                showToast(getString(R.string.noInternet))
                 return@setOnClickListener
             }
 
@@ -139,10 +139,10 @@ class TableroFragment : Fragment(), OnGameEventListener {
                         viewModel.guardarPartida()
                         viewModel.guardarJugadores()
                         if (viewModel.paseAPreguntaFinal(jugadorActual)) {
-                            showAlertMinijuego("Has completado todas las pruebas y va a comenzar la prueba final", preguntas, ultimaTirada)
+                            showAlertMinijuego(getString(R.string.mensajePruebaFinal), preguntas, ultimaTirada)
 
                         }else{
-                            showAlertMinijuego("Has caído en una casilla de ${viewModel.obtenerTipoCasilla(jugadorActual)}", preguntas, ultimaTirada)
+                            showAlertMinijuego(getString(R.string.casillaCaida, viewModel.obtenerTipoCasilla(jugadorActual)) , preguntas, ultimaTirada)
 
                         }
                     } else {
@@ -294,9 +294,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
         if (viewModel.paseAPreguntaFinal(viewModel.jugador1) || viewModel.paseAPreguntaFinal(viewModel.jugador2)) builder.setTitle("Estas listo")
         else
-            builder.setTitle("Has sacado un $ultimaTirada")
+            builder.setTitle(getString(R.string.tirada, ultimaTirada))
         builder.setMessage(message)
-        builder.setPositiveButton("Aceptar") { _, _ ->
+        builder.setPositiveButton(getString(R.string.aceptar)) { _, _ ->
             // Al pulsar en aceptar se abre el fragment correspondiente a la pregunta
             mostrarPregunta(preguntas)
         }
@@ -323,10 +323,10 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
     fun showAlertFinalDePartida(message: String) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
-        builder.setTitle("Fin de la partida")
+        builder.setTitle(getString(R.string.finDePartida))
         builder.setMessage(message)
 
-        builder.setPositiveButton("Salir") { _, _ ->
+        builder.setPositiveButton(getString(R.string.salir)) { _, _ ->
               // Al pulsar en aceptar se abre el fragment correspondiente a la pregunta
                 requireActivity().finish()
         }

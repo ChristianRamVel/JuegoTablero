@@ -1,62 +1,85 @@
 <resources>
     <string name="app_name">JuegoTablero</string>
-    <string name="turno_jugador1">Turno del Jugador 1</string>
-    <string name="turno_jugador2">Turno del Jugador 2</string>
-    <string name="infoJugador1">Info J1: </string>
-    <string name="infoJugador2">Info J2: </string>
-    <string name="PAdivinaPalabra">Ad.Palabra</string>
+    <string name="turno_jugador1">Player 1 turn</string>
+    <string name="turno_jugador2">player 2 turn</string>
+    <string name="infoJugador1">J1 info: </string>
+    <string name="infoJugador2">J2 info: </string>
+    <string name="PAdivinaPalabra">Guess the word</string>
     <string name="PTest">Test</string>
-    <string name="PParejas">Parejas</string>
-    <string name="PRepaso">Repaso</string>
-    <string name="PFinal">P.Final</string>
-    <string name="pregunta">enunciado pregunta</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="PParejas">Match</string>
+    <string name="PRepaso">Learn up</string>
+    <string name="PFinal">Final test</string>
+    <string name="pregunta">Question statement</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="comprobar">Comprobar</string>
-    <string name="navigation_drawer_open">Abrir</string>
-    <string name="navigation_drawer_close">Cerrar</string>
+    <string name="comprobar">Check</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
     <string name="logo">Logo</string>
 
 
     <!-- Menu lateral -->
-    <string name="nueva_partida">Nueva partida</string>
-    <string name="sobre_nosotros">Sobre nosotros</string>
-    <string name="añadir_preguntas">Añadir preguntas</string>
-    <string name="ajustes">Ajustes</string>
-    <string name="salir">Salir</string>
-    <string name="estadisticas">Estadisticas</string>
+    <string name="nueva_partida">New game</string>
+    <string name="sobre_nosotros">About us</string>
+    <string name="añadir_preguntas">New questions</string>
+    <string name="ajustes">Settings</string>
+    <string name="salir">Exit</string>
+    <string name="estadisticas">Statistics</string>
 
     <!-- Menu inicio -->
-    <string name="continuar_partida">Continuar partida</string>
-    <string name="partidas_guardadas">Partidas guardadas</string>
-    <string name="cerrar">Cerrar</string>
-    <string name="borrar_partidas">Borrar todas las partidas</string>
-    <string name="resetear_estadisticas">Resetear estadisticas</string>
+    <string name="continuar_partida">Continue game</string>
+    <string name="partidas_guardadas">Saved games</string>
+    <string name="cerrar">Close</string>
+    <string name="borrar_partidas">Delete all games</string>
+    <string name="resetear_estadisticas">Reset statistics</string>
 
 
     <!-- Estadisticas -->
-    <string name="resetear">Resetear</string>
-    <string name="minijuegos_jugados">Minijuegos jugados: %1$s</string>
-    <string name="minijuegos_ganados">Minijuegos ganados: %1$s</string>
-    <string name="minijuegos_perdidos">Minijuegos perdidos: %1$s</string>
-    <string name="partidas_ganadas">Partidas ganadas: %1$s</string>
-    <string name="jugador1">Jugador 1</string>
-    <string name="jugador2">Jugador 2</string>
+    <string name="resetear">Reset</string>
+    <string name="minijuegos_jugados">Played minigames: %1$s</string>
+    <string name="minijuegos_ganados">Won minigames: %1$s</string>
+    <string name="minijuegos_perdidos">Lost minigames: %1$s</string>
+    <string name="partidas_ganadas">Won games: %1$s</string>
+    <string name="jugador1">Player 1</string>
+    <string name="jugador2">Player 2</string>
 
 
     <!-- Añadir preguntas -->
-    <string name="tipoPregunta">¿Que tipo de pregunta quieres añadir?</string>
-    <string name="respuestaCorrecta">Respuesta correcta:</string>
-    <string name="opcion1">Opción 1</string>
-    <string name="opcion2">Opción 2</string>
-    <string name="opcion3">Opción 3</string>
-    <string name="palabra">Palabra</string>
+    <string name="tipoPregunta">What type of question do you want to add?</string>
+    <string name="respuestaCorrecta">Correct answer:</string>
+    <string name="opcion1">Option 1</string>
+    <string name="opcion2">Option 2</string>
+    <string name="opcion3">Option 3</string>
+    <string name="palabra">Word</string>
 
-    <string name="escribeEnunciado">Escribe tu enunciado aqui…</string>
-    <string name="escribeDefinicion">Escribe tu definición aqui…</string>
-    <string name="nuevaPregunta">Nueva pregunta %1$s</string>
-    <string name="crearNuevaPregunta">Crear nueva pregunta</string>
-    <string name="musica">Musica</string>
+    <string name="escribeEnunciado">Write your statement here…</string>
+    <string name="escribeDefinicion">write your definition here…</string>
+    <string name="nuevaPregunta">New question %1$s</string>
+    <string name="crearNuevaPregunta">Create new question</string>
+    <string name="musica">Music</string>
+
+    <string name="vibracionDescativada">Vibration off</string>
+    <string name="vibracionActivada">Vibration on</string>
+    <string name="musicaDesactivada">Music off</string>
+    <string name="musicaActivada">Music on</string>
+
+    <string name="resetearConfirmacion">Are you sure you want to reset the statistics?</string>
+    <string name="resetearConfirmacionMensaje">All saved statistics will be deleted forever</string>
+
+    <string name="cancelar">Cancel</string>
+    <string name="aceptar">Accept</string>
+
+    <string name="borrarConfirmacion">Are you sure you want to delete all saved games?</string>
+    <string name="borrarConfirmacionMensaje">All saved games will be deleted forever</string>
+
+    <string name="tirada">You have rolled a %1$d</string>
+    <string name="casillaCaida">You have fallen into a %1$s game</string>
+
+    <string name="finDePartida">Game over</string>
+    <string name="mensajePruebaFinal">You have completed all the tests and the final test will begin</string>
+
+    <string name="noInternet">No internet connection, try again later</string>
+
 
 
 </resources>

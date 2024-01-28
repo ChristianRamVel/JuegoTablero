@@ -129,11 +129,11 @@ class InicioActivity: AppCompatActivity() {
             if (vibration) {
                 vibrationIcon.setImageResource(R.drawable.vibration_disabled)
                 editor.putBoolean("vibration", false)
-                Snackbar.make(findViewById(R.id.inicio), "Vibración desactivada", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(findViewById(R.id.inicio), getString(R.string.vibracionDescativada), Snackbar.LENGTH_SHORT).show()
             } else {
                 vibrationIcon.setImageResource(R.drawable.vibration)
                 editor.putBoolean("vibration", true)
-                Snackbar.make(findViewById(R.id.inicio), "Vibración activada", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(findViewById(R.id.inicio), getString(R.string.vibracionActivada), Snackbar.LENGTH_SHORT).show()
             }
             editor.apply()
         }
@@ -144,11 +144,11 @@ class InicioActivity: AppCompatActivity() {
             if (music) {
                 musicIcon.setImageResource(R.drawable.music_off)
                 editor.putBoolean("music", false)
-                Snackbar.make(findViewById(R.id.inicio), "Música desactivada", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(findViewById(R.id.inicio), getString(R.string.musicaDesactivada), Snackbar.LENGTH_SHORT).show()
             } else {
                 musicIcon.setImageResource(R.drawable.music)
                 editor.putBoolean("music", true)
-                Snackbar.make(findViewById(R.id.inicio), "Música activada", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(findViewById(R.id.inicio), getString(R.string.musicaActivada), Snackbar.LENGTH_SHORT).show()
             }
             editor.apply()
         }
@@ -172,14 +172,14 @@ class InicioActivity: AppCompatActivity() {
     private fun showAlertBorrarPartidas() {
         val builder = androidx.appcompat.app.AlertDialog.Builder(this)
 
-        builder.setTitle("¿Quieres borrar todas las partidas?")
-        builder.setMessage("Estas a punto de borrar todas las partidas guardadas")
-        builder.setPositiveButton("Aceptar") { _, _ ->
+        builder.setTitle(getString(R.string.borrarConfirmacion))
+        builder.setMessage(getString(R.string.borrarConfirmacionMensaje))
+        builder.setPositiveButton(getString(R.string.aceptar)) { _, _ ->
             val dbHelper = DatabaseHelper(this)
             dbHelper.eliminarPartidas()
             Snackbar.make(findViewById(R.id.inicio), "Partidas borradas", Snackbar.LENGTH_SHORT).show()
         }
-        builder.setNegativeButton("Cancelar") { dialog, _ ->
+        builder.setNegativeButton(getString(R.string.cancelar)) { dialog, _ ->
             dialog.dismiss()
 
         }
@@ -191,27 +191,19 @@ class InicioActivity: AppCompatActivity() {
     private fun showAlertBorrarEstadisticas() {
         val builder = androidx.appcompat.app.AlertDialog.Builder(this)
 
-        builder.setTitle("¿Quieres resetear todas las estadisticas?")
-        builder.setMessage("Estas a punto de resetear todas las estadisticas guardadas")
-        builder.setPositiveButton("Aceptar") { _, _ ->
+        builder.setTitle(getString(R.string.resetearConfirmacion))
+        builder.setMessage(getString(R.string.resetearConfirmacionMensaje))
+        builder.setPositiveButton(getString(R.string.aceptar)) { _, _ ->
             val estadisticasViewModel = EstadisticasViewModel()
             estadisticasViewModel.resetearEstadisticas(getSharedPreferences("Estadisticas", Context.MODE_PRIVATE))
             Snackbar.make(findViewById(R.id.inicio), "Estadisticas reseteadas", Snackbar.LENGTH_SHORT).show()
         }
-        builder.setNegativeButton("Cancelar") { dialog, _ ->
+        builder.setNegativeButton(getString(R.string.cancelar)) { dialog, _ ->
             dialog.dismiss()
         }
         val dialog: androidx.appcompat.app.AlertDialog = builder.create()
 
         dialog.show()
     }
-
-
-
-
-
-
-
-
 
 }
