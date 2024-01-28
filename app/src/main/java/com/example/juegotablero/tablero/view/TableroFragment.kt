@@ -1,5 +1,6 @@
 package com.example.juegotablero.tablero.view
 
+import android.app.Dialog
 import android.content.Context
 import android.content.res.Configuration
 import android.net.ConnectivityManager
@@ -75,14 +76,17 @@ class TableroFragment : Fragment(), OnGameEventListener {
             if (idPartida != null) {
                 viewModel.cargarPartida(idPartida)
                 viewModel.cargarJugadores()
+
+                setupTablero()
+                actualizarTurno()
+                actualizarTablero()
+                actualizarPuntuacion()
+
             } else {
-                viewModel.crearJugadores()
-                viewModel.crearPartida()
+                mostrarCrearJugadores()
             }
 
-            setupTablero()
-            actualizarTurno()
-            actualizarTablero()
+
 
         }
         view = vista
@@ -97,7 +101,12 @@ class TableroFragment : Fragment(), OnGameEventListener {
         val btnTirarDado = view.findViewById<ImageButton>(R.id.btnTirarDado)!!
         btnTirarDado.isEnabled = true
 
-        actualizarPuntuacion()
+        val idPartida = arguments?.getInt("idPartida")
+
+        if (idPartida != null) {
+            actualizarNombres(viewModel.jugador1.nombre, viewModel.jugador2.nombre)
+            actualizarPuntuacion()
+        }
 
 
         btnTirarDado.setOnClickListener {
@@ -156,7 +165,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 }
             }
 
-            avanzar(jugadorActual.posicion, 1)
+            avanzar(jugadorActual.posicion, ultimaTirada)
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugadorActual, preguntaCallback)
@@ -198,9 +207,9 @@ class TableroFragment : Fragment(), OnGameEventListener {
     private fun actualizarTurno() {
 
         tvInfoPartida.text = if (viewModel.turno == 0) {
-            getString(R.string.turno_jugador1)
+            getString(R.string.turno_jugador1, viewModel.jugador1.nombre)
         } else {
-            getString(R.string.turno_jugador2)
+            getString(R.string.turno_jugador2, viewModel.jugador2.nombre)
         }
     }
 
@@ -505,7 +514,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
 
             // Se comprueba si el jugador ha ganado
             if (viewModel.haGanado(jugadorActual)) {
-                showAlertFinalDePartida("El jugador ${if (viewModel.turno == 0) "1" else "2"} ha ganado")
+                showAlertFinalDePartida("${if (viewModel.turno == 0) viewModel.jugador1.nombre else viewModel.jugador2.nombre } ha ganado")
                 if (viewModel.turno == 0) viewModel.guardarEstadistica(refs, Estadisticas.PARTIDAS_GANADASJ1)
                 else viewModel.guardarEstadistica(refs, Estadisticas.PARTIDAS_GANADASJ2)
             }
@@ -552,6 +561,48 @@ class TableroFragment : Fragment(), OnGameEventListener {
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
             else -> false
         }
+    }
+
+
+    private fun mostrarCrearJugadores(){
+        val dialog = Dialog(requireActivity())
+        dialog.setContentView(R.layout.dialog_crear_jugadores)
+        dialog.setCanceledOnTouchOutside(false)
+
+        val btnCrearJugadores = dialog.findViewById<Button>(R.id.btnCrearJugadores)
+
+        btnCrearJugadores.setOnClickListener {
+            val nombreJugador1 = dialog.findViewById<TextView>(R.id.etJugador1).text.toString()
+            val nombreJugador2 = dialog.findViewById<TextView>(R.id.etJugador2).text.toString()
+
+            if (nombreJugador1.isNotEmpty() && nombreJugador2.isNotEmpty()) {
+                viewModel.crearJugadores(nombreJugador1, nombreJugador2)
+                viewModel.crearPartida()
+
+
+                actualizarNombres(nombreJugador1, nombreJugador2)
+
+                setupTablero()
+                actualizarTurno()
+                actualizarTablero()
+
+                dialog.dismiss()
+            } else {
+                Toast.makeText(requireContext(), "Introduce un nombre para cada jugador", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun actualizarNombres(nombreJugador1 : String, nombreJugador2 : String){
+        val tvPuntuacionJugador1 = view?.findViewById<TextView>(R.id.tvInfoJugador1)
+        val tvPuntuacionJugador2 = view?.findViewById<TextView>(R.id.tvInfoJugador2)
+
+        tvPuntuacionJugador1?.text = nombreJugador1 + ":"
+        tvPuntuacionJugador2?.text = nombreJugador2 + ":"
+
+
     }
 
 }

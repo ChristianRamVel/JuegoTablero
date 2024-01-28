@@ -189,10 +189,10 @@ class TableroViewModel(context: Context) : ViewModel() {
         return casilla?.tipo
     }
 
-    fun crearJugadores(){
+    fun crearJugadores(nombre1 : String, nombre2 : String){
         val id = dbHelper.obtenerIDUltimoJugador()
-        jugador1 = Jugador(id + 1, "Jugador 1", false, false, false, false, false, -1)
-        jugador2 = Jugador(id + 2, "Jugador 2", false, false, false, false, false, -1)
+        jugador1 = Jugador(id + 1, nombre1, false, false, false, false, false, -1)
+        jugador2 = Jugador(id + 2, nombre2, false, false, false, false, false, -1)
 
         dbHelper.crearJugadores(jugador1, jugador2)
     }

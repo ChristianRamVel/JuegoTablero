@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">JuegoTablero</string>
-    <string name="turno_jugador1">Turno del Jugador 1</string>
-    <string name="turno_jugador2">Turno del Jugador 2</string>
+    <string name="turno_jugador1">Turno del %1$s</string>
+    <string name="turno_jugador2">Turno de %1$s</string>
     <string name="infoJugador1">Info J1: </string>
     <string name="infoJugador2">Info J2: </string>
     <string name="PAdivinaPalabra">Ad.Palabra</string>
@@ -82,6 +82,12 @@
 
     <string name="noInternet">No hay conexión a internet, inténtelo de nuevo más tarde</string>
 
+    <string name="crearJugadores">Crear jugadores</string>
+
+    <string name="nombreJugador1">Nombre jugador 1</string>
+    <string name="nombreJugador2">Nombre jugador 2</string>
+
+    <string name="crear">Crear</string>
 
 
 

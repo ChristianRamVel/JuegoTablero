@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">JuegoTablero</string>
-    <string name="turno_jugador1">Player 1 turn</string>
-    <string name="turno_jugador2">player 2 turn</string>
+    <string name="turno_jugador1">%1$s turn</string>
+    <string name="turno_jugador2">%1$s turn</string>
     <string name="infoJugador1">J1 info: </string>
     <string name="infoJugador2">J2 info: </string>
     <string name="PAdivinaPalabra">Guess the word</string>
@@ -80,6 +80,11 @@
 
     <string name="noInternet">No internet connection, try again later</string>
 
+    <string name="crearJugadores">Create players</string>
 
+    <string name="nombreJugador1">Player 1 name</string>
+    <string name="nombreJugador2">Player 2 name</string>
+
+    <string name="crear">Create</string>
 
 </resources>
