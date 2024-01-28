@@ -165,7 +165,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
                 }
             }
 
-            avanzar(jugadorActual.posicion, 1)
+            avanzar(jugadorActual.posicion, ultimaTirada)
 
             // Se obtiene una pregunta aleatoria de la base de datos
             viewModel.obtenerPreguntaAleatoria(jugadorActual, preguntaCallback)
