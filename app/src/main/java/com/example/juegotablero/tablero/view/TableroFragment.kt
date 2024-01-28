@@ -568,6 +568,7 @@ class TableroFragment : Fragment(), OnGameEventListener {
         val dialog = Dialog(requireActivity())
         dialog.setContentView(R.layout.dialog_crear_jugadores)
         dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
 
         val btnCrearJugadores = dialog.findViewById<Button>(R.id.btnCrearJugadores)
 
