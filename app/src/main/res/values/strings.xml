@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JuegoTablero</string>
+    <string name="app_name">BioTrivial</string>
     <string name="turno_jugador1">%1$s turn</string>
     <string name="turno_jugador2">%1$s turn</string>
     <string name="infoJugador1">J1 info: </string>

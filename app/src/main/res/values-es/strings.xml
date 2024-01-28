@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">JuegoTablero</string>
+    <string name="app_name">BioTrivial</string>
     <string name="turno_jugador1">Turno del %1$s</string>
     <string name="turno_jugador2">Turno de %1$s</string>
     <string name="infoJugador1">Info J1: </string>
