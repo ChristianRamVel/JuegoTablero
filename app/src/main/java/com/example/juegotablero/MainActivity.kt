@@ -13,21 +13,20 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import com.example.juegotablero.common.interfaces.OnGameEventListener
-import com.example.juegotablero.view.AdivinarPalabraFragment
-import com.example.juegotablero.view.EstadisticasFragment
-import com.example.juegotablero.view.MenuNuevaPreguntaFragment
-import com.example.juegotablero.view.ParejasFragment
-import com.example.juegotablero.view.RepasoFragment
-import com.example.juegotablero.view.TableroFragment
-import com.example.juegotablero.view.TestFragment
+import com.example.juegotablero.minijuegos.adivinaPalabra.view.AdivinarPalabraFragment
+import com.example.juegotablero.estadisticas.view.EstadisticasFragment
+import com.example.juegotablero.añadirPreguntas.view.MenuNuevaPreguntaFragment
+import com.example.juegotablero.minijuegos.parejas.view.ParejasFragment
+import com.example.juegotablero.minijuegos.repaso.view.RepasoFragment
+import com.example.juegotablero.tablero.view.TableroFragment
+import com.example.juegotablero.minijuegos.test.view.TestFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.navigation.NavigationView
 import android.media.MediaPlayer
 import android.widget.Button
 import android.widget.ImageView
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.juegotablero.model.DatabaseHelper
-import com.example.juegotablero.viewModel.EstadisticasViewModel
+import com.example.juegotablero.api.db.DatabaseHelper
+import com.example.juegotablero.estadisticas.viewModel.EstadisticasViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,

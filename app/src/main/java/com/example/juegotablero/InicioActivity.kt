@@ -3,24 +3,15 @@ package com.example.juegotablero
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.media.Image
 import android.os.Bundle
-import android.util.Log
-import android.view.ContextMenu
-import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.example.juegotablero.model.DatabaseHelper
-import com.example.juegotablero.model.Estadisticas
-import com.example.juegotablero.model.Partida
-import com.example.juegotablero.model.Pregunta
-import com.example.juegotablero.view.PartidasAdapter
-import com.example.juegotablero.viewModel.EstadisticasViewModel
+import com.example.juegotablero.api.db.DatabaseHelper
+import com.example.juegotablero.tablero.model.Partida
+import com.example.juegotablero.common.adapters.PartidasAdapter
+import com.example.juegotablero.estadisticas.viewModel.EstadisticasViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class InicioActivity: AppCompatActivity() {

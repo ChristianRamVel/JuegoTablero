@@ -1,6 +1,6 @@
-import com.example.juegotablero.api.CrearPreguntasCallback
-import com.example.juegotablero.api.ObtenerPreguntasCallback
-import com.example.juegotablero.model.Pregunta
+import com.example.juegotablero.common.interfaces.CrearPreguntasCallback
+import com.example.juegotablero.common.interfaces.ObtenerPreguntasCallback
+import com.example.juegotablero.api.model.Pregunta
 import com.google.firebase.database.*
 import com.google.firebase.database.ValueEventListener
 
@@ -24,7 +24,8 @@ class PreguntasApi {
         val adivinaPalabraReference = databaseReference.child("adivina_palabra")
         adivinaPalabraReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val preguntasAdivinaPalabra = dataSnapshot.children.mapNotNull { it.getValue(Pregunta.AdivinaPalabra::class.java) }
+                val preguntasAdivinaPalabra = dataSnapshot.children.mapNotNull { it.getValue(
+                    Pregunta.AdivinaPalabra::class.java) }
                 callback.onPreguntasObtenidas(preguntasAdivinaPalabra)
             }
 

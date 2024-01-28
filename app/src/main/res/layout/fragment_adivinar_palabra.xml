@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFondo"
-    tools:context=".view.AdivinarPalabraFragment">
+    tools:context=".minijuegos.adivinaPalabra.view.AdivinarPalabraFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
